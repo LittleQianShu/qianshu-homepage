@@ -22,11 +22,21 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: none;
             filter: drop-shadow(0 0 12px rgba(255, 140, 200, 0.7));
         }
         .name:hover {
             filter: drop-shadow(0 0 20px rgba(122, 224, 255, 0.9));
+        }
+        .hi {
+            text-align: center;
+            color: #c9e9ff;
+            min-height: 24px;
+            margin: 8px 0 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .hi.show {
+            opacity: 1;
         }
         .info {
             width: 320px;
@@ -38,16 +48,41 @@
             text-align: center;
             color: #f4edff;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-            transition: transform 0.2s, background 0.2s;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s, border-color 0.2s;
+            animation: popin 0.5s ease both;
         }
+        .info:nth-child(3) { animation-delay: 0.05s; }
+        .info:nth-child(4) { animation-delay: 0.10s; }
+        .info:nth-child(5) { animation-delay: 0.15s; }
+        .info:nth-child(6) { animation-delay: 0.20s; }
+        .info:nth-child(7) { animation-delay: 0.25s; }
+        .info:nth-child(8) { animation-delay: 0.30s; }
         .info:hover {
             transform: scale(1.05);
             background: rgba(255, 255, 255, 0.22);
+        }
+        .info.on {
+            transform: scale(1.06);
+            border-color: #7ae0ff;
+            background: rgba(122, 224, 255, 0.22);
+            box-shadow: 0 0 24px rgba(122, 224, 255, 0.45);
+        }
+        @keyframes popin {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
     <div class="name">千树</div>
+    <div class="hi">点名字会换色，点卡片会亮起来</div>
     <div class="info">星座：巨蟹座</div>
     <div class="info">爱好：羽毛球，编程，看电视</div>
     <div class="info">性别：男</div>
@@ -56,12 +91,15 @@
     <div class="info">家庭成员：爸爸，妈妈，千树</div>
     <script>
         const name = document.querySelector(".name");
+        const hi = document.querySelector(".hi");
         const colors = [
             "linear-gradient(90deg, #ff8cc8, #7ae0ff)",
             "linear-gradient(90deg, #ffe566, #ff6b9d)",
             "linear-gradient(90deg, #7cffb2, #7ae0ff)"
         ];
+        const hellos = ["你好，我是千树！", "点卡片还能再亮一次～", "欢迎来到我的主页"];
         let i = 0;
+
         name.onclick = function () {
             i = i + 1;
             if (i >= colors.length) {
@@ -70,7 +108,16 @@
             name.style.background = colors[i];
             name.style.backgroundClip = "text";
             name.style.webkitBackgroundClip = "text";
+            hi.textContent = hellos[i];
+            hi.classList.add("show");
         };
+
+        const cards = document.querySelectorAll(".info");
+        for (let n = 0; n < cards.length; n = n + 1) {
+            cards[n].onclick = function () {
+                cards[n].classList.toggle("on");
+            };
+        }
     </script>
 </body>
 </html>
