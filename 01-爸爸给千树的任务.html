@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>千树</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(160deg, #1a1033 0%, #3d1b5c 50%, #0d3b4c 100%);
+            padding-bottom: 40px;
+        }
+        .name {
+            font-size: 42px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 50px;
+            cursor: pointer;
+            background: linear-gradient(90deg, #ff8cc8, #7ae0ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            filter: drop-shadow(0 0 12px rgba(255, 140, 200, 0.7));
+        }
+        .name:hover {
+            filter: drop-shadow(0 0 20px rgba(122, 224, 255, 0.9));
+        }
+        .info {
+            width: 320px;
+            margin: 12px auto;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            text-align: center;
+            color: #f4edff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s, background 0.2s;
+        }
+        .info:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.22);
+        }
+    </style>
+</head>
+<body>
+    <div class="name">千树</div>
+    <div class="info">星座：巨蟹座</div>
+    <div class="info">爱好：羽毛球，编程，看电视</div>
+    <div class="info">性别：男</div>
+    <div class="info">年龄：九岁</div>
+    <div class="info">家庭住址：淮安</div>
+    <div class="info">家庭成员：爸爸，妈妈，千树</div>
+    <script>
+        const name = document.querySelector(".name");
+        const colors = [
+            "linear-gradient(90deg, #ff8cc8, #7ae0ff)",
+            "linear-gradient(90deg, #ffe566, #ff6b9d)",
+            "linear-gradient(90deg, #7cffb2, #7ae0ff)"
+        ];
+        let i = 0;
+        name.onclick = function () {
+            i = i + 1;
+            if (i >= colors.length) {
+                i = 0;
+            }
+            name.style.background = colors[i];
+            name.style.webkitBackgroundClip = "text";
+            name.style.backgroundClip = "text";
+        };
+    </script>
+</body>
+</html>
