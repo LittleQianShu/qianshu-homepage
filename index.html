@@ -279,7 +279,7 @@
                 if (d.alpha > 0.02) {
                     ctx.beginPath();
                     ctx.fillStyle = d.color;
-                    ctx.globalAlpha = d.color;
+                    ctx.globalAlpha = d.alpha;
                     ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
                     ctx.fill();
                 }
