@@ -201,10 +201,10 @@
             bubbleArena.appendChild(bubble);
             let top = 88;
             const timer = setInterval(function () {
-                top = top - 1.6;
+                top = top - 0.6;
                 bubble.style.top = top + "%";
                 if (top < -10) { clearInterval(timer); bubble.remove(); }
-            }, 40);
+            }, 50);
             bubble.onclick = function () {
                 clearInterval(timer);
                 bubble.remove();
@@ -212,7 +212,7 @@
                 bubbleScoreEl.textContent = bubbleScore + " 分";
             };
         }
-        setInterval(spawnBubble, 700);
+        setInterval(spawnBubble, 2000);
         const starArena = document.getElementById("starArena");
         const paddle = document.getElementById("paddle");
         const starScoreEl = document.getElementById("starScore");
