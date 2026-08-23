@@ -15,102 +15,68 @@
         }
         .side {
             position: fixed;
-            top: 0;
-            bottom: 0;
-            width: 180px;
-            pointer-events: none;
-            z-index: 0;
+            top: 16px;
+            bottom: 16px;
+            width: 210px;
+            z-index: 2;
+            pointer-events: auto;
         }
-        .side-left { left: 0; }
-        .side-right { right: 0; }
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(1px);
-        }
-        .orb-a {
-            width: 90px;
-            height: 90px;
-            left: 28px;
-            top: 12%;
-            background: radial-gradient(circle at 30% 30%, #ffb6e3, #ff4d9a 55%, transparent 70%);
-            box-shadow: 0 0 40px #ff4d9a;
-            animation: floaty 6s ease-in-out infinite;
-        }
-        .orb-b {
-            width: 54px;
-            height: 54px;
-            left: 70px;
-            top: 42%;
-            background: radial-gradient(circle at 30% 30%, #c9b6ff, #7a4dff 55%, transparent 70%);
-            box-shadow: 0 0 28px #7a4dff;
-            animation: floaty 7s ease-in-out infinite reverse;
-        }
-        .orb-c {
-            width: 36px;
-            height: 36px;
-            left: 40px;
-            top: 72%;
-            background: radial-gradient(circle at 30% 30%, #fff, #7ae0ff 55%, transparent 70%);
-            box-shadow: 0 0 22px #7ae0ff;
-            animation: floaty 5s ease-in-out infinite;
-        }
-        .ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 2px solid rgba(122, 224, 255, 0.45);
-            box-shadow: 0 0 18px rgba(122, 224, 255, 0.35);
-        }
-        .ring-a {
-            width: 120px;
-            height: 120px;
-            right: 24px;
-            top: 16%;
-            animation: spin 12s linear infinite;
-        }
-        .ring-b {
-            width: 72px;
-            height: 72px;
-            right: 48px;
-            top: 22%;
-            border-color: rgba(255, 140, 200, 0.5);
-            animation: spin 8s linear infinite reverse;
-        }
-        .orb-d {
-            width: 70px;
-            height: 70px;
-            right: 50px;
-            top: 48%;
-            background: radial-gradient(circle at 30% 30%, #b8fff0, #2ee6c2 55%, transparent 70%);
-            box-shadow: 0 0 36px #2ee6c2;
-            animation: floaty 6.5s ease-in-out infinite;
-        }
-        .orb-e {
-            width: 42px;
-            height: 42px;
-            right: 36px;
-            top: 74%;
-            background: radial-gradient(circle at 30% 30%, #ffe566, #ff9f1a 55%, transparent 70%);
-            box-shadow: 0 0 24px #ff9f1a;
-            animation: floaty 5.5s ease-in-out infinite reverse;
-        }
-        .spark {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 0 10px #fff;
-            animation: twinkle 2.4s ease-in-out infinite;
-        }
-        .spark-1 { left: 46px; top: 28%; animation-delay: 0.2s; }
-        .spark-2 { left: 110px; top: 58%; animation-delay: 0.8s; }
-        .spark-3 { right: 90px; top: 38%; animation-delay: 0.4s; }
-        .spark-4 { right: 40px; top: 64%; animation-delay: 1.1s; }
-        .stage {
+        .side-left { left: 12px; }
+        .side-right { right: 12px; }
+        .game {
+            height: 100%;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(8, 4, 24, 0.45);
+            box-shadow: 0 0 28px rgba(122, 224, 255, 0.18);
+            overflow: hidden;
             position: relative;
-            z-index: 1;
         }
+        .game-title {
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 10px 8px 0;
+            text-shadow: 0 0 10px #7ae0ff;
+        }
+        .game-score {
+            text-align: center;
+            color: #7ae0ff;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .arena {
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            top: 52px;
+            bottom: 8px;
+        }
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 16px currentColor;
+        }
+        .star {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: #ffe566;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            filter: drop-shadow(0 0 8px #ffe566);
+        }
+        .paddle {
+            position: absolute;
+            bottom: 6px;
+            width: 56px;
+            height: 10px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #7ae0ff, #ff8cc8);
+            box-shadow: 0 0 14px #7ae0ff;
+        }
+        .stage { position: relative; z-index: 1; }
         .name {
             font-size: 42px;
             font-weight: bold;
@@ -123,9 +89,7 @@
             color: transparent;
             filter: drop-shadow(0 0 12px rgba(255, 140, 200, 0.7));
         }
-        .name:hover {
-            filter: drop-shadow(0 0 20px rgba(122, 224, 255, 0.9));
-        }
+        .name:hover { filter: drop-shadow(0 0 20px rgba(122, 224, 255, 0.9)); }
         .hi {
             text-align: center;
             color: #c9e9ff;
@@ -134,9 +98,7 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        .hi.show {
-            opacity: 1;
-        }
+        .hi.show { opacity: 1; }
         .info {
             width: 320px;
             margin: 12px auto;
@@ -157,10 +119,7 @@
         .info:nth-child(6) { animation-delay: 0.20s; }
         .info:nth-child(7) { animation-delay: 0.25s; }
         .info:nth-child(8) { animation-delay: 0.30s; }
-        .info:hover {
-            transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.22);
-        }
+        .info:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.22); }
         .info.on {
             transform: scale(1.06);
             border-color: #7ae0ff;
@@ -171,38 +130,25 @@
             from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes floaty {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-18px); }
-        }
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.7); }
-            50% { opacity: 1; transform: scale(1.3); }
-        }
-        @media (max-width: 720px) {
-            .side { display: none; }
-        }
+        @media (max-width: 860px) { .side { display: none; } }
     </style>
 </head>
 <body>
     <div class="side side-left">
-        <div class="orb orb-a"></div>
-        <div class="orb orb-b"></div>
-        <div class="orb orb-c"></div>
-        <div class="spark spark-1"></div>
-        <div class="spark spark-2"></div>
+        <div class="game">
+            <div class="game-title">戳泡泡</div>
+            <div class="game-score" id="bubbleScore">0 分</div>
+            <div class="arena" id="bubbleArena"></div>
+        </div>
     </div>
     <div class="side side-right">
-        <div class="ring ring-a"></div>
-        <div class="ring ring-b"></div>
-        <div class="orb orb-d"></div>
-        <div class="orb orb-e"></div>
-        <div class="spark spark-3"></div>
-        <div class="spark spark-4"></div>
+        <div class="game">
+            <div class="game-title">接星星</div>
+            <div class="game-score" id="starScore">0 分</div>
+            <div class="arena" id="starArena">
+                <div class="paddle" id="paddle"></div>
+            </div>
+        </div>
     </div>
     <div class="stage">
         <div class="name">千树</div>
@@ -222,27 +168,90 @@
             "linear-gradient(90deg, #ffe566, #ff6b9d)",
             "linear-gradient(90deg, #7cffb2, #7ae0ff)"
         ];
-        const hellos = ["你好，我是千树！", "点卡片还能再亮一次～", "欢迎来到我的主页"];
+        const hellos = ["你好，我是千树！", "左边戳泡泡，右边接星星", "欢迎来到我的主页"];
         let i = 0;
-
         name.onclick = function () {
             i = i + 1;
-            if (i >= colors.length) {
-                i = 0;
-            }
+            if (i >= colors.length) { i = 0; }
             name.style.background = colors[i];
             name.style.backgroundClip = "text";
             name.style.webkitBackgroundClip = "text";
             hi.textContent = hellos[i];
             hi.classList.add("show");
         };
-
         const cards = document.querySelectorAll(".info");
         for (let n = 0; n < cards.length; n = n + 1) {
-            cards[n].onclick = function () {
-                cards[n].classList.toggle("on");
+            cards[n].onclick = function () { cards[n].classList.toggle("on"); };
+        }
+        const bubbleColors = ["#ff8cc8", "#7ae0ff", "#ffe566", "#b8fff0", "#c9b6ff"];
+        const bubbleArena = document.getElementById("bubbleArena");
+        const bubbleScoreEl = document.getElementById("bubbleScore");
+        let bubbleScore = 0;
+        function spawnBubble() {
+            const bubble = document.createElement("div");
+            bubble.className = "bubble";
+            const size = 22 + Math.floor(Math.random() * 22);
+            const color = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
+            bubble.style.width = size + "px";
+            bubble.style.height = size + "px";
+            bubble.style.background = color;
+            bubble.style.color = color;
+            bubble.style.left = Math.floor(Math.random() * 70) + "%";
+            bubble.style.top = "88%";
+            bubbleArena.appendChild(bubble);
+            let top = 88;
+            const timer = setInterval(function () {
+                top = top - 1.6;
+                bubble.style.top = top + "%";
+                if (top < -10) { clearInterval(timer); bubble.remove(); }
+            }, 40);
+            bubble.onclick = function () {
+                clearInterval(timer);
+                bubble.remove();
+                bubbleScore = bubbleScore + 1;
+                bubbleScoreEl.textContent = bubbleScore + " 分";
             };
         }
+        setInterval(spawnBubble, 700);
+        const starArena = document.getElementById("starArena");
+        const paddle = document.getElementById("paddle");
+        const starScoreEl = document.getElementById("starScore");
+        let starScore = 0;
+        let paddleX = 70;
+        function putPaddle() { paddle.style.left = paddleX + "px"; }
+        putPaddle();
+        starArena.onmousemove = function (event) {
+            const box = starArena.getBoundingClientRect();
+            paddleX = event.clientX - box.left - 28;
+            if (paddleX < 0) { paddleX = 0; }
+            if (paddleX > box.width - 56) { paddleX = box.width - 56; }
+            putPaddle();
+        };
+        function spawnStar() {
+            const star = document.createElement("div");
+            star.className = "star";
+            let y = 0;
+            star.style.left = Math.floor(Math.random() * 80) + "%";
+            star.style.top = y + "px";
+            starArena.appendChild(star);
+            const timer = setInterval(function () {
+                y = y + 4;
+                star.style.top = y + "px";
+                const starBox = star.getBoundingClientRect();
+                const padBox = paddle.getBoundingClientRect();
+                const hit = starBox.bottom >= padBox.top && starBox.left < padBox.right && starBox.right > padBox.left;
+                if (hit) {
+                    clearInterval(timer);
+                    star.remove();
+                    starScore = starScore + 1;
+                    starScoreEl.textContent = starScore + " 分";
+                } else if (y > starArena.clientHeight) {
+                    clearInterval(timer);
+                    star.remove();
+                }
+            }, 30);
+        }
+        setInterval(spawnStar, 900);
     </script>
 </body>
 </html>
