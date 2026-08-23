@@ -56,6 +56,7 @@
             z-index: 2;
         }
         body.play .side { display: block; }
+        body.play .stage { display: none; }
         .side-left { left: 12px; }
         .side-right { right: 12px; }
         .game {
@@ -360,8 +361,92 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         #colorHex { font-size: 22px; letter-spacing: 1px; }
+        .chess-room {
+            display: none;
+            position: relative;
+            z-index: 1;
+            padding: 70px 240px 20px;
+            text-align: center;
+            color: #f4edff;
+        }
+        body.play .chess-room { display: block; }
+        .chess-room h2 {
+            margin: 0 0 6px;
+            font-size: 22px;
+            text-shadow: 0 0 12px rgba(122, 224, 255, 0.45);
+        }
+        .chess-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin: 8px 0;
+        }
+        .chess-size-btn,
+        .chess-mode-btn,
+        .chess-level-btn,
+        #chess-restart,
+        #chess-overlay-restart {
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
+            color: #f4edff;
+            padding: 5px 10px;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+        .chess-size-btn.on,
+        .chess-mode-btn.on,
+        .chess-level-btn.on {
+            background: rgba(122, 224, 255, 0.22);
+            box-shadow: 0 0 16px rgba(122, 224, 255, 0.35);
+        }
+        #chess-turn, #chess-rule, #chess-result {
+            margin: 4px 0;
+            color: #c9e9ff;
+        }
+        #chess-board {
+            display: grid;
+            gap: 3px;
+            width: min(420px, calc(100vw - 480px));
+            margin: 10px auto;
+        }
+        .chess-cell {
+            aspect-ratio: 1;
+            border: 1px solid rgba(122, 224, 255, 0.35);
+            background: rgba(8, 4, 24, 0.45);
+            border-radius: 4px;
+            cursor: pointer;
+            color: #f4edff;
+            padding: 0;
+        }
+        .chess-cell.is-tree { color: #7cffb2; text-shadow: 0 0 8px #7cffb2; }
+        .chess-cell.is-flower { color: #ff8cc8; text-shadow: 0 0 8px #ff8cc8; }
+        #chess-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 6, 28, 0.45);
+        }
+        #chess-overlay.is-open { display: flex; }
+        #chess-overlay[hidden] { display: none !important; }
+        .chess-card {
+            min-width: 220px;
+            padding: 28px 36px;
+            text-align: center;
+            background: rgba(20, 10, 40, 0.85);
+            border: 1px solid rgba(122, 224, 255, 0.35);
+            border-radius: 18px;
+            color: #f4edff;
+        }
+        #chess-overlay.is-win #chess-overlay-title { color: #7cffb2; }
+        #chess-overlay.is-draw #chess-overlay-title { color: #ffe566; }
         @media (max-width: 860px) {
             body.play .side { display: none; }
+            .chess-room { padding: 70px 16px 20px; }
+            #chess-board { width: min(420px, calc(100vw - 32px)); }
         }
     </style>
 </head>
@@ -397,6 +482,43 @@
         <div class="info">年龄：九岁</div>
         <div class="info">家庭住址：淮安</div>
         <div class="info">家庭成员：爸爸，妈妈，千树</div>
+    </div>
+    <div class="chess-room">
+        <h2>小树与小花</h2>
+        <p id="chess-rule">8 × 8，连 5 个赢</p>
+        <p id="chess-turn">轮到：小树</p>
+        <p id="chess-result"></p>
+        <div class="chess-bar" id="chess-sizes">
+            <button type="button" class="chess-size-btn" data-size="3">3×3</button>
+            <button type="button" class="chess-size-btn" data-size="4">4×4</button>
+            <button type="button" class="chess-size-btn" data-size="5">5×5</button>
+            <button type="button" class="chess-size-btn" data-size="6">6×6</button>
+            <button type="button" class="chess-size-btn" data-size="7">7×7</button>
+            <button type="button" class="chess-size-btn on" data-size="8">8×8</button>
+            <button type="button" class="chess-size-btn" data-size="9">9×9</button>
+            <button type="button" class="chess-size-btn" data-size="10">10×10</button>
+        </div>
+        <div class="chess-bar" id="chess-modes">
+            <button type="button" class="chess-mode-btn on" data-mode="human">人人对战</button>
+            <button type="button" class="chess-mode-btn" data-mode="computer">电脑对战</button>
+        </div>
+        <div class="chess-bar" id="chess-diff" hidden>
+            <span id="chess-levels">
+                <button type="button" class="chess-level-btn" data-level="easy">简单</button>
+                <button type="button" class="chess-level-btn on" data-level="normal">普通</button>
+                <button type="button" class="chess-level-btn" data-level="hard">困难</button>
+                <button type="button" class="chess-level-btn" data-level="super">超难</button>
+            </span>
+        </div>
+        <div id="chess-board"></div>
+        <button type="button" id="chess-restart">再来一盘</button>
+    </div>
+    <div id="chess-overlay" hidden>
+        <div class="chess-card">
+            <p id="chess-overlay-title"></p>
+            <p id="chess-overlay-sub"></p>
+            <button type="button" id="chess-overlay-restart">再来一盘</button>
+        </div>
     </div>
     <div class="works">
         <div class="works-title">千树的作品</div>
@@ -564,6 +686,11 @@
             document.body.classList.remove("page-clock");
             document.body.classList.remove("page-draw");
             document.body.classList.remove("page-color");
+            const chessOverlay = document.getElementById("chess-overlay");
+            if (chessOverlay) {
+                chessOverlay.hidden = true;
+                chessOverlay.classList.remove("is-open");
+            }
         }
         function openStudio(room, start) {
             clearRooms();
@@ -903,5 +1030,6 @@
 
         setInterval(spawnStar, 900);
     </script>
+    <script src="chess.js"></script>
 </body>
 </html>
