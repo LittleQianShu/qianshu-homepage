@@ -13,50 +13,144 @@
             padding-bottom: 40px;
             overflow-x: hidden;
         }
-        #dust { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        #dust {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
         .nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 6; height: 54px;
-            display: flex; align-items: center; justify-content: center; gap: 28px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 6;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
             background: rgba(10, 6, 28, 0.55);
             border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(10px);
         }
-        .nav button { border: 0; background: transparent; color: #f4edff; font-size: 16px; cursor: pointer; padding: 6px 14px; border-radius: 999px; }
-        .nav button.on { background: rgba(122, 224, 255, 0.22); box-shadow: 0 0 16px rgba(122, 224, 255, 0.35); }
-        .side { display: none; position: fixed; top: 70px; bottom: 16px; width: 210px; z-index: 2; }
+        .nav button {
+            border: 0;
+            background: transparent;
+            color: #f4edff;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 999px;
+        }
+        .nav button.on {
+            background: rgba(122, 224, 255, 0.22);
+            box-shadow: 0 0 16px rgba(122, 224, 255, 0.35);
+        }
+        .side {
+            display: none;
+            position: fixed;
+            top: 70px;
+            bottom: 16px;
+            width: 210px;
+            z-index: 2;
+        }
         body.play .side { display: block; }
         .side-left { left: 12px; }
         .side-right { right: 12px; }
         .game {
-            height: 100%; border-radius: 18px; border: 1px solid rgba(255, 255, 255, 0.22);
-            background: rgba(8, 4, 24, 0.45); box-shadow: 0 0 28px rgba(122, 224, 255, 0.18);
-            overflow: hidden; position: relative;
+            height: 100%;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(8, 4, 24, 0.45);
+            box-shadow: 0 0 28px rgba(122, 224, 255, 0.18);
+            overflow: hidden;
+            position: relative;
         }
-        .game-title { text-align: center; color: #fff; font-size: 14px; font-weight: bold; padding: 10px 8px 0; text-shadow: 0 0 10px #7ae0ff; }
-        .game-score { text-align: center; color: #7ae0ff; font-size: 12px; margin-top: 4px; }
-        .arena { position: absolute; left: 8px; right: 8px; top: 52px; bottom: 8px; }
-        .bubble { position: absolute; border-radius: 50%; cursor: pointer; box-shadow: 0 0 16px currentColor; }
+        .game-title {
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 10px 8px 0;
+            text-shadow: 0 0 10px #7ae0ff;
+        }
+        .game-score {
+            text-align: center;
+            color: #7ae0ff;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .arena {
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            top: 52px;
+            bottom: 8px;
+        }
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 16px currentColor;
+        }
         .star {
-            position: absolute; width: 14px; height: 14px; background: #ffe566;
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: #ffe566;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             filter: drop-shadow(0 0 8px #ffe566);
         }
-        .paddle { position: absolute; bottom: 6px; width: 56px; height: 10px; border-radius: 8px; background: linear-gradient(90deg, #7ae0ff, #ff8cc8); box-shadow: 0 0 14px #7ae0ff; }
-        .stage { position: relative; z-index: 1; padding-top: 24px; }
+        .paddle {
+            position: absolute;
+            bottom: 6px;
+            width: 56px;
+            height: 10px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #7ae0ff, #ff8cc8);
+            box-shadow: 0 0 14px #7ae0ff;
+        }
+        .stage {
+            position: relative;
+            z-index: 1;
+            padding-top: 24px;
+        }
         .name {
-            font-size: 42px; font-weight: bold; text-align: center; margin-top: 50px; cursor: pointer;
+            font-size: 42px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 50px;
+            cursor: pointer;
             background: linear-gradient(90deg, #ff8cc8, #7ae0ff);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             filter: drop-shadow(0 0 12px rgba(255, 140, 200, 0.7));
         }
-        .name:hover { filter: drop-shadow(0 0 20px rgba(122, 224, 255, 0.9)); }
-        .hi { text-align: center; color: #c9e9ff; min-height: 24px; margin: 8px 0 20px; opacity: 0; transition: opacity 0.3s; }
+        .name:hover {
+            filter: drop-shadow(0 0 20px rgba(122, 224, 255, 0.9));
+        }
+        .hi {
+            text-align: center;
+            color: #c9e9ff;
+            min-height: 24px;
+            margin: 8px 0 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
         .hi.show { opacity: 1; }
         .info {
-            width: 320px; margin: 12px auto; padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 14px; text-align: center; color: #f4edff;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); cursor: pointer;
+            width: 320px;
+            margin: 12px auto;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            text-align: center;
+            color: #f4edff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
             transition: transform 0.2s, background 0.2s, box-shadow 0.2s, border-color 0.2s;
             animation: popin 0.5s ease both;
         }
@@ -66,10 +160,23 @@
         .info:nth-child(6) { animation-delay: 0.20s; }
         .info:nth-child(7) { animation-delay: 0.25s; }
         .info:nth-child(8) { animation-delay: 0.30s; }
-        .info:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.22); }
-        .info.on { transform: scale(1.06); border-color: #7ae0ff; background: rgba(122, 224, 255, 0.22); box-shadow: 0 0 24px rgba(122, 224, 255, 0.45); }
-        @keyframes popin { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 860px) { body.play .side { display: none; } }
+        .info:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.22);
+        }
+        .info.on {
+            transform: scale(1.06);
+            border-color: #7ae0ff;
+            background: rgba(122, 224, 255, 0.22);
+            box-shadow: 0 0 24px rgba(122, 224, 255, 0.45);
+        }
+        @keyframes popin {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 860px) {
+            body.play .side { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -111,12 +218,14 @@
         const mouse = { x: -9999, y: -9999 };
         const fadeOut = 40;
         const fadeIn = 130;
+
         function fitCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
         fitCanvas();
         window.onresize = fitCanvas;
+
         for (let n = 0; n < 520; n = n + 1) {
             dots.push({
                 x: Math.random() * window.innerWidth,
@@ -128,10 +237,12 @@
                 alpha: 0
             });
         }
+
         window.onmousemove = function (event) {
             mouse.x = event.clientX;
             mouse.y = event.clientY;
         };
+
         function drawDots() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let n = 0; n < dots.length; n = n + 1) {
@@ -142,6 +253,7 @@
                 if (d.x > canvas.width) { d.x = 0; }
                 if (d.y < 0) { d.y = canvas.height; }
                 if (d.y > canvas.height) { d.y = 0; }
+
                 const dx = d.x - mouse.x;
                 const dy = d.y - mouse.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
@@ -155,15 +267,19 @@
                 const step = 0.018;
                 if (want < d.alpha) {
                     d.alpha = d.alpha - step;
-                    if (d.alpha < want) { d.alpha = want; }
+                    if (d.alpha < want) {
+                        d.alpha = want;
+                    }
                 } else {
                     d.alpha = d.alpha + step;
-                    if (d.alpha > want) { d.alpha = want; }
+                    if (d.alpha > want) {
+                        d.alpha = want;
+                    }
                 }
                 if (d.alpha > 0.02) {
                     ctx.beginPath();
                     ctx.fillStyle = d.color;
-                    ctx.globalAlpha = d.alpha;
+                    ctx.globalAlpha = d.color;
                     ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
                     ctx.fill();
                 }
@@ -172,8 +288,10 @@
             requestAnimationFrame(drawDots);
         }
         drawDots();
+
         const homeBtn = document.getElementById("homeBtn");
         const gameBtn = document.getElementById("gameBtn");
+
         homeBtn.onclick = function () {
             document.body.classList.remove("play");
             homeBtn.classList.add("on");
@@ -184,6 +302,7 @@
             gameBtn.classList.add("on");
             homeBtn.classList.remove("on");
         };
+
         const name = document.querySelector(".name");
         const hi = document.querySelector(".hi");
         const colors = [
@@ -193,26 +312,39 @@
         ];
         const hellos = ["你好，我是千树！", "上面点「游戏」才出现小游戏", "欢迎来到我的主页"];
         let i = 0;
+
         name.onclick = function () {
             i = i + 1;
-            if (i >= colors.length) { i = 0; }
+            if (i >= colors.length) {
+                i = 0;
+            }
             name.style.background = colors[i];
             name.style.backgroundClip = "text";
             name.style.webkitBackgroundClip = "text";
             hi.textContent = hellos[i];
             hi.classList.add("show");
         };
+
         const cards = document.querySelectorAll(".info");
         for (let n = 0; n < cards.length; n = n + 1) {
-            cards[n].onclick = function () { cards[n].classList.toggle("on"); };
+            cards[n].onclick = function () {
+                cards[n].classList.toggle("on");
+            };
         }
-        function gamesOpen() { return document.body.classList.contains("play"); }
+
         const bubbleColors = ["#ff8cc8", "#7ae0ff", "#ffe566", "#b8fff0", "#c9b6ff"];
         const bubbleArena = document.getElementById("bubbleArena");
         const bubbleScoreEl = document.getElementById("bubbleScore");
         let bubbleScore = 0;
+
+        function gamesOpen() {
+            return document.body.classList.contains("play");
+        }
+
         function spawnBubble() {
-            if (!gamesOpen()) { return; }
+            if (!gamesOpen()) {
+                return;
+            }
             const bubble = document.createElement("div");
             bubble.className = "bubble";
             const size = 22 + Math.floor(Math.random() * 22);
@@ -224,12 +356,17 @@
             bubble.style.left = Math.floor(Math.random() * 70) + "%";
             bubble.style.top = "88%";
             bubbleArena.appendChild(bubble);
+
             let top = 88;
             const timer = setInterval(function () {
                 top = top - 0.6;
                 bubble.style.top = top + "%";
-                if (top < -10 || !gamesOpen()) { clearInterval(timer); bubble.remove(); }
+                if (top < -10 || !gamesOpen()) {
+                    clearInterval(timer);
+                    bubble.remove();
+                }
             }, 50);
+
             bubble.onclick = function () {
                 clearInterval(timer);
                 bubble.remove();
@@ -237,35 +374,51 @@
                 bubbleScoreEl.textContent = bubbleScore + " 分";
             };
         }
+
         setInterval(spawnBubble, 2000);
+
         const starArena = document.getElementById("starArena");
         const paddle = document.getElementById("paddle");
         const starScoreEl = document.getElementById("starScore");
         let starScore = 0;
         let paddleX = 70;
-        function putPaddle() { paddle.style.left = paddleX + "px"; }
+
+        function putPaddle() {
+            paddle.style.left = paddleX + "px";
+        }
         putPaddle();
+
         starArena.onmousemove = function (event) {
             const box = starArena.getBoundingClientRect();
             paddleX = event.clientX - box.left - 28;
-            if (paddleX < 0) { paddleX = 0; }
-            if (paddleX > box.width - 56) { paddleX = box.width - 56; }
+            if (paddleX < 0) {
+                paddleX = 0;
+            }
+            if (paddleX > box.width - 56) {
+                paddleX = box.width - 56;
+            }
             putPaddle();
         };
+
         function spawnStar() {
-            if (!gamesOpen()) { return; }
+            if (!gamesOpen()) {
+                return;
+            }
             const star = document.createElement("div");
             star.className = "star";
             let y = 0;
             star.style.left = Math.floor(Math.random() * 80) + "%";
             star.style.top = y + "px";
             starArena.appendChild(star);
+
             const timer = setInterval(function () {
                 y = y + 4;
                 star.style.top = y + "px";
                 const starBox = star.getBoundingClientRect();
                 const padBox = paddle.getBoundingClientRect();
-                const hit = starBox.bottom >= padBox.top && starBox.left < padBox.right && starBox.right > padBox.left;
+                const hit = starBox.bottom >= padBox.top &&
+                    starBox.left < padBox.right &&
+                    starBox.right > padBox.left;
                 if (hit) {
                     clearInterval(timer);
                     star.remove();
@@ -277,6 +430,7 @@
                 }
             }, 30);
         }
+
         setInterval(spawnStar, 900);
     </script>
 </body>
