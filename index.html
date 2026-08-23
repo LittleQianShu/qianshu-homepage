@@ -174,6 +174,192 @@
             from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .works {
+            display: none;
+            position: relative;
+            z-index: 1;
+            padding-top: 80px;
+        }
+        body.page-works .works { display: block; }
+        body.page-works .stage { display: none; }
+        .works-title {
+            text-align: center;
+            color: #f4edff;
+            font-size: 22px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 12px rgba(122, 224, 255, 0.45);
+        }
+        .works-hi {
+            text-align: center;
+            color: #c9e9ff;
+            margin-bottom: 18px;
+        }
+        .work {
+            width: 320px;
+            margin: 12px auto;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            text-align: center;
+            color: #f4edff;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+        }
+        .work:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.22);
+        }
+        .work.soon {
+            cursor: default;
+            opacity: 0.7;
+        }
+        .work.soon:hover { transform: none; }
+        .studio {
+            display: none;
+            position: relative;
+            z-index: 1;
+            padding: 80px 16px 24px;
+            text-align: center;
+            color: #f4edff;
+        }
+        body.in-studio .works,
+        body.in-studio .stage { display: none; }
+        body.lottery .studio-lottery,
+        body.slider .studio-slider,
+        body.page-clock .studio-clock,
+        body.page-draw .studio-draw,
+        body.page-color .studio-color { display: block; }
+        .studio h1, .studio h2, .studio h3 {
+            margin: 14px 0;
+            font-weight: normal;
+        }
+        .studio strong {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 16px;
+            text-shadow: 0 0 12px rgba(122, 224, 255, 0.45);
+        }
+        .studio button,
+        .back {
+            border: 0;
+            background: rgba(122, 224, 255, 0.22);
+            color: #f4edff;
+            padding: 8px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            margin: 8px 6px;
+        }
+        .slide-box {
+            width: 320px;
+            height: 200px;
+            margin: 18px auto;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 0 28px rgba(122, 224, 255, 0.25);
+        }
+        .clock-face {
+            width: 200px;
+            height: 200px;
+            margin: 16px auto;
+            border-radius: 50%;
+            border: 4px solid #7ae0ff;
+            position: relative;
+            background: rgba(8, 4, 24, 0.45);
+            box-shadow: 0 0 24px rgba(122, 224, 255, 0.35);
+        }
+        .hand {
+            position: absolute;
+            left: 50%;
+            bottom: 50%;
+            transform-origin: bottom center;
+            background: #f4edff;
+            border-radius: 4px;
+        }
+        .hand.hour { width: 6px; height: 52px; margin-left: -3px; }
+        .hand.min { width: 4px; height: 72px; margin-left: -2px; }
+        .hand.sec { width: 2px; height: 82px; margin-left: -1px; background: #ff8cc8; }
+        .clock-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 10px;
+            height: 10px;
+            margin: -5px 0 0 -5px;
+            border-radius: 50%;
+            background: #7ae0ff;
+        }
+        #clockText { margin-top: 10px; color: #7ae0ff; }
+        #drawPad {
+            display: block;
+            margin: 12px auto 0;
+            background: #fff8ff;
+            border-radius: 12px;
+            cursor: crosshair;
+            box-shadow: 0 0 20px rgba(255, 140, 200, 0.25);
+        }
+        .pens {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            width: 360px;
+            margin: 12px auto;
+        }
+        .studio .pen {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            box-shadow: none;
+        }
+        .studio .pen.on {
+            box-shadow: 0 0 0 3px #7ae0ff;
+        }
+        .sizes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 12px;
+        }
+        .studio .size {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            margin: 0;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            background: rgba(8, 4, 24, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+        }
+        .studio .size.on {
+            box-shadow: 0 0 0 3px #7ae0ff;
+        }
+        .studio .size i {
+            display: block;
+            border-radius: 50%;
+            background: #f4edff;
+        }
+        .color-show {
+            width: 220px;
+            height: 120px;
+            margin: 14px auto;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        #colorHex { font-size: 22px; letter-spacing: 1px; }
         @media (max-width: 860px) {
             body.play .side { display: none; }
         }
@@ -183,6 +369,7 @@
     <canvas id="dust"></canvas>
     <div class="nav">
         <button type="button" id="homeBtn" class="on">首页</button>
+        <button type="button" id="worksBtn">作品</button>
         <button type="button" id="gameBtn">游戏</button>
     </div>
     <div class="side side-left">
@@ -210,6 +397,75 @@
         <div class="info">年龄：九岁</div>
         <div class="info">家庭住址：淮安</div>
         <div class="info">家庭成员：爸爸，妈妈，千树</div>
+    </div>
+    <div class="works">
+        <div class="works-title">千树的作品</div>
+        <div class="works-hi">点卡片打开作品</div>
+        <div class="work" id="workLottery">随机抽奖</div>
+        <div class="work" id="workSlider">随机轮播</div>
+        <div class="work" id="workClock">会走的时钟</div>
+        <div class="work" id="workDraw">小画板</div>
+        <div class="work" id="workColor">调色盘</div>
+    </div>
+    <div class="studio studio-lottery">
+        <button type="button" class="back" id="backFromLottery">回到作品</button>
+        <strong>随机抽奖</strong>
+        <h1>一等奖：<span id="one">???</span></h1>
+        <h2>二等奖：<span id="two">???</span></h2>
+        <h3>三等奖：<span id="three">???</span></h3>
+        <button type="button" id="drawBtn">再抽一次</button>
+    </div>
+    <div class="studio studio-slider">
+        <button type="button" class="back" id="backFromSlider">回到作品</button>
+        <strong>随机轮播</strong>
+        <div class="slide-box" id="slideBox">?</div>
+        <button type="button" id="slideBtn">换一张</button>
+    </div>
+    <div class="studio studio-clock">
+        <button type="button" class="back" id="backFromClock">回到作品</button>
+        <strong>会走的时钟</strong>
+        <div class="clock-face">
+            <div class="hand hour" id="hourHand"></div>
+            <div class="hand min" id="minHand"></div>
+            <div class="hand sec" id="secHand"></div>
+            <div class="clock-dot"></div>
+        </div>
+        <div id="clockText">--:--:--</div>
+    </div>
+    <div class="studio studio-draw">
+        <button type="button" class="back" id="backFromDraw">回到作品</button>
+        <strong>小画板</strong>
+        <canvas id="drawPad" width="360" height="240"></canvas>
+        <div class="pens">
+            <button type="button" class="pen on" data-color="#5b2b8a" style="background:#5b2b8a"></button>
+            <button type="button" class="pen" data-color="#ff8cc8" style="background:#ff8cc8"></button>
+            <button type="button" class="pen" data-color="#ff4d4d" style="background:#ff4d4d"></button>
+            <button type="button" class="pen" data-color="#ff8c32" style="background:#ff8c32"></button>
+            <button type="button" class="pen" data-color="#ffe566" style="background:#ffe566"></button>
+            <button type="button" class="pen" data-color="#7cffb2" style="background:#7cffb2"></button>
+            <button type="button" class="pen" data-color="#00c2a8" style="background:#00c2a8"></button>
+            <button type="button" class="pen" data-color="#7ae0ff" style="background:#7ae0ff"></button>
+            <button type="button" class="pen" data-color="#2b6fff" style="background:#2b6fff"></button>
+            <button type="button" class="pen" data-color="#c9b6ff" style="background:#c9b6ff"></button>
+            <button type="button" class="pen" data-color="#8b5a2b" style="background:#8b5a2b"></button>
+            <button type="button" class="pen" data-color="#888888" style="background:#888888"></button>
+            <button type="button" class="pen" data-color="#222222" style="background:#222222"></button>
+            <button type="button" class="pen" data-color="#ffffff" style="background:#ffffff"></button>
+            <input type="color" id="drawColorPick" value="#5b2b8a" title="更多颜色">
+        </div>
+        <div class="sizes">
+            <button type="button" class="size" data-size="2" title="细"><i style="width:6px;height:6px"></i></button>
+            <button type="button" class="size on" data-size="6" title="中"><i style="width:12px;height:12px"></i></button>
+            <button type="button" class="size" data-size="14" title="粗"><i style="width:20px;height:20px"></i></button>
+        </div>
+        <button type="button" id="clearDraw">清空</button>
+    </div>
+    <div class="studio studio-color">
+        <button type="button" class="back" id="backFromColor">回到作品</button>
+        <strong>调色盘</strong>
+        <input type="color" id="colorPick" value="#ff8cc8">
+        <div class="color-show" id="colorShow"></div>
+        <div id="colorHex">#ff8cc8</div>
     </div>
     <script>
         const canvas = document.getElementById("dust");
@@ -290,18 +546,198 @@
         drawDots();
 
         const homeBtn = document.getElementById("homeBtn");
+        const worksBtn = document.getElementById("worksBtn");
         const gameBtn = document.getElementById("gameBtn");
 
-        homeBtn.onclick = function () {
-            document.body.classList.remove("play");
-            homeBtn.classList.add("on");
-            gameBtn.classList.remove("on");
-        };
-        gameBtn.onclick = function () {
-            document.body.classList.add("play");
-            gameBtn.classList.add("on");
+        function lightNav(btn) {
             homeBtn.classList.remove("on");
+            worksBtn.classList.remove("on");
+            gameBtn.classList.remove("on");
+            btn.classList.add("on");
+        }
+        function clearRooms() {
+            document.body.classList.remove("play");
+            document.body.classList.remove("page-works");
+            document.body.classList.remove("in-studio");
+            document.body.classList.remove("lottery");
+            document.body.classList.remove("slider");
+            document.body.classList.remove("page-clock");
+            document.body.classList.remove("page-draw");
+            document.body.classList.remove("page-color");
+        }
+        function openStudio(room, start) {
+            clearRooms();
+            document.body.classList.add("in-studio");
+            document.body.classList.add(room);
+            lightNav(worksBtn);
+            if (start) {
+                start();
+            }
+        }
+        function openHome() {
+            clearRooms();
+            lightNav(homeBtn);
+        }
+        function openWorks() {
+            clearRooms();
+            document.body.classList.add("page-works");
+            lightNav(worksBtn);
+        }
+        function openGames() {
+            clearRooms();
+            document.body.classList.add("play");
+            lightNav(gameBtn);
             readySound();
+        }
+        function openLottery() {
+            openStudio("lottery", drawPrize);
+        }
+        function openSlider() {
+            openStudio("slider", randomSlide);
+        }
+
+        homeBtn.onclick = openHome;
+        worksBtn.onclick = openWorks;
+        gameBtn.onclick = openGames;
+        document.getElementById("workLottery").onclick = openLottery;
+        document.getElementById("workSlider").onclick = openSlider;
+        document.getElementById("workClock").onclick = function () {
+            openStudio("page-clock", tickClock);
+        };
+        document.getElementById("workDraw").onclick = function () {
+            openStudio("page-draw");
+        };
+        document.getElementById("workColor").onclick = function () {
+            openStudio("page-color", showColor);
+        };
+        document.getElementById("backFromLottery").onclick = openWorks;
+        document.getElementById("backFromSlider").onclick = openWorks;
+        document.getElementById("backFromClock").onclick = openWorks;
+        document.getElementById("backFromDraw").onclick = openWorks;
+        document.getElementById("backFromColor").onclick = openWorks;
+        document.getElementById("drawBtn").onclick = drawPrize;
+        document.getElementById("slideBtn").onclick = randomSlide;
+        document.getElementById("clearDraw").onclick = function () {
+            const pad = document.getElementById("drawPad");
+            const p = pad.getContext("2d");
+            p.clearRect(0, 0, pad.width, pad.height);
+        };
+        document.getElementById("colorPick").oninput = showColor;
+
+        function drawPrize() {
+            const personArr = ["周杰伦", "刘德华", "周星驰", "Pink老师", "张学友"];
+            const randomNum1 = Math.floor(Math.random() * personArr.length);
+            document.getElementById("one").innerHTML = personArr[randomNum1];
+            personArr.splice(randomNum1, 1);
+            const randomNum2 = Math.floor(Math.random() * personArr.length);
+            document.getElementById("two").innerHTML = personArr[randomNum2];
+            personArr.splice(randomNum2, 1);
+            const randomNum3 = Math.floor(Math.random() * personArr.length);
+            document.getElementById("three").innerHTML = personArr[randomNum3];
+        }
+
+        function randomSlide() {
+            const slides = ["粉", "青", "黄", "紫", "绿"];
+            const colors = ["#ff8cc8", "#7ae0ff", "#ffe566", "#c9b6ff", "#7cffb2"];
+            const n = Math.floor(Math.random() * slides.length);
+            const box = document.getElementById("slideBox");
+            box.style.background = colors[n];
+            box.textContent = "第" + (n + 1) + "张 · " + slides[n];
+        }
+
+        function two(n) {
+            if (n < 10) {
+                return "0" + n;
+            }
+            return "" + n;
+        }
+        function tickClock() {
+            const now = new Date();
+            const s = now.getSeconds();
+            const m = now.getMinutes();
+            const h = now.getHours();
+            document.getElementById("secHand").style.transform = "rotate(" + (s * 6) + "deg)";
+            document.getElementById("minHand").style.transform = "rotate(" + (m * 6 + s * 0.1) + "deg)";
+            document.getElementById("hourHand").style.transform = "rotate(" + ((h % 12) * 30 + m * 0.5) + "deg)";
+            document.getElementById("clockText").textContent = two(h) + ":" + two(m) + ":" + two(s);
+        }
+        setInterval(tickClock, 1000);
+        tickClock();
+
+        function showColor() {
+            const hex = document.getElementById("colorPick").value;
+            document.getElementById("colorShow").style.background = hex;
+            document.getElementById("colorHex").textContent = hex;
+        }
+        showColor();
+
+        const drawPad = document.getElementById("drawPad");
+        const drawCtx = drawPad.getContext("2d");
+        let drawing = false;
+        let penColor = "#5b2b8a";
+        let penSize = 6;
+        const sizeBtns = document.querySelectorAll(".size");
+        for (let n = 0; n < sizeBtns.length; n = n + 1) {
+            sizeBtns[n].onclick = function () {
+                penSize = Number(sizeBtns[n].getAttribute("data-size"));
+                for (let k = 0; k < sizeBtns.length; k = k + 1) {
+                    sizeBtns[k].classList.remove("on");
+                }
+                sizeBtns[n].classList.add("on");
+            };
+        }
+        const pens = document.querySelectorAll(".pen");
+        function pickPen(color) {
+            penColor = color;
+            document.getElementById("drawColorPick").value = color;
+            for (let n = 0; n < pens.length; n = n + 1) {
+                if (pens[n].getAttribute("data-color") === color) {
+                    pens[n].classList.add("on");
+                } else {
+                    pens[n].classList.remove("on");
+                }
+            }
+        }
+        for (let n = 0; n < pens.length; n = n + 1) {
+            pens[n].onclick = function () {
+                pickPen(pens[n].getAttribute("data-color"));
+            };
+        }
+        document.getElementById("drawColorPick").oninput = function () {
+            penColor = document.getElementById("drawColorPick").value;
+            for (let n = 0; n < pens.length; n = n + 1) {
+                pens[n].classList.remove("on");
+            }
+        };
+        function padPos(event) {
+            const box = drawPad.getBoundingClientRect();
+            return {
+                x: event.clientX - box.left,
+                y: event.clientY - box.top
+            };
+        }
+        drawPad.onmousedown = function (event) {
+            drawing = true;
+            const p = padPos(event);
+            drawCtx.beginPath();
+            drawCtx.moveTo(p.x, p.y);
+        };
+        drawPad.onmousemove = function (event) {
+            if (!drawing) {
+                return;
+            }
+            const p = padPos(event);
+            drawCtx.strokeStyle = penColor;
+            drawCtx.lineWidth = penSize;
+            drawCtx.lineCap = "round";
+            drawCtx.lineTo(p.x, p.y);
+            drawCtx.stroke();
+        };
+        drawPad.onmouseup = function () {
+            drawing = false;
+        };
+        drawPad.onmouseleave = function () {
+            drawing = false;
         };
 
         const name = document.querySelector(".name");
