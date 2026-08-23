@@ -5,135 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>千树</title>
     <style>
-        body {
-            font-family: sans-serif;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(160deg, #1a1033 0%, #3d1b5c 50%, #0d3b4c 100%);
-            padding-bottom: 40px;
-            overflow-x: hidden;
-        }
-        .side {
-            position: fixed;
-            top: 16px;
-            bottom: 16px;
-            width: 210px;
-            z-index: 2;
-            pointer-events: auto;
-        }
+        body { font-family: sans-serif; min-height: 100vh; margin: 0; background: linear-gradient(160deg, #1a1033 0%, #3d1b5c 50%, #0d3b4c 100%); padding-bottom: 40px; overflow-x: hidden; }
+        #dust { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 6; height: 54px; display: flex; align-items: center; justify-content: center; gap: 28px; background: rgba(10, 6, 28, 0.55); border-bottom: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(10px); }
+        .nav button { border: 0; background: transparent; color: #f4edff; font-size: 16px; cursor: pointer; padding: 6px 14px; border-radius: 999px; }
+        .nav button.on { background: rgba(122, 224, 255, 0.22); box-shadow: 0 0 16px rgba(122, 224, 255, 0.35); }
+        .side { display: none; position: fixed; top: 70px; bottom: 16px; width: 210px; z-index: 2; }
+        body.play .side { display: block; }
         .side-left { left: 12px; }
         .side-right { right: 12px; }
-        .game {
-            height: 100%;
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            background: rgba(8, 4, 24, 0.45);
-            box-shadow: 0 0 28px rgba(122, 224, 255, 0.18);
-            overflow: hidden;
-            position: relative;
-        }
-        .game-title {
-            text-align: center;
-            color: #fff;
-            font-size: 14px;
-            font-weight: bold;
-            padding: 10px 8px 0;
-            text-shadow: 0 0 10px #7ae0ff;
-        }
-        .game-score {
-            text-align: center;
-            color: #7ae0ff;
-            font-size: 12px;
-            margin-top: 4px;
-        }
-        .arena {
-            position: absolute;
-            left: 8px;
-            right: 8px;
-            top: 52px;
-            bottom: 8px;
-        }
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 16px currentColor;
-        }
-        .star {
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            background: #ffe566;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            filter: drop-shadow(0 0 8px #ffe566);
-        }
-        .paddle {
-            position: absolute;
-            bottom: 6px;
-            width: 56px;
-            height: 10px;
-            border-radius: 8px;
-            background: linear-gradient(90deg, #7ae0ff, #ff8cc8);
-            box-shadow: 0 0 14px #7ae0ff;
-        }
-        .stage { position: relative; z-index: 1; }
-        .name {
-            font-size: 42px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 50px;
-            cursor: pointer;
-            background: linear-gradient(90deg, #ff8cc8, #7ae0ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            filter: drop-shadow(0 0 12px rgba(255, 140, 200, 0.7));
-        }
-        .name:hover { filter: drop-shadow(0 0 20px rgba(122, 224, 255, 0.9)); }
-        .hi {
-            text-align: center;
-            color: #c9e9ff;
-            min-height: 24px;
-            margin: 8px 0 20px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
+        .game { height: 100%; border-radius: 18px; border: 1px solid rgba(255,255,255,0.22); background: rgba(8,4,24,0.45); box-shadow: 0 0 28px rgba(122,224,255,0.18); overflow: hidden; position: relative; }
+        .game-title { text-align: center; color: #fff; font-size: 14px; font-weight: bold; padding: 10px 8px 0; text-shadow: 0 0 10px #7ae0ff; }
+        .game-score { text-align: center; color: #7ae0ff; font-size: 12px; margin-top: 4px; }
+        .arena { position: absolute; left: 8px; right: 8px; top: 52px; bottom: 8px; }
+        .bubble { position: absolute; border-radius: 50%; cursor: pointer; box-shadow: 0 0 16px currentColor; }
+        .star { position: absolute; width: 14px; height: 14px; background: #ffe566; clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); filter: drop-shadow(0 0 8px #ffe566); }
+        .paddle { position: absolute; bottom: 6px; width: 56px; height: 10px; border-radius: 8px; background: linear-gradient(90deg, #7ae0ff, #ff8cc8); box-shadow: 0 0 14px #7ae0ff; }
+        .stage { position: relative; z-index: 1; padding-top: 24px; }
+        .name { font-size: 42px; font-weight: bold; text-align: center; margin-top: 50px; cursor: pointer; background: linear-gradient(90deg, #ff8cc8, #7ae0ff); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 12px rgba(255,140,200,0.7)); }
+        .name:hover { filter: drop-shadow(0 0 20px rgba(122,224,255,0.9)); }
+        .hi { text-align: center; color: #c9e9ff; min-height: 24px; margin: 8px 0 20px; opacity: 0; transition: opacity 0.3s; }
         .hi.show { opacity: 1; }
-        .info {
-            width: 320px;
-            margin: 12px auto;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 14px;
-            text-align: center;
-            color: #f4edff;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s, box-shadow 0.2s, border-color 0.2s;
-            animation: popin 0.5s ease both;
-        }
+        .info { width: 320px; margin: 12px auto; padding: 12px 16px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 14px; text-align: center; color: #f4edff; box-shadow: 0 8px 24px rgba(0,0,0,0.25); cursor: pointer; transition: transform 0.2s, background 0.2s, box-shadow 0.2s, border-color 0.2s; animation: popin 0.5s ease both; }
         .info:nth-child(3) { animation-delay: 0.05s; }
         .info:nth-child(4) { animation-delay: 0.10s; }
         .info:nth-child(5) { animation-delay: 0.15s; }
         .info:nth-child(6) { animation-delay: 0.20s; }
         .info:nth-child(7) { animation-delay: 0.25s; }
         .info:nth-child(8) { animation-delay: 0.30s; }
-        .info:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.22); }
-        .info.on {
-            transform: scale(1.06);
-            border-color: #7ae0ff;
-            background: rgba(122, 224, 255, 0.22);
-            box-shadow: 0 0 24px rgba(122, 224, 255, 0.45);
-        }
-        @keyframes popin {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @media (max-width: 860px) { .side { display: none; } }
+        .info:hover { transform: scale(1.05); background: rgba(255,255,255,0.22); }
+        .info.on { transform: scale(1.06); border-color: #7ae0ff; background: rgba(122,224,255,0.22); box-shadow: 0 0 24px rgba(122,224,255,0.45); }
+        @keyframes popin { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 860px) { body.play .side { display: none; } }
     </style>
 </head>
 <body>
+    <canvas id="dust"></canvas>
+    <div class="nav">
+        <button type="button" id="homeBtn" class="on">首页</button>
+        <button type="button" id="gameBtn">游戏</button>
+    </div>
     <div class="side side-left">
         <div class="game">
             <div class="game-title">戳泡泡</div>
@@ -145,9 +56,7 @@
         <div class="game">
             <div class="game-title">接星星</div>
             <div class="game-score" id="starScore">0 分</div>
-            <div class="arena" id="starArena">
-                <div class="paddle" id="paddle"></div>
-            </div>
+            <div class="arena" id="starArena"><div class="paddle" id="paddle"></div></div>
         </div>
     </div>
     <div class="stage">
@@ -161,18 +70,52 @@
         <div class="info">家庭成员：爸爸，妈妈，千树</div>
     </div>
     <script>
+        const canvas = document.getElementById("dust");
+        const ctx = canvas.getContext("2d");
+        const dots = [];
+        const mouse = { x: -9999, y: -9999 };
+        const hideR = 90;
+        function fitCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        fitCanvas();
+        window.onresize = fitCanvas;
+        for (let n = 0; n < 220; n = n + 1) {
+            dots.push({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, r: 1 + Math.random() * 2.2, vx: -0.25 + Math.random() * 0.5, vy: -0.25 + Math.random() * 0.5, color: ["#ff8cc8", "#7ae0ff", "#ffe566", "#c9b6ff"][n % 4] });
+        }
+        window.onmousemove = function (event) { mouse.x = event.clientX; mouse.y = event.clientY; };
+        function drawDots() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let n = 0; n < dots.length; n = n + 1) {
+                const d = dots[n];
+                d.x += d.vx; d.y += d.vy;
+                if (d.x < 0) { d.x = canvas.width; }
+                if (d.x > canvas.width) { d.x = 0; }
+                if (d.y < 0) { d.y = canvas.height; }
+                if (d.y > canvas.height) { d.y = 0; }
+                const dx = d.x - mouse.x;
+                const dy = d.y - mouse.y;
+                if (dx * dx + dy * dy > hideR * hideR) {
+                    ctx.beginPath();
+                    ctx.fillStyle = d.color;
+                    ctx.globalAlpha = 0.85;
+                    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(drawDots);
+        }
+        drawDots();
+        const homeBtn = document.getElementById("homeBtn");
+        const gameBtn = document.getElementById("gameBtn");
+        homeBtn.onclick = function () { document.body.classList.remove("play"); homeBtn.classList.add("on"); gameBtn.classList.remove("on"); };
+        gameBtn.onclick = function () { document.body.classList.add("play"); gameBtn.classList.add("on"); homeBtn.classList.remove("on"); };
         const name = document.querySelector(".name");
         const hi = document.querySelector(".hi");
-        const colors = [
-            "linear-gradient(90deg, #ff8cc8, #7ae0ff)",
-            "linear-gradient(90deg, #ffe566, #ff6b9d)",
-            "linear-gradient(90deg, #7cffb2, #7ae0ff)"
-        ];
-        const hellos = ["你好，我是千树！", "左边戳泡泡，右边接星星", "欢迎来到我的主页"];
+        const colors = ["linear-gradient(90deg, #ff8cc8, #7ae0ff)", "linear-gradient(90deg, #ffe566, #ff6b9d)", "linear-gradient(90deg, #7cffb2, #7ae0ff)"];
+        const hellos = ["你好，我是千树！", "上面点「游戏」才出现小游戏", "欢迎来到我的主页"];
         let i = 0;
         name.onclick = function () {
-            i = i + 1;
-            if (i >= colors.length) { i = 0; }
+            i = i + 1; if (i >= colors.length) { i = 0; }
             name.style.background = colors[i];
             name.style.backgroundClip = "text";
             name.style.webkitBackgroundClip = "text";
@@ -180,44 +123,34 @@
             hi.classList.add("show");
         };
         const cards = document.querySelectorAll(".info");
-        for (let n = 0; n < cards.length; n = n + 1) {
-            cards[n].onclick = function () { cards[n].classList.toggle("on"); };
-        }
+        for (let n = 0; n < cards.length; n = n + 1) { cards[n].onclick = function () { cards[n].classList.toggle("on"); }; }
+        function gamesOpen() { return document.body.classList.contains("play"); }
         const bubbleColors = ["#ff8cc8", "#7ae0ff", "#ffe566", "#b8fff0", "#c9b6ff"];
         const bubbleArena = document.getElementById("bubbleArena");
         const bubbleScoreEl = document.getElementById("bubbleScore");
         let bubbleScore = 0;
         function spawnBubble() {
+            if (!gamesOpen()) { return; }
             const bubble = document.createElement("div");
             bubble.className = "bubble";
             const size = 22 + Math.floor(Math.random() * 22);
             const color = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
-            bubble.style.width = size + "px";
-            bubble.style.height = size + "px";
-            bubble.style.background = color;
-            bubble.style.color = color;
-            bubble.style.left = Math.floor(Math.random() * 70) + "%";
-            bubble.style.top = "88%";
+            bubble.style.width = size + "px"; bubble.style.height = size + "px";
+            bubble.style.background = color; bubble.style.color = color;
+            bubble.style.left = Math.floor(Math.random() * 70) + "%"; bubble.style.top = "88%";
             bubbleArena.appendChild(bubble);
             let top = 88;
             const timer = setInterval(function () {
-                top = top - 0.6;
-                bubble.style.top = top + "%";
-                if (top < -10) { clearInterval(timer); bubble.remove(); }
+                top = top - 0.6; bubble.style.top = top + "%";
+                if (top < -10 || !gamesOpen()) { clearInterval(timer); bubble.remove(); }
             }, 50);
-            bubble.onclick = function () {
-                clearInterval(timer);
-                bubble.remove();
-                bubbleScore = bubbleScore + 1;
-                bubbleScoreEl.textContent = bubbleScore + " 分";
-            };
+            bubble.onclick = function () { clearInterval(timer); bubble.remove(); bubbleScore += 1; bubbleScoreEl.textContent = bubbleScore + " 分"; };
         }
         setInterval(spawnBubble, 2000);
         const starArena = document.getElementById("starArena");
         const paddle = document.getElementById("paddle");
         const starScoreEl = document.getElementById("starScore");
-        let starScore = 0;
-        let paddleX = 70;
+        let starScore = 0; let paddleX = 70;
         function putPaddle() { paddle.style.left = paddleX + "px"; }
         putPaddle();
         starArena.onmousemove = function (event) {
@@ -228,27 +161,18 @@
             putPaddle();
         };
         function spawnStar() {
+            if (!gamesOpen()) { return; }
             const star = document.createElement("div");
-            star.className = "star";
-            let y = 0;
-            star.style.left = Math.floor(Math.random() * 80) + "%";
-            star.style.top = y + "px";
+            star.className = "star"; let y = 0;
+            star.style.left = Math.floor(Math.random() * 80) + "%"; star.style.top = y + "px";
             starArena.appendChild(star);
             const timer = setInterval(function () {
-                y = y + 4;
-                star.style.top = y + "px";
+                y = y + 4; star.style.top = y + "px";
                 const starBox = star.getBoundingClientRect();
                 const padBox = paddle.getBoundingClientRect();
                 const hit = starBox.bottom >= padBox.top && starBox.left < padBox.right && starBox.right > padBox.left;
-                if (hit) {
-                    clearInterval(timer);
-                    star.remove();
-                    starScore = starScore + 1;
-                    starScoreEl.textContent = starScore + " 分";
-                } else if (y > starArena.clientHeight) {
-                    clearInterval(timer);
-                    star.remove();
-                }
+                if (hit) { clearInterval(timer); star.remove(); starScore += 1; starScoreEl.textContent = starScore + " 分"; }
+                else if (y > starArena.clientHeight || !gamesOpen()) { clearInterval(timer); star.remove(); }
             }, 30);
         }
         setInterval(spawnStar, 900);
