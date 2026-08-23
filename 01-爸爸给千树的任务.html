@@ -226,7 +226,7 @@
         fitCanvas();
         window.onresize = fitCanvas;
 
-        for (let n = 0; n < 520; n = n + 1) {
+        for (let n = 0; n < 1000; n = n + 1) {
             dots.push({
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight,
@@ -301,6 +301,7 @@
             document.body.classList.add("play");
             gameBtn.classList.add("on");
             homeBtn.classList.remove("on");
+            readySound();
         };
 
         const name = document.querySelector(".name");
@@ -341,6 +342,37 @@
             return document.body.classList.contains("play");
         }
 
+        let audio;
+        function readySound() {
+            if (!audio) {
+                audio = new AudioContext();
+            }
+            if (audio.state === "suspended") {
+                audio.resume();
+            }
+        }
+        function playBo() {
+            const bo = new Audio("sounds/bo.mp3");
+            bo.play();
+        }
+        function playDing() {
+            readySound();
+            const t = audio.currentTime;
+            const notes = [988, 1319];
+            for (let n = 0; n < notes.length; n = n + 1) {
+                const o = audio.createOscillator();
+                const g = audio.createGain();
+                o.type = "triangle";
+                o.frequency.value = notes[n];
+                g.gain.setValueAtTime(0.16, t + n * 0.06);
+                g.gain.exponentialRampToValueAtTime(0.01, t + 0.38 + n * 0.06);
+                o.connect(g);
+                g.connect(audio.destination);
+                o.start(t + n * 0.06);
+                o.stop(t + 0.42 + n * 0.06);
+            }
+        }
+
         function spawnBubble() {
             if (!gamesOpen()) {
                 return;
@@ -372,6 +404,7 @@
                 bubble.remove();
                 bubbleScore = bubbleScore + 1;
                 bubbleScoreEl.textContent = bubbleScore + " 分";
+                playBo();
             };
         }
 
@@ -424,6 +457,7 @@
                     star.remove();
                     starScore = starScore + 1;
                     starScoreEl.textContent = starScore + " 分";
+                    playDing();
                 } else if (y > starArena.clientHeight || !gamesOpen()) {
                     clearInterval(timer);
                     star.remove();
