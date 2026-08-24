@@ -25,11 +25,13 @@
             left: 0;
             right: 0;
             z-index: 6;
-            height: 54px;
+            min-height: 54px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 28px;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            padding: 8px 10px;
             background: rgba(10, 6, 28, 0.55);
             border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(10px);
@@ -38,9 +40,9 @@
             border: 0;
             background: transparent;
             color: #f4edff;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
-            padding: 6px 14px;
+            padding: 5px 10px;
             border-radius: 999px;
         }
         .nav button.on {
@@ -183,6 +185,103 @@
         }
         body.page-works .works { display: block; }
         body.page-works .stage { display: none; }
+        .about-room,
+        .notes-room {
+            display: none;
+            position: relative;
+            z-index: 1;
+            padding-top: 80px;
+        }
+        body.page-about .about-room { display: block; }
+        body.page-about .stage { display: none; }
+        body.page-notes .notes-room { display: block; }
+        body.page-notes .stage { display: none; }
+        .album-room,
+        .diary-room,
+        .achieve-room,
+        .sound-room {
+            display: none;
+            position: relative;
+            z-index: 1;
+            padding-top: 80px;
+            text-align: center;
+        }
+        body.page-album .album-room,
+        body.page-diary .diary-room,
+        body.page-achieve .achieve-room,
+        body.page-sound .sound-room { display: block; }
+        body.page-album .stage,
+        body.page-diary .stage,
+        body.page-achieve .stage,
+        body.page-sound .stage { display: none; }
+        .photos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            padding: 8px 16px 24px;
+        }
+        .photo {
+            width: 140px;
+            height: 100px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a1033;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .photo.on {
+            box-shadow: 0 0 20px rgba(122, 224, 255, 0.55);
+            transform: scale(1.06);
+        }
+        #diaryBox {
+            width: 320px;
+            height: 160px;
+            display: block;
+            margin: 0 auto 12px;
+            padding: 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
+            color: #f4edff;
+            resize: none;
+        }
+        #diarySave,
+        .sound-btn {
+            border: 0;
+            background: rgba(122, 224, 255, 0.22);
+            color: #f4edff;
+            padding: 8px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            margin: 6px;
+        }
+        .note-box {
+            width: 320px;
+            margin: 0 auto 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .note-box input {
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
+            color: #f4edff;
+            padding: 10px 12px;
+            border-radius: 12px;
+        }
+        .note-box input::placeholder { color: #c9b6ff; }
+        #noteSend {
+            border: 0;
+            background: rgba(122, 224, 255, 0.22);
+            color: #f4edff;
+            padding: 8px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+        }
         .works-title {
             text-align: center;
             color: #f4edff;
@@ -454,8 +553,14 @@
     <canvas id="dust"></canvas>
     <div class="nav">
         <button type="button" id="homeBtn" class="on">首页</button>
+        <button type="button" id="aboutBtn">关于我</button>
         <button type="button" id="worksBtn">作品</button>
         <button type="button" id="gameBtn">游戏</button>
+        <button type="button" id="notesBtn">留言</button>
+        <button type="button" id="albumBtn">相册</button>
+        <button type="button" id="diaryBtn">日记</button>
+        <button type="button" id="achieveBtn">成就</button>
+        <button type="button" id="soundBtn">音效</button>
     </div>
     <div class="side side-left">
         <div class="game">
@@ -475,13 +580,58 @@
     </div>
     <div class="stage">
         <div class="name">千树</div>
-        <div class="hi">点名字会换色，点卡片会亮起来</div>
+        <div class="hi show">你好主人</div>
+    </div>
+    <div class="about-room">
+        <div class="works-title">关于我</div>
+        <div class="works-hi">点卡片会亮起来</div>
         <div class="info">星座：巨蟹座</div>
         <div class="info">爱好：羽毛球，编程，看电视</div>
         <div class="info">性别：男</div>
         <div class="info">年龄：九岁</div>
-        <div class="info">家庭住址：淮安</div>
+        <div class="info">住在：淮安</div>
         <div class="info">家庭成员：爸爸，妈妈，千树</div>
+    </div>
+    <div class="notes-room">
+        <div class="works-title">留言</div>
+        <div class="works-hi">写一句话，点发送</div>
+        <div class="note-box">
+            <input id="noteName" type="text" placeholder="你的名字" maxlength="12">
+            <input id="noteText" type="text" placeholder="想对千树说的话" maxlength="60">
+            <button type="button" id="noteSend">发送</button>
+        </div>
+        <div id="noteList"></div>
+    </div>
+    <div class="album-room">
+        <div class="works-title">相册</div>
+        <div class="works-hi">点一张照片会亮起来</div>
+        <div class="photos">
+            <div class="photo" style="background:#7cffb2">羽毛球</div>
+            <div class="photo" style="background:#7ae0ff">星星</div>
+            <div class="photo" style="background:#ff8cc8">小花</div>
+            <div class="photo" style="background:#ffe566">画板</div>
+        </div>
+    </div>
+    <div class="diary-room">
+        <div class="works-title">日记</div>
+        <div class="works-hi">写今天的事，点保存</div>
+        <textarea id="diaryBox" placeholder="今天我想写……"></textarea>
+        <button type="button" id="diarySave">保存</button>
+        <div class="works-hi" id="diaryTip"></div>
+    </div>
+    <div class="achieve-room">
+        <div class="works-title">成就</div>
+        <div class="works-hi">点卡片能跳到对应房间</div>
+        <div class="work" id="achieveGames">会做小树和小花对战棋</div>
+        <div class="work" id="achieveDraw">会做小画板</div>
+        <div class="work" id="achieveNotes">会做留言本</div>
+        <div class="info">会换导航房间</div>
+    </div>
+    <div class="sound-room">
+        <div class="works-title">音效</div>
+        <div class="works-hi">点按钮听一听</div>
+        <button type="button" class="sound-btn" id="soundBo">泡泡啵</button>
+        <button type="button" class="sound-btn" id="soundDing">星星叮</button>
     </div>
     <div class="chess-room">
         <h2>小树与小花</h2>
@@ -668,18 +818,36 @@
         drawDots();
 
         const homeBtn = document.getElementById("homeBtn");
+        const aboutBtn = document.getElementById("aboutBtn");
         const worksBtn = document.getElementById("worksBtn");
         const gameBtn = document.getElementById("gameBtn");
+        const notesBtn = document.getElementById("notesBtn");
+        const albumBtn = document.getElementById("albumBtn");
+        const diaryBtn = document.getElementById("diaryBtn");
+        const achieveBtn = document.getElementById("achieveBtn");
+        const soundBtn = document.getElementById("soundBtn");
 
         function lightNav(btn) {
             homeBtn.classList.remove("on");
+            aboutBtn.classList.remove("on");
             worksBtn.classList.remove("on");
             gameBtn.classList.remove("on");
+            notesBtn.classList.remove("on");
+            albumBtn.classList.remove("on");
+            diaryBtn.classList.remove("on");
+            achieveBtn.classList.remove("on");
+            soundBtn.classList.remove("on");
             btn.classList.add("on");
         }
         function clearRooms() {
             document.body.classList.remove("play");
             document.body.classList.remove("page-works");
+            document.body.classList.remove("page-about");
+            document.body.classList.remove("page-notes");
+            document.body.classList.remove("page-album");
+            document.body.classList.remove("page-diary");
+            document.body.classList.remove("page-achieve");
+            document.body.classList.remove("page-sound");
             document.body.classList.remove("in-studio");
             document.body.classList.remove("lottery");
             document.body.classList.remove("slider");
@@ -705,10 +873,41 @@
             clearRooms();
             lightNav(homeBtn);
         }
+        function openAbout() {
+            clearRooms();
+            document.body.classList.add("page-about");
+            lightNav(aboutBtn);
+        }
         function openWorks() {
             clearRooms();
             document.body.classList.add("page-works");
             lightNav(worksBtn);
+        }
+        function openNotes() {
+            clearRooms();
+            document.body.classList.add("page-notes");
+            lightNav(notesBtn);
+        }
+        function openAlbum() {
+            clearRooms();
+            document.body.classList.add("page-album");
+            lightNav(albumBtn);
+        }
+        function openDiary() {
+            clearRooms();
+            document.body.classList.add("page-diary");
+            lightNav(diaryBtn);
+        }
+        function openAchieve() {
+            clearRooms();
+            document.body.classList.add("page-achieve");
+            lightNav(achieveBtn);
+        }
+        function openSounds() {
+            clearRooms();
+            document.body.classList.add("page-sound");
+            lightNav(soundBtn);
+            readySound();
         }
         function openGames() {
             clearRooms();
@@ -724,8 +923,19 @@
         }
 
         homeBtn.onclick = openHome;
+        aboutBtn.onclick = openAbout;
         worksBtn.onclick = openWorks;
+        notesBtn.onclick = openNotes;
+        albumBtn.onclick = openAlbum;
+        diaryBtn.onclick = openDiary;
+        achieveBtn.onclick = openAchieve;
+        soundBtn.onclick = openSounds;
         gameBtn.onclick = openGames;
+        document.getElementById("achieveGames").onclick = openGames;
+        document.getElementById("achieveDraw").onclick = function () {
+            openStudio("page-draw");
+        };
+        document.getElementById("achieveNotes").onclick = openNotes;
         document.getElementById("workLottery").onclick = openLottery;
         document.getElementById("workSlider").onclick = openSlider;
         document.getElementById("workClock").onclick = function () {
@@ -874,7 +1084,15 @@
             "linear-gradient(90deg, #ffe566, #ff6b9d)",
             "linear-gradient(90deg, #7cffb2, #7ae0ff)"
         ];
-        const hellos = ["你好，我是千树！", "上面点「游戏」才出现小游戏", "欢迎来到我的主页"];
+        const hellos = [
+            "你好主人",
+            "你好，我是千树！",
+            "上面有关于我和留言",
+            "今天也来玩一会儿吧",
+            "作品房里有画板和时钟",
+            "游戏房里有小树和小花",
+            "欢迎来到千树的主页"
+        ];
         let i = 0;
 
         name.onclick = function () {
@@ -895,6 +1113,60 @@
                 cards[n].classList.toggle("on");
             };
         }
+
+        const noteList = document.getElementById("noteList");
+        function loadNotes() {
+            const raw = localStorage.getItem("qs-home-notes");
+            if (!raw) {
+                return [];
+            }
+            return JSON.parse(raw);
+        }
+        function showNotes() {
+            const notes = loadNotes();
+            noteList.innerHTML = "";
+            for (let n = 0; n < notes.length; n = n + 1) {
+                const card = document.createElement("div");
+                card.className = "info";
+                card.textContent = notes[n].name + "： " + notes[n].text;
+                noteList.appendChild(card);
+            }
+        }
+        document.getElementById("noteSend").onclick = function () {
+            const name = document.getElementById("noteName").value.trim();
+            const text = document.getElementById("noteText").value.trim();
+            if (name === "" || text === "") {
+                return;
+            }
+            const notes = loadNotes();
+            notes.unshift({ name: name, text: text });
+            localStorage.setItem("qs-home-notes", JSON.stringify(notes));
+            document.getElementById("noteText").value = "";
+            showNotes();
+        };
+        showNotes();
+
+        const photos = document.querySelectorAll(".photo");
+        for (let n = 0; n < photos.length; n = n + 1) {
+            photos[n].onclick = function () {
+                photos[n].classList.toggle("on");
+            };
+        }
+
+        const diaryBox = document.getElementById("diaryBox");
+        diaryBox.value = localStorage.getItem("qs-home-diary") || "";
+        document.getElementById("diarySave").onclick = function () {
+            localStorage.setItem("qs-home-diary", diaryBox.value);
+            document.getElementById("diaryTip").textContent = "保存好了";
+        };
+
+        document.getElementById("soundBo").onclick = function () {
+            readySound();
+            playBo();
+        };
+        document.getElementById("soundDing").onclick = function () {
+            playDing();
+        };
 
         const bubbleColors = ["#ff8cc8", "#7ae0ff", "#ffe566", "#b8fff0", "#c9b6ff"];
         const bubbleArena = document.getElementById("bubbleArena");
