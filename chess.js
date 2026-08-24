@@ -359,10 +359,23 @@ function paint(board, current, over, resultText) {
     }
 }
 
+function fitChessBoard() {
+    const room = document.querySelector(".chess-room");
+    const boardEl = document.getElementById("chess-board");
+    if (!room || !boardEl) {
+        return;
+    }
+    const extra = 210;
+    const side = Math.max(280, Math.min(460, room.clientHeight - extra));
+    boardEl.style.width = side + "px";
+    boardEl.style.height = side + "px";
+}
+
 function makeCells(boardEl) {
+    fitChessBoard();
     boardEl.innerHTML = "";
     boardEl.style.gridTemplateColumns = "repeat(" + boardSize + ", 1fr)";
-    const fontSize = boardSize <= 4 ? "22px" : boardSize <= 7 ? "16px" : "13px";
+    const fontSize = boardSize <= 4 ? "36px" : boardSize <= 6 ? "28px" : boardSize <= 8 ? "22px" : "16px";
     for (let i = 0; i < boardSize * boardSize; i++) {
         const cell = document.createElement("button");
         cell.className = "chess-cell";
@@ -535,3 +548,4 @@ function connectChess() {
 }
 
 connectChess();
+window.addEventListener("resize", fitChessBoard);

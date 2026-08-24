@@ -5,13 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>千树</title>
     <style>
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
         body {
             font-family: sans-serif;
-            min-height: 100vh;
             margin: 0;
             background: linear-gradient(160deg, #1a1033 0%, #3d1b5c 50%, #0d3b4c 100%);
-            padding-bottom: 40px;
-            overflow-x: hidden;
+        }
+        #pageFit {
+            position: absolute;
+            width: 1280px;
+            height: 800px;
+            transform-origin: top left;
+            overflow: hidden;
         }
         #dust {
             position: fixed;
@@ -20,7 +28,7 @@
             pointer-events: none;
         }
         .nav {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
@@ -49,21 +57,171 @@
             background: rgba(122, 224, 255, 0.22);
             box-shadow: 0 0 16px rgba(122, 224, 255, 0.35);
         }
+        #navScore {
+            color: #ffe566;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 5px 10px;
+        }
+        .guess-room,
+        .timer-room {
+            display: none;
+            position: relative;
+            z-index: 1;
+            padding-top: 80px;
+            text-align: center;
+        }
+        #timerNum {
+            font-size: 72px;
+            color: #ffe566;
+            margin: 12px 0;
+            text-shadow: 0 0 18px rgba(255, 229, 102, 0.45);
+        }
+        .guess-max-btn.on {
+            box-shadow: 0 0 0 3px #ffe566;
+        }
+        .guess-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 0 12px;
+        }
+        #guessMax {
+            width: 72px;
+            padding: 8px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
+            color: #f4edff;
+            text-align: center;
+            font-size: 16px;
+        }
+        #guessInput {
+            width: 120px;
+            padding: 8px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
+            color: #f4edff;
+            text-align: center;
+            font-size: 20px;
+        }
+        body.theme-day {
+            background: linear-gradient(160deg, #fff4d6 0%, #d6f0ff 55%, #ffe4f2 100%);
+        }
+        body.theme-day .nav {
+            background: rgba(255, 250, 240, 0.75);
+            border-bottom-color: rgba(80, 40, 80, 0.12);
+        }
+        body:not(.theme-day) #pageFit button,
+        body:not(.theme-day) #pageFit input,
+        body:not(.theme-day) #pageFit textarea,
+        body:not(.theme-day) #pageFit p,
+        body:not(.theme-day) #pageFit h2,
+        body:not(.theme-day) #pageFit span,
+        body:not(.theme-day) #pageFit strong,
+        body:not(.theme-day) #pageFit .info,
+        body:not(.theme-day) #pageFit .work,
+        body:not(.theme-day) #pageFit .works-title,
+        body:not(.theme-day) #pageFit .works-hi,
+        body:not(.theme-day) #pageFit .hi,
+        body:not(.theme-day) #pageFit .game-title,
+        body:not(.theme-day) #pageFit .game-score,
+        body:not(.theme-day) #pageFit .lesson-school,
+        body:not(.theme-day) #pageFit .lesson-year,
+        body:not(.theme-day) #pageFit .lesson-topic,
+        body:not(.theme-day) #pageFit .lesson-side,
+        body:not(.theme-day) #pageFit .nav button,
+        body:not(.theme-day) #pageFit #navScore,
+        body:not(.theme-day) #pageFit #timerNum,
+        body:not(.theme-day) #pageFit #clockText,
+        body:not(.theme-day) #pageFit #diaryBox,
+        body:not(.theme-day) #pageFit #guessInput,
+        body:not(.theme-day) #pageFit #chess-turn,
+        body:not(.theme-day) #pageFit #chess-rule,
+        body:not(.theme-day) #pageFit #chess-result {
+            color: #ffffff;
+        }
+        body.theme-day #pageFit button,
+        body.theme-day #pageFit input,
+        body.theme-day #pageFit textarea,
+        body.theme-day #pageFit p,
+        body.theme-day #pageFit h2,
+        body.theme-day #pageFit span,
+        body.theme-day #pageFit strong,
+        body.theme-day #pageFit .info,
+        body.theme-day #pageFit .work,
+        body.theme-day #pageFit .works-title,
+        body.theme-day #pageFit .works-hi,
+        body.theme-day #pageFit .hi,
+        body.theme-day #pageFit .game-title,
+        body.theme-day #pageFit .game-score,
+        body.theme-day #pageFit .lesson-school,
+        body.theme-day #pageFit .lesson-year,
+        body.theme-day #pageFit .lesson-topic,
+        body.theme-day #pageFit .lesson-side,
+        body.theme-day #pageFit .nav button,
+        body.theme-day #pageFit #navScore,
+        body.theme-day #pageFit #timerNum,
+        body.theme-day #pageFit #clockText,
+        body.theme-day #pageFit #diaryBox,
+        body.theme-day #pageFit #guessInput,
+        body.theme-day #pageFit #guessMax,
+        body.theme-day #pageFit #chess-turn,
+        body.theme-day #pageFit #chess-rule,
+        body.theme-day #pageFit #chess-result,
+        body.theme-day #pageFit .note-box input,
+        body.theme-day #pageFit .sound-btn,
+        body.theme-day #pageFit .back {
+            color: #111111;
+        }
+        body.theme-day #pageFit input,
+        body.theme-day #pageFit textarea {
+            background: rgba(255, 255, 255, 0.75);
+        }
+        body.theme-day #pageFit .name {
+            color: transparent;
+        }
+        body.theme-day #pageFit .photo {
+            color: #111111;
+        }
+        body.theme-day #pageFit .match-room,
+        body.theme-day #pageFit .match-room h2,
+        body.theme-day #pageFit .memory-room,
+        body.theme-day #pageFit .tap-room,
+        body.theme-day #pageFit .rps-room,
+        body.theme-day #pageFit #matchTip,
+        body.theme-day #pageFit #matchQuest,
+        body.theme-day #pageFit #matchScore,
+        body.theme-day #pageFit .dock-btn {
+            color: #111111;
+        }
+        body:not(.theme-day) #pageFit .match-room,
+        body:not(.theme-day) #pageFit .match-room h2,
+        body:not(.theme-day) #pageFit .memory-room,
+        body:not(.theme-day) #pageFit .tap-room,
+        body:not(.theme-day) #pageFit .rps-room,
+        body:not(.theme-day) #pageFit #matchTip,
+        body:not(.theme-day) #pageFit #matchScore,
+        body:not(.theme-day) #pageFit .dock-btn {
+            color: #ffffff;
+        }
         .side {
             display: none;
-            position: fixed;
-            top: 70px;
-            bottom: 16px;
+            position: absolute;
+            top: 54px;
+            bottom: 0;
             width: 210px;
             z-index: 2;
         }
         body.play .side { display: block; }
         body.play .stage { display: none; }
-        .side-left { left: 12px; }
-        .side-right { right: 12px; }
+        .side-left { left: 0; }
+        .side-right { right: 0; }
         .game {
             height: 100%;
-            border-radius: 18px;
+            border-radius: 0;
             border: 1px solid rgba(255, 255, 255, 0.22);
             background: rgba(8, 4, 24, 0.45);
             box-shadow: 0 0 28px rgba(122, 224, 255, 0.18);
@@ -199,7 +357,8 @@
         .album-room,
         .diary-room,
         .achieve-room,
-        .sound-room {
+        .sound-room,
+        .lesson-room {
             display: none;
             position: relative;
             z-index: 1;
@@ -210,10 +369,16 @@
         body.page-diary .diary-room,
         body.page-achieve .achieve-room,
         body.page-sound .sound-room { display: block; }
+        body.page-lesson .lesson-room { display: flex; }
+        body.page-guess .guess-room,
+        body.page-timer .timer-room { display: block; }
         body.page-album .stage,
         body.page-diary .stage,
         body.page-achieve .stage,
-        body.page-sound .stage { display: none; }
+        body.page-sound .stage,
+        body.page-lesson .stage,
+        body.page-guess .stage,
+        body.page-timer .stage { display: none; }
         .photos {
             display: flex;
             flex-wrap: wrap;
@@ -281,6 +446,105 @@
             padding: 8px 16px;
             border-radius: 999px;
             cursor: pointer;
+        }
+        .lesson-room {
+            padding-top: 54px;
+            text-align: left;
+            min-height: 0;
+            box-sizing: border-box;
+        }
+        .lesson-side {
+            width: 150px;
+            flex-shrink: 0;
+            padding: 20px 12px;
+            background: rgba(10, 6, 28, 0.45);
+            border-right: 1px solid rgba(255, 255, 255, 0.12);
+            box-sizing: border-box;
+        }
+        .lesson-side p {
+            margin: 0 0 10px;
+            color: #c9e9ff;
+            text-align: center;
+            font-weight: bold;
+        }
+        .lesson-school,
+        .lesson-year {
+            display: block;
+            width: 100%;
+            margin: 0 0 8px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
+            color: #f4edff;
+            padding: 8px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .lesson-school.on,
+        .lesson-year.on {
+            background: rgba(122, 224, 255, 0.22);
+            box-shadow: 0 0 16px rgba(122, 224, 255, 0.35);
+        }
+        .lesson-main {
+            flex: 1;
+            min-width: 0;
+            padding: 20px 16px 24px;
+        }
+        #lessonYears {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 16px;
+        }
+        #lessonYears .lesson-year,
+        #lessonLevels .lesson-level,
+        #lessonTopics .lesson-topic {
+            width: auto;
+            margin: 0;
+        }
+        #lessonLevels,
+        #lessonTopics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 16px;
+        }
+        .lesson-topic {
+            display: block;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
+            color: #f4edff;
+            padding: 8px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .lesson-topic.on {
+            background: rgba(255, 140, 200, 0.28);
+            box-shadow: 0 0 16px rgba(255, 140, 200, 0.35);
+        }
+        .lesson-level {
+            display: block;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
+            color: #f4edff;
+            padding: 8px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .lesson-level.on[data-level="简单"] {
+            background: rgba(120, 220, 160, 0.35);
+            box-shadow: 0 0 16px rgba(120, 220, 160, 0.4);
+        }
+        .lesson-level.on[data-level="普通"] {
+            background: rgba(122, 224, 255, 0.28);
+            box-shadow: 0 0 16px rgba(122, 224, 255, 0.4);
+        }
+        .lesson-level.on[data-level="困难"] {
+            background: rgba(255, 186, 92, 0.35);
+            box-shadow: 0 0 16px rgba(255, 186, 92, 0.4);
+        }
+        .lesson-level.on[data-level="超难"] {
+            background: rgba(255, 110, 130, 0.38);
+            box-shadow: 0 0 16px rgba(255, 110, 130, 0.45);
         }
         .works-title {
             text-align: center;
@@ -460,32 +724,123 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         #colorHex { font-size: 22px; letter-spacing: 1px; }
-        .chess-room {
+        .chess-room,
+        .match-room,
+        .memory-room,
+        .tap-room,
+        .rps-room {
             display: none;
             position: relative;
             z-index: 1;
-            padding: 70px 240px 20px;
+            padding: 68px 220px 52px;
             text-align: center;
             color: #f4edff;
+            overflow: hidden;
         }
-        body.play .chess-room { display: block; }
-        .chess-room h2 {
-            margin: 0 0 6px;
-            font-size: 22px;
+        body.play.now-chess .chess-room,
+        body.play.now-match .match-room,
+        body.play.now-memory .memory-room,
+        body.play.now-tap .tap-room,
+        body.play.now-rps .rps-room {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .match-room h2,
+        .chess-room h2,
+        .memory-room h2,
+        .tap-room h2,
+        .rps-room h2 {
+            margin: 0 0 2px;
+            font-size: 18px;
             text-shadow: 0 0 12px rgba(122, 224, 255, 0.45);
+        }
+        .match-room h2 {
+            text-shadow: 0 0 12px rgba(255, 140, 200, 0.45);
+        }
+        #matchQuest {
+            margin: 4px 0;
+            color: #ffe566;
+            font-weight: bold;
+        }
+        #matchBoard {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 6px auto;
+            flex: 0 0 auto;
+            user-select: none;
+            touch-action: none;
+        }
+        .match-cell {
+            position: absolute;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(8, 4, 24, 0.45);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 22px;
+            padding: 0;
+            transition: left 0.24s ease, top 0.24s ease, opacity 0.18s ease, transform 0.18s ease;
+        }
+        .match-cell.on {
+            box-shadow: 0 0 0 3px #ffe566;
+            background: rgba(255, 229, 102, 0.2);
+        }
+        .match-cell.out {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+        .game-dock {
+            display: none;
+            position: absolute;
+            left: 210px;
+            right: 210px;
+            bottom: 0;
+            z-index: 8;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 6px 8px;
+            background: rgba(10, 6, 28, 0.82);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        body.play .game-dock { display: flex; }
+        .dock-btn {
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.12);
+            color: #f4edff;
+            padding: 6px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .dock-btn.on {
+            background: rgba(255, 140, 200, 0.28);
+            box-shadow: 0 0 16px rgba(255, 140, 200, 0.35);
         }
         .chess-bar {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 6px;
-            margin: 8px 0;
+            gap: 4px;
+            margin: 4px 0;
+        }
+        .chess-bar[hidden] {
+            display: none;
+        }
+        .chess-line {
+            margin: 0 0 4px;
+            font-size: 14px;
+            color: #c9e9ff;
         }
         .chess-size-btn,
         .chess-mode-btn,
         .chess-level-btn,
         #chess-restart,
-        #chess-overlay-restart {
+        #chess-overlay-restart,
+        #match-overlay-restart {
             border: 1px solid rgba(255, 255, 255, 0.25);
             background: rgba(255, 255, 255, 0.12);
             color: #f4edff;
@@ -500,28 +855,37 @@
             box-shadow: 0 0 16px rgba(122, 224, 255, 0.35);
         }
         #chess-turn, #chess-rule, #chess-result {
-            margin: 4px 0;
+            margin: 2px 0;
             color: #c9e9ff;
         }
         #chess-board {
             display: grid;
             gap: 3px;
-            width: min(420px, calc(100vw - 480px));
-            margin: 10px auto;
+            width: 380px;
+            height: 380px;
+            margin: 4px auto;
+            flex: 0 0 auto;
         }
         .chess-cell {
-            aspect-ratio: 1;
+            aspect-ratio: auto;
             border: 1px solid rgba(122, 224, 255, 0.35);
             background: rgba(8, 4, 24, 0.45);
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             color: #f4edff;
             padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            overflow: visible;
+            font-weight: bold;
         }
         .chess-cell.is-tree { color: #7cffb2; text-shadow: 0 0 8px #7cffb2; }
         .chess-cell.is-flower { color: #ff8cc8; text-shadow: 0 0 8px #ff8cc8; }
-        #chess-overlay {
-            position: fixed;
+        #chess-overlay,
+        #match-overlay {
+            position: absolute;
             inset: 0;
             z-index: 10;
             display: none;
@@ -529,8 +893,10 @@
             justify-content: center;
             background: rgba(10, 6, 28, 0.45);
         }
-        #chess-overlay.is-open { display: flex; }
-        #chess-overlay[hidden] { display: none !important; }
+        #chess-overlay.is-open,
+        #match-overlay.is-open { display: flex; }
+        #chess-overlay[hidden],
+        #match-overlay[hidden] { display: none !important; }
         .chess-card {
             min-width: 220px;
             padding: 28px 36px;
@@ -540,17 +906,87 @@
             border-radius: 18px;
             color: #f4edff;
         }
-        #chess-overlay.is-win #chess-overlay-title { color: #7cffb2; }
-        #chess-overlay.is-draw #chess-overlay-title { color: #ffe566; }
-        @media (max-width: 860px) {
-            body.play .side { display: none; }
-            .chess-room { padding: 70px 16px 20px; }
-            #chess-board { width: min(420px, calc(100vw - 32px)); }
+        #chess-overlay.is-win #chess-overlay-title,
+        #match-overlay.is-win #match-overlay-title { color: #7cffb2; }
+        #chess-overlay.is-draw #chess-overlay-title,
+        #match-overlay.is-draw #match-overlay-title { color: #ffe566; }
+        .stage,
+        .works,
+        .about-room,
+        .notes-room,
+        .album-room,
+        .diary-room,
+        .achieve-room,
+        .sound-room,
+        .lesson-room,
+        .guess-room,
+        .timer-room,
+        .studio {
+            box-sizing: border-box;
+            height: 100%;
+            overflow-y: auto;
+        }
+        body.play .chess-room,
+        body.play .match-room,
+        body.play .memory-room,
+        body.play .tap-room,
+        body.play .rps-room {
+            box-sizing: border-box;
+            height: 100%;
+            overflow: hidden;
+        }
+        #memoryBoard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            width: 320px;
+            height: 320px;
+            margin: 8px auto;
+            flex: 0 0 auto;
+        }
+        .memory-card {
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: rgba(8, 4, 24, 0.5);
+            border-radius: 10px;
+            color: #f4edff;
+            font-size: 28px;
+            cursor: pointer;
+        }
+        .memory-card.open,
+        .memory-card.done {
+            background: rgba(255, 140, 200, 0.22);
+        }
+        #tapArena {
+            position: relative;
+            width: 360px;
+            height: 280px;
+            margin: 8px auto;
+            flex: 0 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            background: rgba(8, 4, 24, 0.35);
+        }
+        #tapDot {
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            border: 0;
+            border-radius: 50%;
+            background: #ff8cc8;
+            color: #1a1033;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 0 18px rgba(255, 140, 200, 0.55);
+        }
+        .rps-pick {
+            font-size: 28px;
+            padding: 10px 18px;
         }
     </style>
 </head>
 <body>
     <canvas id="dust"></canvas>
+    <div id="pageFit">
     <div class="nav">
         <button type="button" id="homeBtn" class="on">首页</button>
         <button type="button" id="aboutBtn">关于我</button>
@@ -561,6 +997,11 @@
         <button type="button" id="diaryBtn">日记</button>
         <button type="button" id="achieveBtn">成就</button>
         <button type="button" id="soundBtn">音效</button>
+        <button type="button" id="lessonBtn">千树的小课堂</button>
+        <button type="button" id="guessBtn">猜数字</button>
+        <button type="button" id="timerBtn">倒计时</button>
+        <button type="button" id="themeBtn">白天</button>
+        <span id="navScore">积分 0</span>
     </div>
     <div class="side side-left">
         <div class="game">
@@ -626,6 +1067,39 @@
         <div class="work" id="achieveDraw">会做小画板</div>
         <div class="work" id="achieveNotes">会做留言本</div>
         <div class="info">会换导航房间</div>
+        <div class="info">换房间会加积分，关页面还记得</div>
+    </div>
+    <div class="guess-room">
+        <div class="works-title">猜数字</div>
+        <div class="works-hi">先选范围：从 1 到几</div>
+        <div class="guess-bar">
+            <button type="button" class="sound-btn guess-max-btn" data-max="10">1～10</button>
+            <button type="button" class="sound-btn guess-max-btn on" data-max="20">1～20</button>
+            <button type="button" class="sound-btn guess-max-btn" data-max="50">1～50</button>
+            <button type="button" class="sound-btn guess-max-btn" data-max="100">1～100</button>
+        </div>
+        <div class="guess-bar">
+            <span>自己填最大数</span>
+            <input id="guessMax" type="number" min="2" max="999" value="20">
+            <button type="button" class="sound-btn" id="guessUseMax">用这个范围</button>
+        </div>
+        <div class="works-hi" id="guessTip">我想了 1 到 20 的一个数</div>
+        <input id="guessInput" type="number" min="1" max="20" placeholder="1-20">
+        <div>
+            <button type="button" class="sound-btn" id="guessGo">猜</button>
+            <button type="button" class="sound-btn" id="guessNew">再来一局</button>
+        </div>
+    </div>
+    <div class="timer-room">
+        <div class="works-title">倒计时</div>
+        <div class="works-hi" id="timerTip">选一个时间开始</div>
+        <div id="timerNum">10</div>
+        <div>
+            <button type="button" class="sound-btn" id="timer10">10 秒</button>
+            <button type="button" class="sound-btn" id="timer30">30 秒</button>
+            <button type="button" class="sound-btn" id="timer60">60 秒</button>
+            <button type="button" class="sound-btn" id="timerStop">停</button>
+        </div>
     </div>
     <div class="sound-room">
         <div class="works-title">音效</div>
@@ -633,11 +1107,30 @@
         <button type="button" class="sound-btn" id="soundBo">泡泡啵</button>
         <button type="button" class="sound-btn" id="soundDing">星星叮</button>
     </div>
+    <div class="lesson-room">
+        <aside class="lesson-side">
+            <p>学段</p>
+            <nav id="lessonSchools">
+                <button type="button" class="lesson-school" data-school="xiaoxue">小学</button>
+                <button type="button" class="lesson-school" data-school="chuzhong">初中</button>
+                <button type="button" class="lesson-school" data-school="gaozhong">高中</button>
+                <button type="button" class="lesson-school" data-school="daxue">大学</button>
+            </nav>
+        </aside>
+        <div class="lesson-main">
+            <div class="works-title">千树的小课堂</div>
+            <div class="works-hi" id="lessonPick">先点左边的学段</div>
+            <div id="lessonYears"></div>
+            <div id="lessonLevels"></div>
+            <div id="lessonTopics"></div>
+            <div id="lessonQuiz"></div>
+        </div>
+    </div>
     <div class="chess-room">
         <h2>小树与小花</h2>
-        <p id="chess-rule">8 × 8，连 5 个赢</p>
-        <p id="chess-turn">轮到：小树</p>
+        <p class="chess-line"><span id="chess-rule">8 × 8，连 5 个赢</span> · <span id="chess-turn">轮到：小树</span></p>
         <p id="chess-result"></p>
+        <div id="chess-board"></div>
         <div class="chess-bar" id="chess-sizes">
             <button type="button" class="chess-size-btn" data-size="3">3×3</button>
             <button type="button" class="chess-size-btn" data-size="4">4×4</button>
@@ -651,6 +1144,7 @@
         <div class="chess-bar" id="chess-modes">
             <button type="button" class="chess-mode-btn on" data-mode="human">人人对战</button>
             <button type="button" class="chess-mode-btn" data-mode="computer">电脑对战</button>
+            <button type="button" id="chess-restart">再来一盘</button>
         </div>
         <div class="chess-bar" id="chess-diff" hidden>
             <span id="chess-levels">
@@ -660,8 +1154,58 @@
                 <button type="button" class="chess-level-btn" data-level="super">超难</button>
             </span>
         </div>
-        <div id="chess-board"></div>
-        <button type="button" id="chess-restart">再来一盘</button>
+    </div>
+    <div class="match-room">
+        <h2>千树开心消消乐</h2>
+        <div class="chess-bar" id="matchLevels">
+            <button type="button" class="chess-level-btn" data-match-level="easy">简单</button>
+            <button type="button" class="chess-level-btn on" data-match-level="normal">普通</button>
+            <button type="button" class="chess-level-btn" data-match-level="hard">困难</button>
+            <button type="button" class="chess-level-btn" data-match-level="super">超难</button>
+        </div>
+        <p id="matchQuest">任务：先消掉指定的图案</p>
+        <p id="matchTip">按住一颗滑到旁边，三个一样就会消</p>
+        <p id="matchScore">分数 0</p>
+        <div id="matchBoard"></div>
+        <button type="button" id="matchRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="memory-room">
+        <h2>记忆翻牌</h2>
+        <p id="memoryTip">翻开两张，一样就留下</p>
+        <div id="memoryBoard"></div>
+        <button type="button" id="memoryRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="tap-room">
+        <h2>点点乐</h2>
+        <p id="tapInfo">点粉色圆圆，20 秒里越多越好</p>
+        <div id="tapArena">
+            <button type="button" id="tapDot">星</button>
+        </div>
+        <button type="button" id="tapRestart" class="sound-btn">开始</button>
+    </div>
+    <div class="rps-room">
+        <h2>剪刀石头布</h2>
+        <p id="rpsTip">你出什么？电脑跟着出</p>
+        <div class="chess-bar">
+            <button type="button" class="chess-size-btn rps-pick" data-rps="剪刀">✂️ 剪刀</button>
+            <button type="button" class="chess-size-btn rps-pick" data-rps="石头">✊ 石头</button>
+            <button type="button" class="chess-size-btn rps-pick" data-rps="布">🖐️ 布</button>
+        </div>
+        <p id="rpsResult">先点一个吧</p>
+    </div>
+    <div class="game-dock" id="gameDock">
+        <button type="button" class="dock-btn on" data-play="chess" id="dockChess">小树与小花</button>
+        <button type="button" class="dock-btn" data-play="match" id="dockMatch">开心消消乐</button>
+        <button type="button" class="dock-btn" data-play="memory" id="dockMemory">记忆翻牌</button>
+        <button type="button" class="dock-btn" data-play="tap" id="dockTap">点点乐</button>
+        <button type="button" class="dock-btn" data-play="rps" id="dockRps">剪刀石头布</button>
+    </div>
+    <div id="match-overlay" hidden>
+        <div class="chess-card">
+            <p id="match-overlay-title"></p>
+            <p id="match-overlay-sub"></p>
+            <button type="button" id="match-overlay-restart">再来一局</button>
+        </div>
     </div>
     <div id="chess-overlay" hidden>
         <div class="chess-card">
@@ -739,6 +1283,7 @@
         <div class="color-show" id="colorShow"></div>
         <div id="colorHex">#ff8cc8</div>
     </div>
+    </div>
     <script>
         const canvas = document.getElementById("dust");
         const ctx = canvas.getContext("2d");
@@ -752,9 +1297,9 @@
             canvas.height = window.innerHeight;
         }
         fitCanvas();
-        window.onresize = fitCanvas;
+        window.addEventListener("resize", fitCanvas);
 
-        for (let n = 0; n < 520; n = n + 1) {
+        for (let n = 0; n < 2000; n = n + 1) {
             dots.push({
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight,
@@ -826,6 +1371,9 @@
         const diaryBtn = document.getElementById("diaryBtn");
         const achieveBtn = document.getElementById("achieveBtn");
         const soundBtn = document.getElementById("soundBtn");
+        const lessonBtn = document.getElementById("lessonBtn");
+        const guessBtn = document.getElementById("guessBtn");
+        const timerBtn = document.getElementById("timerBtn");
 
         function lightNav(btn) {
             homeBtn.classList.remove("on");
@@ -837,6 +1385,9 @@
             diaryBtn.classList.remove("on");
             achieveBtn.classList.remove("on");
             soundBtn.classList.remove("on");
+            lessonBtn.classList.remove("on");
+            guessBtn.classList.remove("on");
+            timerBtn.classList.remove("on");
             btn.classList.add("on");
         }
         function clearRooms() {
@@ -848,16 +1399,27 @@
             document.body.classList.remove("page-diary");
             document.body.classList.remove("page-achieve");
             document.body.classList.remove("page-sound");
+            document.body.classList.remove("page-lesson");
             document.body.classList.remove("in-studio");
             document.body.classList.remove("lottery");
             document.body.classList.remove("slider");
             document.body.classList.remove("page-clock");
             document.body.classList.remove("page-draw");
             document.body.classList.remove("page-color");
+            document.body.classList.remove("now-chess");
+            document.body.classList.remove("now-match");
+            document.body.classList.remove("now-memory");
+            document.body.classList.remove("now-tap");
+            document.body.classList.remove("now-rps");
             const chessOverlay = document.getElementById("chess-overlay");
             if (chessOverlay) {
                 chessOverlay.hidden = true;
                 chessOverlay.classList.remove("is-open");
+            }
+            const matchOverlay = document.getElementById("match-overlay");
+            if (matchOverlay) {
+                matchOverlay.hidden = true;
+                matchOverlay.classList.remove("is-open", "is-win", "is-draw");
             }
         }
         function openStudio(room, start) {
@@ -909,11 +1471,20 @@
             lightNav(soundBtn);
             readySound();
         }
+        function openLesson() {
+            clearRooms();
+            document.body.classList.add("page-lesson");
+            lightNav(lessonBtn);
+        }
         function openGames() {
             clearRooms();
             document.body.classList.add("play");
+            document.body.classList.add("now-chess");
             lightNav(gameBtn);
             readySound();
+            if (typeof showPlayGame === "function") {
+                showPlayGame("chess");
+            }
         }
         function openLottery() {
             openStudio("lottery", drawPrize);
@@ -930,6 +1501,7 @@
         diaryBtn.onclick = openDiary;
         achieveBtn.onclick = openAchieve;
         soundBtn.onclick = openSounds;
+        lessonBtn.onclick = openLesson;
         gameBtn.onclick = openGames;
         document.getElementById("achieveGames").onclick = openGames;
         document.getElementById("achieveDraw").onclick = function () {
@@ -1302,6 +1874,12 @@
 
         setInterval(spawnStar, 900);
     </script>
+    <script src="fit.js"></script>
     <script src="chess.js"></script>
+    <script src="match3.js"></script>
+    <script src="extra-games.js"></script>
+    <script src="classroom.js"></script>
+    <script src="classroom-extra.js"></script>
+    <script src="fun.js"></script>
 </body>
 </html>
