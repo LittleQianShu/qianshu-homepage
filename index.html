@@ -21,12 +21,6 @@
             transform-origin: top left;
             overflow: hidden;
         }
-        #dust {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-        }
         .nav {
             position: absolute;
             top: 0;
@@ -985,7 +979,6 @@
     </style>
 </head>
 <body>
-    <canvas id="dust"></canvas>
     <div id="pageFit">
     <div class="nav">
         <button type="button" id="homeBtn" class="on">首页</button>
@@ -1285,83 +1278,6 @@
     </div>
     </div>
     <script>
-        const canvas = document.getElementById("dust");
-        const ctx = canvas.getContext("2d");
-        const dots = [];
-        const mouse = { x: -9999, y: -9999 };
-        const fadeOut = 40;
-        const fadeIn = 130;
-
-        function fitCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        fitCanvas();
-        window.addEventListener("resize", fitCanvas);
-
-        for (let n = 0; n < 2000; n = n + 1) {
-            dots.push({
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-                r: 1 + Math.random() * 2.2,
-                vx: -0.25 + Math.random() * 0.5,
-                vy: -0.25 + Math.random() * 0.5,
-                color: ["#ff8cc8", "#7ae0ff", "#ffe566", "#c9b6ff"][n % 4],
-                alpha: 0
-            });
-        }
-
-        window.onmousemove = function (event) {
-            mouse.x = event.clientX;
-            mouse.y = event.clientY;
-        };
-
-        function drawDots() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let n = 0; n < dots.length; n = n + 1) {
-                const d = dots[n];
-                d.x = d.x + d.vx;
-                d.y = d.y + d.vy;
-                if (d.x < 0) { d.x = canvas.width; }
-                if (d.x > canvas.width) { d.x = 0; }
-                if (d.y < 0) { d.y = canvas.height; }
-                if (d.y > canvas.height) { d.y = 0; }
-
-                const dx = d.x - mouse.x;
-                const dy = d.y - mouse.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                let want = 0.85;
-                if (dist <= fadeOut) {
-                    want = 0;
-                } else if (dist < fadeIn) {
-                    const t = (dist - fadeOut) / (fadeIn - fadeOut);
-                    want = 0.85 * t * t;
-                }
-                const step = 0.018;
-                if (want < d.alpha) {
-                    d.alpha = d.alpha - step;
-                    if (d.alpha < want) {
-                        d.alpha = want;
-                    }
-                } else {
-                    d.alpha = d.alpha + step;
-                    if (d.alpha > want) {
-                        d.alpha = want;
-                    }
-                }
-                if (d.alpha > 0.02) {
-                    ctx.beginPath();
-                    ctx.fillStyle = d.color;
-                    ctx.globalAlpha = d.alpha;
-                    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-            ctx.globalAlpha = 1;
-            requestAnimationFrame(drawDots);
-        }
-        drawDots();
-
         const homeBtn = document.getElementById("homeBtn");
         const aboutBtn = document.getElementById("aboutBtn");
         const worksBtn = document.getElementById("worksBtn");

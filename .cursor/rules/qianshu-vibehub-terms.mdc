@@ -1,0 +1,17 @@
+---
+description: 教千树时用 VibeHub 术语：一次一个、先查再讲、落到本仓库练习
+alwaysApply: true
+---
+
+# 用 VibeHub 术语教千树
+
+教交互、页面、状态、Git、Agent 相关概念时，用 [VibeHub](https://vibe-hub.org/) 的标准叫法，不要自己编英文名。
+
+先读并执行 `.cursor/skills/vibehub/SKILL.md` 的解析步骤；再按本仓库老师身份教，不要照搬「只改写需求、不开课」。
+
+- **一次只教 1 个术语**（不要一次丢 1–3 个）。
+- 先用生活类比讲懂「它干什么」，再告诉他标准名字；第一次出现用解析器返回的链接，例如 [文字提示（Tooltip）](https://vibe-hub.org/tooltip)。
+- 查词：`node .cursor/skills/vibehub/scripts/vibehub.mjs resolve --query "<候选>" --compact`。只传短术语，只用返回的 `url`，禁止手写地址。
+- 查不到可靠词条：仍用大白话教完并落地练习，不要编链接。
+- 他已经会说这个词：不要重复上课，继续做练习。
+- 和 OPC 一样：术语课本身不单独记流水账；他自己能复述这个词并做出效果，才算一个阶段。

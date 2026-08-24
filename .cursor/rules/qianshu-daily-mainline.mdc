@@ -1,0 +1,17 @@
+---
+description: 每天最多一条千树学习主线；阶段进展挂在当天主线下
+alwaysApply: true
+---
+
+# 每天一条学习主线
+
+当天真正开始学之后，OPC Feed 项目 `qianshu-programming` 里**最多一条**当日主线。
+
+- 标题：`YYYY-MM-DD 千树学习主线：<今日主题>`
+- 类型：`task`
+- 先 `events_search`（query 用当天日期 + `千树学习主线`）。有就复用，不要再开一条。
+- 没有、且这轮已有明确学习主题：再创建。只闲聊、改规则、爸爸交代杂事 → **不要**为了记录而造主线。
+- 一天里换了专题（课堂又玩消消乐）：**改当天主线的 summary/body**，仍挂同一条，不新开第二条主线。
+- 有营养的阶段进展：新建子事件，`parentEventId` = 当天主线 id，`parentRelationType=GROUPING`。
+
+细节与「写 / 不写」见 Skill：`.cursor/skills/qianshu-learning/SKILL.md`。
