@@ -161,51 +161,6 @@
         }
     }
 
-    function wordBand() {
-        const size = fieldSize();
-        const page = pageFit.getBoundingClientRect();
-        const name = document.querySelector(".name");
-        const hi = document.querySelector(".hi");
-        let band = null;
-        [name, hi].forEach(function (el) {
-            if (!el) {
-                return;
-            }
-            const r = el.getBoundingClientRect();
-            const box = {
-                left: (r.left - page.left) * (size.w / page.width) - 16,
-                top: (r.top - page.top) * (size.h / page.height) - 10,
-                right: (r.right - page.left) * (size.w / page.width) + 16,
-                bottom: (r.bottom - page.top) * (size.h / page.height)
-            };
-            if (!band) {
-                band = box;
-                return;
-            }
-            band.left = Math.min(band.left, box.left);
-            band.top = Math.min(band.top, box.top);
-            band.right = Math.max(band.right, box.right);
-            band.bottom = Math.max(band.bottom, box.bottom);
-        });
-        return band;
-    }
-
-    function nudgeOffWords() {
-        const band = wordBand();
-        if (!band) {
-            return;
-        }
-        folks.forEach(function (folk) {
-            const cx = folk.homeX + 18;
-            const cy = folk.homeY + 18;
-            const onWord = cx >= band.left && cx <= band.right && cy >= band.top && cy <= band.bottom + 20;
-            if (onWord) {
-                folk.homeY = band.bottom + 18;
-                folk.y = folk.homeY;
-            }
-        });
-    }
-
     function scatter() {
         const size = fieldSize();
         const plan = hexPlan(size.w, size.h);
@@ -228,14 +183,10 @@
             folk.y = cell.y;
             folks.push(folk);
         });
-        nudgeOffWords();
         wireAll();
     }
 
     scatter();
-    requestAnimationFrame(function () {
-        nudgeOffWords();
-    });
     window.addEventListener("resize", function () {
         scatter();
     });
