@@ -871,6 +871,9 @@ function connectClassroom() {
             return;
         }
         showYears(btn.getAttribute("data-school"));
+        if (typeof giveBadge === "function") {
+            giveBadge("lesson-first");
+        }
     };
 
     yearsBox.onclick = function (event) {

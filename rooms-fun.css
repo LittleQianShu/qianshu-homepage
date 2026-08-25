@@ -1,0 +1,111 @@
+.nav button {
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+.nav button:hover {
+    transform: translateY(-2px) scale(1.06);
+    background: rgba(255, 255, 255, 0.16) !important;
+}
+.nav button.on {
+    background: rgba(122, 224, 255, 0.28) !important;
+    box-shadow: 0 0 16px rgba(122, 224, 255, 0.4);
+}
+.nav button.nav-pop {
+    animation: navPop 0.32s ease;
+}
+@keyframes navPop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.18) rotate(-4deg); }
+    100% { transform: scale(1); }
+}
+#navScore {
+    border: 1px solid rgba(255, 229, 102, 0.4);
+    background: rgba(255, 229, 102, 0.12);
+    border-radius: 999px;
+}
+.stage .name {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.stage .name:hover {
+    transform: scale(1.08);
+}
+.photo {
+    font-size: 22px;
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.photo:hover {
+    transform: scale(1.08) rotate(-2deg);
+}
+.sound-pad {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 16px auto;
+    max-width: 520px;
+}
+.sound-pad .sound-btn {
+    min-width: 110px;
+    min-height: 64px;
+    font-size: 16px;
+    border-radius: 18px;
+}
+#timerNum.tick {
+    animation: timerBeat 0.45s ease;
+}
+@keyframes timerBeat {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.18); }
+    100% { transform: scale(1); }
+}
+.works-title {
+    letter-spacing: 1px;
+}
+body.theme-day .nav button {
+    color: #111 !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
+    background: rgba(255, 255, 255, 0.55) !important;
+}
+body.theme-day .nav button.on {
+    background: rgba(80, 180, 255, 0.35) !important;
+}
+.page-extra {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px auto;
+    max-width: 560px;
+}
+.page-extra .sound-btn,
+.mood-chip {
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.12);
+    color: inherit;
+    border-radius: 999px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+.mood-chip.on {
+    background: rgba(255, 229, 102, 0.28);
+    box-shadow: 0 0 12px rgba(255, 229, 102, 0.35);
+}
+.spark-bit {
+    position: absolute;
+    z-index: 6;
+    pointer-events: none;
+    font-size: 22px;
+    animation: sparkFall 1.2s ease-out forwards;
+}
+@keyframes sparkFall {
+    0% { transform: translateY(0) scale(0.6); opacity: 1; }
+    100% { transform: translateY(160px) scale(1.2); opacity: 0; }
+}
+.photo.album-on {
+    outline: 4px solid #ffe566;
+    transform: scale(1.1);
+}

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>千树</title>
+    <link rel="stylesheet" href="new-games.css">
+    <link rel="stylesheet" href="rooms-fun.css">
     <style>
         html, body {
             height: 100%;
@@ -26,6 +28,8 @@
             top: 0;
             left: 0;
             right: 0;
+            width: 100%;
+            box-sizing: border-box;
             z-index: 6;
             min-height: 54px;
             display: flex;
@@ -62,7 +66,7 @@
             display: none;
             position: relative;
             z-index: 1;
-            padding-top: 80px;
+            padding-top: 92px;
             text-align: center;
         }
         #timerNum {
@@ -184,21 +188,31 @@
         body.theme-day #pageFit .match-room h2,
         body.theme-day #pageFit .memory-room,
         body.theme-day #pageFit .tap-room,
+        body.theme-day #pageFit .snake-room,
+        body.theme-day #pageFit .mole-room,
         body.theme-day #pageFit .rps-room,
+        body.theme-day #pageFit .trust-room,
         body.theme-day #pageFit #matchTip,
         body.theme-day #pageFit #matchQuest,
         body.theme-day #pageFit #matchScore,
-        body.theme-day #pageFit .dock-btn {
+        body.theme-day #pageFit .dock-btn,
+        body.theme-day #pageFit .look-word,
+        body.theme-day #pageFit .look-tip {
             color: #111111;
         }
         body:not(.theme-day) #pageFit .match-room,
         body:not(.theme-day) #pageFit .match-room h2,
         body:not(.theme-day) #pageFit .memory-room,
         body:not(.theme-day) #pageFit .tap-room,
+        body:not(.theme-day) #pageFit .snake-room,
+        body:not(.theme-day) #pageFit .mole-room,
         body:not(.theme-day) #pageFit .rps-room,
+        body:not(.theme-day) #pageFit .trust-room,
         body:not(.theme-day) #pageFit #matchTip,
         body:not(.theme-day) #pageFit #matchScore,
-        body:not(.theme-day) #pageFit .dock-btn {
+        body:not(.theme-day) #pageFit .dock-btn,
+        body:not(.theme-day) #pageFit .look-word,
+        body:not(.theme-day) #pageFit .look-tip {
             color: #ffffff;
         }
         .side {
@@ -209,7 +223,7 @@
             width: 210px;
             z-index: 2;
         }
-        body.play .side { display: block; }
+        body.play .side { display: none; }
         body.play .stage { display: none; }
         .side-left { left: 0; }
         .side-right { right: 0; }
@@ -268,25 +282,32 @@
         }
         .stage {
             position: relative;
-            z-index: 1;
+            z-index: 3;
             padding-top: 24px;
+            pointer-events: none;
         }
         .name {
+            position: relative;
+            z-index: 4;
+            pointer-events: auto;
             font-size: 42px;
             font-weight: bold;
             text-align: center;
             margin-top: 50px;
             cursor: pointer;
-            background: linear-gradient(90deg, #ff8cc8, #7ae0ff);
+            background: linear-gradient(90deg, #b388ff, #7cffb2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            filter: drop-shadow(0 0 12px rgba(255, 140, 200, 0.7));
+            filter: drop-shadow(0 0 12px rgba(179, 136, 255, 0.75));
         }
         .name:hover {
-            filter: drop-shadow(0 0 20px rgba(122, 224, 255, 0.9));
+            filter: drop-shadow(0 0 20px rgba(124, 255, 178, 0.9));
         }
         .hi {
+            position: relative;
+            z-index: 4;
+            pointer-events: auto;
             text-align: center;
             color: #c9e9ff;
             min-height: 24px;
@@ -325,6 +346,194 @@
             background: rgba(122, 224, 255, 0.22);
             box-shadow: 0 0 24px rgba(122, 224, 255, 0.45);
         }
+        .about-card {
+            display: block;
+            width: 320px;
+            margin: 12px auto;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            text-align: center;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.55s ease;
+            animation: popin 0.5s ease both;
+        }
+        .about-card:nth-of-type(1) { animation-delay: 0.05s; }
+        .about-card:nth-of-type(2) { animation-delay: 0.10s; }
+        .about-card:nth-of-type(3) { animation-delay: 0.15s; }
+        .about-card:nth-of-type(4) { animation-delay: 0.20s; }
+        .about-card:nth-of-type(5) { animation-delay: 0.25s; }
+        .about-card:nth-of-type(6) { animation-delay: 0.30s; }
+        .about-card.on {
+            transform: scale(1.55);
+            z-index: 4;
+        }
+        .about-side {
+            position: absolute;
+            top: 54px;
+            bottom: 0;
+            width: 236px;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.8s ease, opacity 0.8s ease;
+        }
+        .about-side-left { left: 0; transform: translateX(-28px); }
+        .about-side-right { right: 0; transform: translateX(28px); transition-delay: 0.12s; }
+        body.page-about.show-about-look .about-side {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+        body.page-about.show-about-look .about-room {
+            padding-left: 236px;
+            padding-right: 236px;
+        }
+        .look-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            background:
+                radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.22), transparent 42%),
+                linear-gradient(160deg, rgba(80, 50, 120, 0.55), rgba(20, 30, 70, 0.4));
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.08);
+        }
+        .look-word {
+            font-size: 17px;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+        }
+        .look-tip {
+            box-sizing: border-box;
+            width: 222px;
+            margin: 0;
+            padding: 10px 12px;
+            font-size: 13px;
+            line-height: 1.65;
+            font-weight: 500;
+            color: #fffef6;
+            background: rgba(255, 236, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 12px;
+            text-shadow: 0 1px 3px rgba(40, 20, 70, 0.45);
+            text-align: left;
+        }
+        body.theme-day #pageFit .look-tip {
+            color: #111111;
+            background: rgba(255, 255, 255, 0.92);
+        }
+        .look-pic,
+        .look-word,
+        .look-tip {
+            animation: lookSoft 0.75s ease both;
+        }
+        .look-word { animation-delay: 0.16s; }
+        .look-tip { animation-delay: 0.3s; }
+        @keyframes lookSoft {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .look-crab {
+            position: relative;
+            width: 124px;
+            height: 96px;
+            filter: drop-shadow(0 6px 10px rgba(80, 20, 30, 0.35));
+        }
+        .look-crab .leg {
+            position: absolute;
+            height: 4px;
+            border-radius: 4px;
+            background: #d96a52;
+        }
+        .look-crab .leg.a { left: 16px; top: 54px; width: 22px; transform: rotate(-18deg); }
+        .look-crab .leg.b { left: 18px; top: 64px; width: 20px; transform: rotate(8deg); }
+        .look-crab .leg.c { right: 16px; top: 54px; width: 22px; transform: rotate(18deg); }
+        .look-crab .leg.d { right: 18px; top: 64px; width: 20px; transform: rotate(-8deg); }
+        .look-crab .shell {
+            position: absolute;
+            left: 24px;
+            top: 28px;
+            width: 76px;
+            height: 46px;
+            border-radius: 40px 40px 26px 26px;
+            background: linear-gradient(180deg, #ff9a78 0%, #e85a48 70%, #c9443a 100%);
+            box-shadow: inset 0 6px 10px rgba(255, 255, 255, 0.28);
+        }
+        .look-crab .eye {
+            position: absolute;
+            top: 10px;
+            width: 8px;
+            height: 22px;
+            border-radius: 8px;
+            background: linear-gradient(#f4e27a, #e8c84a);
+        }
+        .look-crab .eye::after {
+            content: "";
+            position: absolute;
+            left: 1px;
+            top: 0;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #1a1033;
+        }
+        .look-crab .eye.a { left: 46px; }
+        .look-crab .eye.b { left: 70px; }
+        .look-crab .claw {
+            position: absolute;
+            top: 32px;
+            width: 26px;
+            height: 20px;
+            border-radius: 14px 5px 16px 8px;
+            background: linear-gradient(140deg, #ffb08a, #e86a52);
+        }
+        .look-crab .claw.a { left: 2px; }
+        .look-crab .claw.b { right: 2px; transform: scaleX(-1); }
+        .look-stars {
+            position: relative;
+            width: 130px;
+            height: 130px;
+        }
+        .look-stars .line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 229, 102, 0.85), transparent);
+            box-shadow: 0 0 6px rgba(255, 229, 102, 0.45);
+        }
+        .look-stars .line.a { left: 24px; top: 48px; width: 38px; transform: rotate(-28deg); }
+        .look-stars .line.b { left: 54px; top: 32px; width: 36px; transform: rotate(18deg); }
+        .look-stars .line.c { left: 58px; top: 52px; width: 32px; transform: rotate(62deg); }
+        .look-stars .line.d { left: 68px; top: 82px; width: 30px; transform: rotate(38deg); }
+        .look-stars i {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #fff6b0;
+            box-shadow: 0 0 10px #ffe566, 0 0 18px rgba(255, 229, 102, 0.6);
+        }
+        .look-stars i:nth-of-type(1) { left: 18px; top: 42px; }
+        .look-stars i:nth-of-type(2) { left: 50px; top: 24px; }
+        .look-stars i:nth-of-type(3) { left: 80px; top: 36px; }
+        .look-stars i:nth-of-type(4) { left: 58px; top: 68px; }
+        .look-stars i:nth-of-type(5) { left: 90px; top: 88px; }
         @keyframes popin {
             from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
@@ -333,7 +542,7 @@
             display: none;
             position: relative;
             z-index: 1;
-            padding-top: 80px;
+            padding-top: 92px;
         }
         body.page-works .works { display: block; }
         body.page-works .stage { display: none; }
@@ -342,9 +551,9 @@
             display: none;
             position: relative;
             z-index: 1;
-            padding-top: 80px;
+            padding-top: 92px;
         }
-        body.page-about .about-room { display: block; }
+        body.page-about .about-room { display: block; overflow: visible; }
         body.page-about .stage { display: none; }
         body.page-notes .notes-room { display: block; }
         body.page-notes .stage { display: none; }
@@ -356,7 +565,7 @@
             display: none;
             position: relative;
             z-index: 1;
-            padding-top: 80px;
+            padding-top: 92px;
             text-align: center;
         }
         body.page-album .album-room,
@@ -395,6 +604,58 @@
         .photo.on {
             box-shadow: 0 0 20px rgba(122, 224, 255, 0.55);
             transform: scale(1.06);
+        }
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            padding: 8px 16px 20px;
+        }
+        .badge {
+            width: 220px;
+            padding: 14px 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(8, 4, 24, 0.45);
+            color: #c9b6ff;
+            cursor: pointer;
+            text-align: center;
+            opacity: 0.42;
+            font: inherit;
+        }
+        .badge.on {
+            opacity: 1;
+            color: #fffef6;
+            border-color: #ffe566;
+            background: rgba(255, 229, 102, 0.14);
+            box-shadow: 0 0 18px rgba(255, 229, 102, 0.35);
+        }
+        .badge-mark {
+            display: block;
+            font-size: 32px;
+        }
+        .badge strong {
+            display: block;
+            margin: 6px 0 4px;
+        }
+        .badge span {
+            display: block;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .badge-toast {
+            position: absolute;
+            left: 50%;
+            bottom: 64px;
+            transform: translateX(-50%);
+            z-index: 20;
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: rgba(20, 10, 40, 0.92);
+            border: 1px solid #ffe566;
+            color: #ffe566;
+            font-weight: bold;
         }
         #diaryBox {
             width: 320px;
@@ -442,18 +703,19 @@
             cursor: pointer;
         }
         .lesson-room {
-            padding-top: 54px;
-            text-align: left;
+            padding-top: 76px;
+            text-align: center;
             min-height: 0;
             box-sizing: border-box;
         }
         .lesson-side {
             width: 150px;
             flex-shrink: 0;
-            padding: 20px 12px;
+            padding: 16px 12px 20px;
             background: rgba(10, 6, 28, 0.45);
             border-right: 1px solid rgba(255, 255, 255, 0.12);
             box-sizing: border-box;
+            text-align: center;
         }
         .lesson-side p {
             margin: 0 0 10px;
@@ -481,13 +743,15 @@
         .lesson-main {
             flex: 1;
             min-width: 0;
-            padding: 20px 16px 24px;
+            padding: 12px 24px 24px;
+            text-align: center;
         }
         #lessonYears {
             display: flex;
             flex-wrap: wrap;
+            justify-content: center;
             gap: 8px;
-            margin: 0 0 16px;
+            margin: 0 auto 16px;
         }
         #lessonYears .lesson-year,
         #lessonLevels .lesson-level,
@@ -499,8 +763,9 @@
         #lessonTopics {
             display: flex;
             flex-wrap: wrap;
+            justify-content: center;
             gap: 8px;
-            margin: 0 0 16px;
+            margin: 0 auto 16px;
         }
         .lesson-topic {
             display: block;
@@ -722,11 +987,16 @@
         .match-room,
         .memory-room,
         .tap-room,
-        .rps-room {
+        .snake-room,
+        .mole-room,
+        .rps-room,
+        .trust-room,
+        .bubble-room,
+        .star-room {
             display: none;
             position: relative;
             z-index: 1;
-            padding: 68px 220px 52px;
+            padding: 110px 32px 88px;
             text-align: center;
             color: #f4edff;
             overflow: hidden;
@@ -735,19 +1005,29 @@
         body.play.now-match .match-room,
         body.play.now-memory .memory-room,
         body.play.now-tap .tap-room,
-        body.play.now-rps .rps-room {
+        body.play.now-snake .snake-room,
+        body.play.now-mole .mole-room,
+        body.play.now-rps .rps-room,
+        body.play.now-trust .trust-room,
+        body.play.now-bubble .bubble-room,
+        body.play.now-star .star-room {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
         }
         .match-room h2,
         .chess-room h2,
         .memory-room h2,
         .tap-room h2,
-        .rps-room h2 {
-            margin: 0 0 2px;
-            font-size: 18px;
+        .snake-room h2,
+        .mole-room h2,
+        .bubble-room h2,
+        .star-room h2,
+        .rps-room h2,
+        .trust-room h2 {
+            margin: 0 0 12px;
+            font-size: 24px;
             text-shadow: 0 0 12px rgba(122, 224, 255, 0.45);
         }
         .match-room h2 {
@@ -760,8 +1040,8 @@
         }
         #matchBoard {
             position: relative;
-            width: 300px;
-            height: 300px;
+            width: 360px;
+            height: 360px;
             margin: 6px auto;
             flex: 0 0 auto;
             user-select: none;
@@ -789,13 +1069,13 @@
         .game-dock {
             display: none;
             position: absolute;
-            left: 210px;
-            right: 210px;
+            left: 0;
+            right: 0;
             bottom: 0;
             z-index: 8;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 6px;
+            flex-wrap: nowrap;
+            gap: 4px;
             padding: 6px 8px;
             background: rgba(10, 6, 28, 0.82);
             border-top: 1px solid rgba(255, 255, 255, 0.12);
@@ -805,15 +1085,175 @@
             border: 1px solid rgba(255, 255, 255, 0.25);
             background: rgba(255, 255, 255, 0.12);
             color: #f4edff;
-            padding: 6px 12px;
+            padding: 6px 9px;
             border-radius: 999px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
+            flex: 0 0 auto;
+            white-space: nowrap;
         }
         .dock-btn.on {
             background: rgba(255, 140, 200, 0.28);
             box-shadow: 0 0 16px rgba(255, 140, 200, 0.35);
         }
+        .trust-top {
+            margin: 0 0 4px;
+            font-size: 15px;
+        }
+        .trust-scores {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 4px 0 8px;
+        }
+        .trust-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .trust-dash { opacity: 0.55; }
+        .trust-stage {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 8px;
+        }
+        .trust-peep {
+            width: 84px;
+            height: 112px;
+            position: relative;
+        }
+        .trust-hat {
+            width: 34px;
+            height: 18px;
+            margin: 0 auto 2px;
+            background: #e44545;
+            border-radius: 6px 6px 2px 2px;
+            box-shadow: 0 0 10px rgba(228, 69, 69, 0.55);
+        }
+        .trust-peep.them .trust-hat {
+            background: #3b7ee2;
+            box-shadow: 0 0 10px rgba(59, 126, 226, 0.55);
+        }
+        .trust-body {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: #f7f3ff;
+            position: relative;
+            box-shadow: 0 0 16px rgba(255, 255, 255, 0.2);
+        }
+        .trust-eye {
+            position: absolute;
+            top: 24px;
+            width: 8px;
+            height: 10px;
+            border-radius: 50%;
+            background: #222;
+        }
+        .trust-eye.l { left: 18px; }
+        .trust-eye.r { right: 18px; }
+        .trust-peep.is-smirk .trust-eye {
+            height: 4px;
+            top: 28px;
+            border-radius: 2px;
+        }
+        .trust-mouth {
+            position: absolute;
+            left: 24px;
+            top: 44px;
+            width: 22px;
+            height: 10px;
+            border: 2px solid #222;
+            border-top: 0;
+            border-radius: 0 0 12px 12px;
+        }
+        .trust-peep.is-smirk .trust-mouth {
+            left: 28px;
+            width: 16px;
+            height: 8px;
+            border-radius: 0 0 10px 2px;
+        }
+        .trust-peep.is-sad .trust-mouth {
+            top: 48px;
+            transform: rotate(180deg);
+        }
+        .trust-peep.is-mad .trust-mouth {
+            top: 46px;
+            width: 18px;
+            height: 2px;
+            border: 0;
+            background: #222;
+            border-radius: 2px;
+        }
+        .trust-machine {
+            width: 210px;
+            height: 210px;
+            border-radius: 18px;
+            background: #2a2a32;
+            box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.12);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 4px;
+            padding: 18px;
+            box-sizing: border-box;
+        }
+        .trust-pay {
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffe566;
+            font-size: 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .trust-pay.on {
+            background: rgba(255, 229, 102, 0.28);
+            box-shadow: 0 0 0 2px #ffe566;
+        }
+        .trust-ground {
+            width: 640px;
+            height: 3px;
+            margin: 6px auto 0;
+            background: rgba(255, 255, 255, 0.28);
+        }
+        .trust-btns {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            margin-top: 14px;
+        }
+        .trust-btn {
+            min-width: 168px;
+            padding: 12px 18px;
+            border-radius: 16px;
+            border: 3px solid #f4edff;
+            background: transparent;
+            color: #f4edff;
+            font-size: 22px;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+        .trust-btn:disabled {
+            opacity: 0.4;
+            cursor: default;
+        }
+        #trustCheat { border-color: #ff8cc8; }
+        #trustCoop { border-color: #7cffb2; }
         .chess-bar {
             display: flex;
             flex-wrap: wrap;
@@ -855,8 +1295,8 @@
         #chess-board {
             display: grid;
             gap: 3px;
-            width: 380px;
-            height: 380px;
+            width: 440px;
+            height: 440px;
             margin: 4px auto;
             flex: 0 0 auto;
         }
@@ -920,22 +1360,48 @@
             height: 100%;
             overflow-y: auto;
         }
+        .play-arena {
+            position: relative;
+            left: auto;
+            right: auto;
+            top: auto;
+            bottom: auto;
+            width: 600px;
+            height: 420px;
+            margin: 12px auto;
+            flex: 0 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            background: rgba(8, 4, 24, 0.45);
+            overflow: hidden;
+        }
         body.play .chess-room,
         body.play .match-room,
         body.play .memory-room,
         body.play .tap-room,
-        body.play .rps-room {
+        body.play .snake-room,
+        body.play .mole-room,
+        body.play .rps-room,
+        body.play .bubble-room,
+        body.play .star-room {
             box-sizing: border-box;
             height: 100%;
             overflow: hidden;
+            padding: 110px 32px 88px;
+        }
+        body.play .chess-room {
+            padding-bottom: 150px;
+        }
+        body.play .snake-room {
+            padding-bottom: 96px;
         }
         #memoryBoard {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
-            width: 320px;
-            height: 320px;
-            margin: 8px auto;
+            width: 380px;
+            height: 380px;
+            margin: 12px auto;
             flex: 0 0 auto;
         }
         .memory-card {
@@ -972,62 +1438,304 @@
             cursor: pointer;
             box-shadow: 0 0 18px rgba(255, 140, 200, 0.55);
         }
+        #snakeBoard {
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+            width: min(448px, 100%);
+            height: auto;
+            aspect-ratio: 16 / 12;
+            max-height: 336px;
+            margin: 8px auto;
+            flex: 1 1 auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(8, 4, 24, 0.4);
+        }
+        .snake-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            background: rgba(80, 40, 90, 0.18);
+        }
+        .snake-cell.body {
+            background: #5bd48a;
+            box-shadow: inset 0 0 0 1px rgba(20, 60, 40, 0.25);
+        }
+        .snake-cell.head {
+            background: #7cffb2;
+        }
+        .snake-cell.food {
+            background: rgba(255, 229, 102, 0.2);
+        }
+        .snake-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 56px);
+            gap: 6px;
+            margin: 8px auto 4px;
+            justify-content: center;
+            flex: 0 0 auto;
+        }
+        .snake-pad button {
+            width: 56px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: rgba(255, 255, 255, 0.12);
+            color: inherit;
+            cursor: pointer;
+        }
+        .snake-pad .blank {
+            visibility: hidden;
+        }
+        #moleYard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 360px;
+            margin: 10px auto;
+            flex: 0 0 auto;
+        }
+        .mole-hole {
+            height: 92px;
+            border: 0;
+            border-radius: 50% 50% 18px 18px;
+            background: #4a2a18;
+            box-shadow: inset 0 -14px 0 #2a160c;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .mole-face {
+            position: absolute;
+            left: 50%;
+            bottom: 10px;
+            width: 52px;
+            height: 52px;
+            margin-left: -26px;
+            border-radius: 50%;
+            background: #c9b6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transform: translateY(70px);
+            transition: transform 0.16s ease;
+        }
+        .mole-hole.up .mole-face {
+            transform: translateY(0);
+        }
         .rps-pick {
             font-size: 28px;
             padding: 10px 18px;
+        }
+        .rps-scoreline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            margin: 6px 0;
+            font-size: 16px;
+        }
+        .rps-scoreline b {
+            color: #ffe566;
+            font-size: 22px;
+        }
+        .rps-arena {
+            width: 520px;
+            height: 180px;
+            margin: 8px auto;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(8, 4, 24, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            position: relative;
+            overflow: hidden;
+        }
+        .rps-arena.is-win { box-shadow: 0 0 28px rgba(124, 255, 178, 0.55); }
+        .rps-arena.is-lose { box-shadow: 0 0 28px rgba(255, 80, 120, 0.45); }
+        .rps-arena.is-draw { box-shadow: 0 0 22px rgba(255, 229, 102, 0.4); }
+        .rps-hand {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: rgba(255, 140, 200, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            box-shadow: 0 0 18px rgba(255, 140, 200, 0.35);
+        }
+        .rps-hand.cpu {
+            background: rgba(122, 224, 255, 0.2);
+            box-shadow: 0 0 18px rgba(122, 224, 255, 0.35);
+        }
+        .rps-hand.slam {
+            animation: rpsSlam 0.38s ease;
+        }
+        .rps-vs {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffe566;
+            min-width: 72px;
+            text-align: center;
+        }
+        #rpsStreak {
+            min-height: 22px;
+            color: #ff8cc8;
+            font-weight: bold;
+            margin: 4px 0;
+        }
+        @keyframes rpsSlam {
+            0% { transform: scale(0.55) translateY(18px); }
+            55% { transform: scale(1.18) translateY(-6px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+        #fleeLayer {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+        body.play #fleeLayer,
+        body.in-studio #fleeLayer,
+        body.lottery #fleeLayer,
+        body.slider #fleeLayer,
+        body[class*="page-"] #fleeLayer {
+            display: none;
+        }
+        #fleeLines {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+        .flee-line {
+            stroke: rgba(122, 224, 255, 0.55);
+            stroke-width: 2.2;
+        }
+        body.theme-day .flee-line {
+            stroke: rgba(80, 40, 120, 0.28);
+        }
+        .flee-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            will-change: transform;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+        .flee-item.pop .flee-head,
+        .flee-item.pop .flee-key {
+            animation: fleePop 0.28s ease;
+        }
+        @keyframes fleePop {
+            0% { transform: scale(1); }
+            45% { transform: scale(1.35); }
+            100% { transform: scale(1); }
+        }
+        .flee-peep .flee-head {
+            display: block;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--hue);
+            box-shadow: 0 0 16px var(--hue);
+        }
+        .flee-peep .flee-eye {
+            position: absolute;
+            top: 13px;
+            width: 6px;
+            height: 8px;
+            border-radius: 50%;
+            background: #1a1033;
+        }
+        .flee-peep .flee-eye.l { left: 9px; }
+        .flee-peep .flee-eye.r { right: 9px; }
+        .flee-key {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 0 10px #ffd76a);
+        }
+        .flee-key-bow {
+            position: absolute;
+            left: 2px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border: 4px solid #ffd76a;
+            border-radius: 50%;
+            box-sizing: border-box;
+        }
+        .flee-key-stem {
+            position: absolute;
+            left: 16px;
+            top: 14px;
+            width: 20px;
+            height: 4px;
+            background: #ffd76a;
+            border-radius: 2px;
+        }
+        .flee-key-bit {
+            position: absolute;
+            right: 2px;
+            top: 14px;
+            width: 4px;
+            height: 12px;
+            background: #ffd76a;
+            border-radius: 1px;
         }
     </style>
 </head>
 <body>
     <div id="pageFit">
+    <div id="fleeLayer">
+        <svg id="fleeLines" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
     <div class="nav">
-        <button type="button" id="homeBtn" class="on">首页</button>
-        <button type="button" id="aboutBtn">关于我</button>
-        <button type="button" id="worksBtn">作品</button>
-        <button type="button" id="gameBtn">游戏</button>
-        <button type="button" id="notesBtn">留言</button>
-        <button type="button" id="albumBtn">相册</button>
-        <button type="button" id="diaryBtn">日记</button>
-        <button type="button" id="achieveBtn">成就</button>
-        <button type="button" id="soundBtn">音效</button>
-        <button type="button" id="lessonBtn">千树的小课堂</button>
-        <button type="button" id="guessBtn">猜数字</button>
-        <button type="button" id="timerBtn">倒计时</button>
-        <button type="button" id="themeBtn">白天</button>
-        <span id="navScore">积分 0</span>
+        <button type="button" id="homeBtn" class="on">🏠 首页</button>
+        <button type="button" id="aboutBtn">🦀 关于我</button>
+        <button type="button" id="worksBtn">🎨 作品</button>
+        <button type="button" id="gameBtn">🎮 游戏</button>
+        <button type="button" id="notesBtn">💬 留言</button>
+        <button type="button" id="albumBtn">📷 相册</button>
+        <button type="button" id="diaryBtn">📔 日记</button>
+        <button type="button" id="achieveBtn">🏆 成就</button>
+        <button type="button" id="soundBtn">🔊 音效</button>
+        <button type="button" id="lessonBtn">📚 小课堂</button>
+        <button type="button" id="guessBtn">🔢 猜数字</button>
+        <button type="button" id="timerBtn">⏰ 倒计时</button>
+        <button type="button" id="themeBtn">☀️ 白天</button>
+        <span id="navScore">⭐ 积分 0</span>
     </div>
-    <div class="side side-left">
-        <div class="game">
-            <div class="game-title">戳泡泡</div>
-            <div class="game-score" id="bubbleScore">0 分</div>
-            <div class="arena" id="bubbleArena"></div>
-        </div>
-    </div>
-    <div class="side side-right">
-        <div class="game">
-            <div class="game-title">接星星</div>
-            <div class="game-score" id="starScore">0 分</div>
-            <div class="arena" id="starArena">
-                <div class="paddle" id="paddle"></div>
-            </div>
-        </div>
-    </div>
+    <div class="side side-left"></div>
+    <div class="side side-right"></div>
     <div class="stage">
         <div class="name">千树</div>
         <div class="hi show">你好主人</div>
     </div>
+    <div class="about-side about-side-left" id="aboutLookLeft"></div>
+    <div class="about-side about-side-right" id="aboutLookRight"></div>
     <div class="about-room">
-        <div class="works-title">关于我</div>
-        <div class="works-hi">点卡片会亮起来</div>
-        <div class="info">星座：巨蟹座</div>
-        <div class="info">爱好：羽毛球，编程，看电视</div>
-        <div class="info">性别：男</div>
-        <div class="info">年龄：九岁</div>
-        <div class="info">住在：淮安</div>
-        <div class="info">家庭成员：爸爸，妈妈，千树</div>
+        <div class="works-title">🦀 关于我</div>
+        <button type="button" class="about-card" data-about="sign">星座：巨蟹座</button>
+        <button type="button" class="about-card" data-about="hobby">爱好：羽毛球，编程，看电视</button>
+        <button type="button" class="about-card" data-about="gender">性别：男</button>
+        <button type="button" class="about-card" data-about="age">年龄：九岁</button>
+        <button type="button" class="about-card" data-about="city">住在：淮安</button>
+        <button type="button" class="about-card" data-about="family">家庭成员：爸爸，妈妈，千树</button>
     </div>
     <div class="notes-room">
-        <div class="works-title">留言</div>
+        <div class="works-title">💬 留言</div>
         <div class="works-hi">写一句话，点发送</div>
         <div class="note-box">
             <input id="noteName" type="text" placeholder="你的名字" maxlength="12">
@@ -1037,25 +1745,26 @@
         <div id="noteList"></div>
     </div>
     <div class="album-room">
-        <div class="works-title">相册</div>
-        <div class="works-hi">点一张照片会亮起来</div>
+        <div class="works-title">📷 相册</div>
+        <div class="works-hi">点一张照片会亮起来，还会叫一声</div>
         <div class="photos">
-            <div class="photo" style="background:#7cffb2">羽毛球</div>
-            <div class="photo" style="background:#7ae0ff">星星</div>
-            <div class="photo" style="background:#ff8cc8">小花</div>
-            <div class="photo" style="background:#ffe566">画板</div>
+            <div class="photo" style="background:#7cffb2">🏸 羽毛球</div>
+            <div class="photo" style="background:#7ae0ff">⭐ 星星</div>
+            <div class="photo" style="background:#ff8cc8">🌸 小花</div>
+            <div class="photo" style="background:#ffe566">🎨 画板</div>
         </div>
     </div>
     <div class="diary-room">
-        <div class="works-title">日记</div>
+        <div class="works-title">📔 日记</div>
         <div class="works-hi">写今天的事，点保存</div>
         <textarea id="diaryBox" placeholder="今天我想写……"></textarea>
         <button type="button" id="diarySave">保存</button>
         <div class="works-hi" id="diaryTip"></div>
     </div>
     <div class="achieve-room">
-        <div class="works-title">成就</div>
-        <div class="works-hi">点卡片能跳到对应房间</div>
+        <div class="works-title">🏆 成就</div>
+        <div class="works-hi">做成了才会点亮。点一枚徽章能去对应游戏</div>
+        <div class="badge-list" id="badgeList"></div>
         <div class="work" id="achieveGames">会做小树和小花对战棋</div>
         <div class="work" id="achieveDraw">会做小画板</div>
         <div class="work" id="achieveNotes">会做留言本</div>
@@ -1063,7 +1772,7 @@
         <div class="info">换房间会加积分，关页面还记得</div>
     </div>
     <div class="guess-room">
-        <div class="works-title">猜数字</div>
+        <div class="works-title">🔢 猜数字</div>
         <div class="works-hi">先选范围：从 1 到几</div>
         <div class="guess-bar">
             <button type="button" class="sound-btn guess-max-btn" data-max="10">1～10</button>
@@ -1084,7 +1793,7 @@
         </div>
     </div>
     <div class="timer-room">
-        <div class="works-title">倒计时</div>
+        <div class="works-title">⏰ 倒计时</div>
         <div class="works-hi" id="timerTip">选一个时间开始</div>
         <div id="timerNum">10</div>
         <div>
@@ -1095,10 +1804,15 @@
         </div>
     </div>
     <div class="sound-room">
-        <div class="works-title">音效</div>
-        <div class="works-hi">点按钮听一听</div>
-        <button type="button" class="sound-btn" id="soundBo">泡泡啵</button>
-        <button type="button" class="sound-btn" id="soundDing">星星叮</button>
+        <div class="works-title">🔊 音效</div>
+        <div class="works-hi">点按钮听一听，每个声音都不一样</div>
+        <div class="sound-pad">
+            <button type="button" class="sound-btn" id="soundBo">🫧 泡泡啵</button>
+            <button type="button" class="sound-btn" id="soundDing">⭐ 星星叮</button>
+            <button type="button" class="sound-btn" id="soundDrum">🥁 小鼓</button>
+            <button type="button" class="sound-btn" id="soundWind">🌬️ 风声</button>
+            <button type="button" class="sound-btn" id="soundLaugh">😄 哈哈</button>
+        </div>
     </div>
     <div class="lesson-room">
         <aside class="lesson-side">
@@ -1111,7 +1825,7 @@
             </nav>
         </aside>
         <div class="lesson-main">
-            <div class="works-title">千树的小课堂</div>
+            <div class="works-title">📚 千树的小课堂</div>
             <div class="works-hi" id="lessonPick">先点左边的学段</div>
             <div id="lessonYears"></div>
             <div id="lessonLevels"></div>
@@ -1174,25 +1888,305 @@
         <div id="tapArena">
             <button type="button" id="tapDot">星</button>
         </div>
-        <button type="button" id="tapRestart" class="sound-btn">开始</button>
+        <button type="button" id="tapRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="snake-room">
+        <h2>小树吃星星</h2>
+        <p id="snakeInfo">吃到 0 颗星 · 方向键或下面按钮转弯</p>
+        <p class="game-score" id="snakeBest">最高 0</p>
+        <div id="snakeBoard"></div>
+        <div class="snake-pad" id="snakePad">
+            <span class="blank"></span>
+            <button type="button" data-snake-dir="up">上</button>
+            <span class="blank"></span>
+            <button type="button" data-snake-dir="left">左</button>
+            <button type="button" data-snake-dir="down">下</button>
+            <button type="button" data-snake-dir="right">右</button>
+        </div>
+        <button type="button" id="snakeRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="mole-room">
+        <h2>敲树洞</h2>
+        <p id="moleInfo">树洞里会冒出小树鼠，点到它就加分</p>
+        <p class="game-score" id="moleBest">最高 0</p>
+        <div id="moleYard">
+            <button type="button" class="mole-hole" data-mole="0"><span class="mole-face">🐭</span></button>
+            <button type="button" class="mole-hole" data-mole="1"><span class="mole-face">🐭</span></button>
+            <button type="button" class="mole-hole" data-mole="2"><span class="mole-face">🐭</span></button>
+            <button type="button" class="mole-hole" data-mole="3"><span class="mole-face">🐭</span></button>
+            <button type="button" class="mole-hole" data-mole="4"><span class="mole-face">🐭</span></button>
+            <button type="button" class="mole-hole" data-mole="5"><span class="mole-face">🐭</span></button>
+            <button type="button" class="mole-hole" data-mole="6"><span class="mole-face">🐭</span></button>
+            <button type="button" class="mole-hole" data-mole="7"><span class="mole-face">🐭</span></button>
+            <button type="button" class="mole-hole" data-mole="8"><span class="mole-face">🐭</span></button>
+        </div>
+        <button type="button" id="moleRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="bubble-room">
+        <h2>戳泡泡</h2>
+        <p class="game-score" id="bubbleScore">本局 0 分</p>
+        <p class="game-score" id="bubbleBest">最高 0</p>
+        <div class="arena play-arena" id="bubbleArena"></div>
+        <button type="button" id="bubbleRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="star-room">
+        <h2>接星星</h2>
+        <p class="game-score" id="starScore">本局 0 分</p>
+        <p class="game-score" id="starBest">最高 0</p>
+        <p class="game-score" id="starHandTip">鼠标也能玩，点下面「举手玩」更酷</p>
+        <div class="arena play-arena" id="starArena">
+            <div class="paddle" id="paddle"></div>
+        </div>
+        <button type="button" id="starRestart" class="sound-btn">再来一局</button>
     </div>
     <div class="rps-room">
-        <h2>剪刀石头布</h2>
-        <p id="rpsTip">你出什么？电脑跟着出</p>
+        <h2>对决</h2>
+        <p id="rpsTip">先到 3 分赢这一局。对手会试着克你上一手。</p>
+        <div class="rps-scoreline">
+            <span>你 <b id="rpsMyScore">0</b></span>
+            <span id="rpsRound">第 1 回合</span>
+            <span>对手 <b id="rpsCpuScore">0</b></span>
+        </div>
+        <div class="rps-arena" id="rpsArena">
+            <div class="rps-hand" id="rpsMyHand">?</div>
+            <div class="rps-vs" id="rpsVs">VS</div>
+            <div class="rps-hand cpu" id="rpsCpuHand">?</div>
+        </div>
+        <p id="rpsResult">选一个出手</p>
+        <p id="rpsStreak"></p>
         <div class="chess-bar">
             <button type="button" class="chess-size-btn rps-pick" data-rps="剪刀">✂️ 剪刀</button>
             <button type="button" class="chess-size-btn rps-pick" data-rps="石头">✊ 石头</button>
             <button type="button" class="chess-size-btn rps-pick" data-rps="布">🖐️ 布</button>
         </div>
-        <p id="rpsResult">先点一个吧</p>
+        <button type="button" class="sound-btn" id="rpsAgain">再来一局</button>
+    </div>
+    <div class="trust-room">
+        <h2>信任小游戏</h2>
+        <p class="trust-top" id="trustWho">对手：1 / 5　老实人</p>
+        <p class="trust-top" id="trustTotal">你的总分：0</p>
+        <div class="trust-scores">
+            <div class="trust-box" id="trustMyBox">0</div>
+            <span class="trust-dash">—</span>
+            <div class="trust-box" id="trustTheirBox">0</div>
+        </div>
+        <div class="trust-stage">
+            <div class="trust-peep is-happy" id="trustMe">
+                <div class="trust-hat"></div>
+                <div class="trust-body">
+                    <i class="trust-eye l"></i>
+                    <i class="trust-eye r"></i>
+                    <i class="trust-mouth"></i>
+                </div>
+            </div>
+            <div class="trust-machine" aria-label="得分表">
+                <div class="trust-pay" data-cell="xc">+3<br>-1</div>
+                <div class="trust-pay" data-cell="cc">+2<br>+2</div>
+                <div class="trust-pay" data-cell="xx">0<br>0</div>
+                <div class="trust-pay" data-cell="cx">-1<br>+3</div>
+            </div>
+            <div class="trust-peep them is-happy" id="trustThem">
+                <div class="trust-hat"></div>
+                <div class="trust-body">
+                    <i class="trust-eye l"></i>
+                    <i class="trust-eye r"></i>
+                    <i class="trust-mouth"></i>
+                </div>
+            </div>
+        </div>
+        <div class="trust-ground"></div>
+        <p id="trustTip">左边你骗人得更多，右边一起合作都加分</p>
+        <div class="trust-btns">
+            <button type="button" class="trust-btn" id="trustCheat">骗人</button>
+            <button type="button" class="trust-btn" id="trustCoop">合作</button>
+        </div>
+        <button type="button" class="sound-btn" id="trustAgain">再来一局</button>
+    </div>
+    <div class="piano-room">
+        <h2>小树钢琴</h2>
+        <p id="pianoInfo">点琴键，听声音往上走</p>
+        <div id="pianoKeys"></div>
+        <button type="button" id="pianoRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="maze-room">
+        <h2>走迷宫</h2>
+        <p id="mazeInfo">方向键或下面按钮，走到小花</p>
+        <div id="mazeBoard"></div>
+        <div class="snake-pad" id="mazePad">
+            <span class="blank"></span>
+            <button type="button" data-maze="up">上</button>
+            <span class="blank"></span>
+            <button type="button" data-maze="left">左</button>
+            <button type="button" data-maze="down">下</button>
+            <button type="button" data-maze="right">右</button>
+        </div>
+        <button type="button" id="mazeRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="simon-room">
+        <h2>跟灯走</h2>
+        <p id="simonInfo">看灯亮的顺序，再按一遍</p>
+        <div id="simonPads">
+            <button type="button" class="simon-pad" data-simon="0">1</button>
+            <button type="button" class="simon-pad" data-simon="1">2</button>
+            <button type="button" class="simon-pad" data-simon="2">3</button>
+            <button type="button" class="simon-pad" data-simon="3">4</button>
+        </div>
+        <button type="button" id="simonRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="paint-room">
+        <h2>涂色花园</h2>
+        <p id="paintInfo">先选颜色，再点图形涂上</p>
+        <div class="paint-pens" id="paintPens"></div>
+        <svg id="paintCanvas" viewBox="0 0 280 220">
+            <rect data-fill="1" x="20" y="140" width="240" height="60" fill="#3d1b5c"></rect>
+            <circle data-fill="1" cx="140" cy="88" r="46" fill="#5b2b8a"></circle>
+            <rect data-fill="1" x="118" y="120" width="44" height="50" fill="#4a2a18"></rect>
+            <circle data-fill="1" cx="70" cy="70" r="22" fill="#7ae0ff"></circle>
+            <circle data-fill="1" cx="210" cy="62" r="26" fill="#ff8cc8"></circle>
+            <rect data-fill="1" x="36" y="168" width="50" height="22" fill="#7cffb2"></rect>
+        </svg>
+        <button type="button" id="paintRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="diff-room">
+        <h2>找不同</h2>
+        <p id="diffInfo">右边有一格不一样，点出来</p>
+        <div id="diffPair">
+            <div class="diff-grid" id="diffLeft"></div>
+            <div class="diff-grid" id="diffRight"></div>
+        </div>
+        <button type="button" id="diffRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="fruit-room">
+        <h2>接果子</h2>
+        <p id="fruitInfo">点掉下来的水果</p>
+        <div id="fruitArena"></div>
+        <button type="button" id="fruitRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="calc-room">
+        <h2>加法快答</h2>
+        <p id="calcInfo">算对 0 题</p>
+        <p id="calcQuest">1 + 1 = ?</p>
+        <div class="choice-row" id="calcChoices"></div>
+        <button type="button" id="calcRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="order-room">
+        <h2>按顺序点</h2>
+        <p id="orderInfo">从小到大点，下一个是 1</p>
+        <div id="orderBoard"></div>
+        <button type="button" id="orderRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="dress-room">
+        <h2>换装小树</h2>
+        <p id="dressInfo">点按钮换衣服和帽子</p>
+        <div id="dressStage">
+            <div id="dressHat">🎩</div>
+            <div id="dressBody"></div>
+            <div id="dressShirt">👕</div>
+        </div>
+        <div class="choice-row">
+            <button type="button" class="sound-btn" id="dressHatBtn">换帽子</button>
+            <button type="button" class="sound-btn" id="dressShirtBtn">换衣服</button>
+            <button type="button" class="sound-btn" id="dressRestart">再来一局</button>
+        </div>
+    </div>
+    <div class="race-room">
+        <h2>小树冲刺</h2>
+        <p id="raceInfo">猛点按钮，跑到右边</p>
+        <div id="raceTrack">
+            <div id="raceTree">🌲</div>
+            <div id="raceFlower">🌸</div>
+        </div>
+        <button type="button" class="sound-btn" id="raceGo">冲！</button>
+        <button type="button" class="sound-btn" id="raceRestart">再来一局</button>
+    </div>
+    <div class="stack-room">
+        <h2>叠饼干</h2>
+        <p id="stackInfo">点一下叠一块饼干</p>
+        <div id="stackTower"></div>
+        <button type="button" class="sound-btn" id="stackDrop">叠一块</button>
+        <button type="button" id="stackRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="count-room">
+        <h2>数星星</h2>
+        <p id="countInfo">天上有几颗星？</p>
+        <div id="countSky"></div>
+        <div id="countChoices"></div>
+        <button type="button" id="countRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="color-room">
+        <h2>找颜色</h2>
+        <p id="colorInfo">点出指定的颜色</p>
+        <div id="colorBoard"></div>
+        <button type="button" id="colorRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="jump-room">
+        <h2>小树跳</h2>
+        <p id="jumpInfo">点一下跳过石头</p>
+        <div id="jumpArena">
+            <div id="jumpTree">🌲</div>
+            <div id="jumpRock">🪨</div>
+        </div>
+        <button type="button" class="sound-btn" id="jumpBtn">跳</button>
+        <button type="button" id="jumpRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="gate-room">
+        <h2>倍数门</h2>
+        <p id="gateInfo">小球掉进门会乘倍数。点门让 ×2 变成 ×4</p>
+        <div id="gateArena"></div>
+        <button type="button" class="sound-btn" id="gateDrop">再丢一颗</button>
+        <button type="button" id="gateRestart" class="sound-btn">再来一局</button>
+    </div>
+    <div class="quest-room">
+        <h2>小树大冒险</h2>
+        <p id="questInfo">点一座开着的岛出发。过一关，下一座才会亮</p>
+        <div id="questMap"></div>
+        <div id="questPlay" hidden>
+            <div id="questArena"></div>
+            <div id="questPad" class="quest-pad">
+                <button type="button" class="sound-btn" data-quest-dir="left">← 左</button>
+                <button type="button" class="sound-btn" data-quest-dir="right">右 →</button>
+            </div>
+        </div>
+        <button type="button" id="questRestart" class="sound-btn">回地图</button>
     </div>
     <div class="game-dock" id="gameDock">
-        <button type="button" class="dock-btn on" data-play="chess" id="dockChess">小树与小花</button>
-        <button type="button" class="dock-btn" data-play="match" id="dockMatch">开心消消乐</button>
-        <button type="button" class="dock-btn" data-play="memory" id="dockMemory">记忆翻牌</button>
-        <button type="button" class="dock-btn" data-play="tap" id="dockTap">点点乐</button>
-        <button type="button" class="dock-btn" data-play="rps" id="dockRps">剪刀石头布</button>
+        <div class="dock-packs" id="dockPacks">
+            <button type="button" class="dock-pack-btn" data-dock-pack="hands">动手</button>
+            <button type="button" class="dock-pack-btn" data-dock-pack="brain">动脑</button>
+            <button type="button" class="dock-pack-btn on" data-dock-pack="vs">对战</button>
+            <button type="button" class="dock-pack-btn" data-dock-pack="make">创作</button>
+            <button type="button" class="dock-pack-btn" data-dock-pack="big">大冒险</button>
+        </div>
+        <div class="dock-games" id="dockGames">
+            <button type="button" class="dock-btn" data-play="bubble" id="dockBubble">戳泡泡</button>
+            <button type="button" class="dock-btn" data-play="star" id="dockStar">接星星</button>
+            <button type="button" class="dock-btn on" data-play="chess" id="dockChess">小树与小花</button>
+            <button type="button" class="dock-btn" data-play="match" id="dockMatch">开心消消乐</button>
+            <button type="button" class="dock-btn" data-play="memory" id="dockMemory">记忆翻牌</button>
+            <button type="button" class="dock-btn" data-play="tap" id="dockTap">点点乐</button>
+            <button type="button" class="dock-btn" data-play="snake" id="dockSnake">小树吃星星</button>
+            <button type="button" class="dock-btn" data-play="mole" id="dockMole">敲树洞</button>
+            <button type="button" class="dock-btn" data-play="rps" id="dockRps">对决</button>
+            <button type="button" class="dock-btn" data-play="trust" id="dockTrust">信任小游戏</button>
+            <button type="button" class="dock-btn" data-play="piano" id="dockPiano">小树钢琴</button>
+            <button type="button" class="dock-btn" data-play="maze" id="dockMaze">走迷宫</button>
+            <button type="button" class="dock-btn" data-play="simon" id="dockSimon">跟灯走</button>
+            <button type="button" class="dock-btn" data-play="paint" id="dockPaint">涂色花园</button>
+            <button type="button" class="dock-btn" data-play="diff" id="dockDiff">找不同</button>
+            <button type="button" class="dock-btn" data-play="fruit" id="dockFruit">接果子</button>
+            <button type="button" class="dock-btn" data-play="calc" id="dockCalc">加法快答</button>
+            <button type="button" class="dock-btn" data-play="order" id="dockOrder">按顺序点</button>
+            <button type="button" class="dock-btn" data-play="dress" id="dockDress">换装小树</button>
+            <button type="button" class="dock-btn" data-play="race" id="dockRace">小树冲刺</button>
+            <button type="button" class="dock-btn" data-play="stack" id="dockStack">叠饼干</button>
+            <button type="button" class="dock-btn" data-play="count" id="dockCount">数星星</button>
+            <button type="button" class="dock-btn" data-play="color" id="dockColor">找颜色</button>
+            <button type="button" class="dock-btn" data-play="jump" id="dockJump">小树跳</button>
+            <button type="button" class="dock-btn" data-play="gate" id="dockGate">倍数门</button>
+            <button type="button" class="dock-btn" data-play="quest" id="dockQuest">小树大冒险</button>
+        </div>
     </div>
+    <div class="badge-toast" id="badgeToast" hidden></div>
     <div id="match-overlay" hidden>
         <div class="chess-card">
             <p id="match-overlay-title"></p>
@@ -1208,7 +2202,7 @@
         </div>
     </div>
     <div class="works">
-        <div class="works-title">千树的作品</div>
+        <div class="works-title">🎨 千树的作品</div>
         <div class="works-hi">点卡片打开作品</div>
         <div class="work" id="workLottery">随机抽奖</div>
         <div class="work" id="workSlider">随机轮播</div>
@@ -1277,6 +2271,7 @@
         <div id="colorHex">#ff8cc8</div>
     </div>
     </div>
+    <script src="difficulty.js"></script>
     <script>
         const homeBtn = document.getElementById("homeBtn");
         const aboutBtn = document.getElementById("aboutBtn");
@@ -1310,6 +2305,7 @@
             document.body.classList.remove("play");
             document.body.classList.remove("page-works");
             document.body.classList.remove("page-about");
+            document.body.classList.remove("show-about-look");
             document.body.classList.remove("page-notes");
             document.body.classList.remove("page-album");
             document.body.classList.remove("page-diary");
@@ -1326,7 +2322,28 @@
             document.body.classList.remove("now-match");
             document.body.classList.remove("now-memory");
             document.body.classList.remove("now-tap");
+            document.body.classList.remove("now-snake");
+            document.body.classList.remove("now-mole");
             document.body.classList.remove("now-rps");
+            document.body.classList.remove("now-bubble");
+            document.body.classList.remove("now-star");
+            document.body.classList.remove("now-trust");
+            document.body.classList.remove("now-piano");
+            document.body.classList.remove("now-maze");
+            document.body.classList.remove("now-simon");
+            document.body.classList.remove("now-paint");
+            document.body.classList.remove("now-diff");
+            document.body.classList.remove("now-fruit");
+            document.body.classList.remove("now-calc");
+            document.body.classList.remove("now-order");
+            document.body.classList.remove("now-dress");
+            document.body.classList.remove("now-race");
+            document.body.classList.remove("now-stack");
+            document.body.classList.remove("now-count");
+            document.body.classList.remove("now-color");
+            document.body.classList.remove("now-jump");
+            document.body.classList.remove("now-gate");
+            document.body.classList.remove("now-quest");
             const chessOverlay = document.getElementById("chess-overlay");
             if (chessOverlay) {
                 chessOverlay.hidden = true;
@@ -1595,10 +2612,69 @@
             hi.classList.add("show");
         };
 
-        const cards = document.querySelectorAll(".info");
-        for (let n = 0; n < cards.length; n = n + 1) {
-            cards[n].onclick = function () {
-                cards[n].classList.toggle("on");
+        const aboutLooks = {
+            sign: {
+                left: '<div class="look-pic"><div class="look-crab"><span class="leg a"></span><span class="leg b"></span><span class="leg c"></span><span class="leg d"></span><span class="eye a"></span><span class="eye b"></span><span class="claw a"></span><span class="claw b"></span><span class="shell"></span></div></div><div class="look-word">护短，也念家</div><p class="look-tip">巨蟹座常被说成顾家、记性好。对在意的人会记住很多小事；心情来了会先安静一会儿，但答应过的事不太会随手丢掉。</p>',
+                right: '<div class="look-pic"><div class="look-stars"><span class="line a"></span><span class="line b"></span><span class="line c"></span><span class="line d"></span><i></i><i></i><i></i><i></i><i></i></div></div><div class="look-word">外面稳，里面在意</div><p class="look-tip">星座名来自蟹座，不是说人长得像螃蟹，而是这种性格会护着自己的壳：不爱乱讲心事，却很在乎身边的人过得怎么样。</p>'
+            },
+            hobby: {
+                left: '<div class="look-pic">🏸</div><div class="look-word">上场就认真</div><p class="look-tip">羽毛球要脚步快、眼睛跟得上。他喜欢这种节奏：输了会不爽，但下一局还是会站回去，出汗之后脑子反而更清楚。</p>',
+                right: '<div class="look-pic">💻</div><div class="look-word">一个用来想，一个用来歇</div><p class="look-tip">编程是把想法拆成步骤，让电脑按他说的做。看电视是把脑子放下来。两件事分开，他就不会一直绷着，也不会一直空转。</p>'
+            },
+            gender: {
+                left: '<div class="look-pic">👦</div><div class="look-word">按自己的方式来</div><p class="look-tip">卡片上写的是男。他不拿这个当标签到处说，更在意自己会不会打球、会不会把程序写顺，以及别人有没有把他当回事。</p>',
+                right: '<div class="look-pic">🧢</div><div class="look-word">想做对，多于想被夸</div><p class="look-tip">上场会较真，卡住会烦，但很少装成什么都不在乎。把一件事做成他认得出的样子，比听一句「好厉害」更重要。</p>'
+            },
+            age: {
+                left: '<div class="look-pic">9️⃣</div><div class="look-word">九岁，正好能自己想</div><p class="look-tip">已经能记住规则，也会试着改规则。会顶嘴，也会卡住。学编程之后他发现：很多事不用一次做完，拆开就能继续往下做。</p>',
+                right: '<div class="look-pic">🎂</div><div class="look-word">不要被当成读本</div><p class="look-tip">九岁不是「还小所以随便说说」。他想让主页听起来像他自己：能讲清楚性格和选择，而不是用蜡烛根数来介绍一个人。</p>'
+            },
+            city: {
+                left: '<div class="look-pic">🏠</div><div class="look-word">家在淮安</div><p class="look-tip">运河从城里过，夏天热，放学后的路他闭着眼也认得。对别人是一座城，对他是每天要回去的地方，熟到不必写成风景介绍。</p>',
+                right: '<div class="look-pic">🌉</div><div class="look-word">出门打球，回家开机</div><p class="look-tip">有河、有桥、有球场。他不需要把家乡讲成明信片，只要这条路线还在：出得去活动，回得来把想法写进电脑。</p>'
+            },
+            family: {
+                left: '<div class="look-pic">👨‍👩‍👧</div><div class="look-word">有人盯着，也有人托底</div><p class="look-tip">爸爸会出题目、看进度；妈妈把日子稳住。他被管的时候会烦，但知道家里有人在看他往哪走，不是把他丢在一边自己长。</p>',
+                right: '<div class="look-pic">🧒</div><div class="look-word">这一页的主人</div><p class="look-tip">他是家里现在唯一的小孩，也是这个主页的主人。被关心是一回事，把自己讲清楚是另一回事——所以这些卡片才不只报姓名和年龄。</p>'
+            }
+        };
+        const aboutLookLeft = document.getElementById("aboutLookLeft");
+        const aboutLookRight = document.getElementById("aboutLookRight");
+        const aboutCards = document.querySelectorAll(".about-card");
+        function hideAboutLook() {
+            document.body.classList.remove("show-about-look");
+            setTimeout(function () {
+                if (!document.body.classList.contains("show-about-look")) {
+                    aboutLookLeft.innerHTML = "";
+                    aboutLookRight.innerHTML = "";
+                }
+            }, 800);
+        }
+        function showAboutLook(look) {
+            document.body.classList.remove("show-about-look");
+            aboutLookLeft.innerHTML = look.left;
+            aboutLookRight.innerHTML = look.right;
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    document.body.classList.add("show-about-look");
+                });
+            });
+        }
+        for (let n = 0; n < aboutCards.length; n = n + 1) {
+            aboutCards[n].onclick = function () {
+                const wasOn = aboutCards[n].classList.contains("on");
+                for (let i = 0; i < aboutCards.length; i = i + 1) {
+                    aboutCards[i].classList.remove("on");
+                }
+                if (wasOn) {
+                    hideAboutLook();
+                    return;
+                }
+                aboutCards[n].classList.add("on");
+                showAboutLook(aboutLooks[aboutCards[n].getAttribute("data-about")]);
+                if (typeof giveBadge === "function") {
+                    giveBadge("about-look");
+                }
             };
         }
 
@@ -1659,10 +2735,54 @@
         const bubbleColors = ["#ff8cc8", "#7ae0ff", "#ffe566", "#b8fff0", "#c9b6ff"];
         const bubbleArena = document.getElementById("bubbleArena");
         const bubbleScoreEl = document.getElementById("bubbleScore");
+        const bubbleBestEl = document.getElementById("bubbleBest");
         let bubbleScore = 0;
+        let bubbleBest = Number(localStorage.getItem("qs-home-bubble-best") || "0");
+
+        function paintBubbleScore(isNew) {
+            bubbleScoreEl.textContent = "本局 " + bubbleScore + " 分";
+            if (bubbleBestEl) {
+                bubbleBestEl.textContent = isNew ? "新纪录 " + bubbleBest + "！" : "最高 " + bubbleBest;
+            }
+        }
+        function startBubble() {
+            bubbleScore = 0;
+            if (bubbleArena) {
+                bubbleArena.innerHTML = "";
+            }
+            paintBubbleScore(false);
+        }
+        window.startBubble = startBubble;
+        const bubbleAgain = document.getElementById("bubbleRestart");
+        if (bubbleAgain) {
+            bubbleAgain.onclick = startBubble;
+        }
+        function addBubblePoint() {
+            bubbleScore = bubbleScore + 1;
+            let isNew = false;
+            if (bubbleScore > bubbleBest) {
+                bubbleBest = bubbleScore;
+                localStorage.setItem("qs-home-bubble-best", String(bubbleBest));
+                isNew = true;
+            }
+            paintBubbleScore(isNew);
+            if (typeof popNice === "function") {
+                popNice(isNew ? "新纪录！" : "啵！");
+            }
+            if (bubbleScore >= 10 && typeof giveBadge === "function") {
+                giveBadge("bubble-10");
+            }
+        }
+        paintBubbleScore(false);
 
         function gamesOpen() {
             return document.body.classList.contains("play");
+        }
+        function bubbleOpen() {
+            return gamesOpen() && document.body.classList.contains("now-bubble");
+        }
+        function starOpen() {
+            return gamesOpen() && document.body.classList.contains("now-star");
         }
 
         let audio;
@@ -1697,12 +2817,12 @@
         }
 
         function spawnBubble() {
-            if (!gamesOpen()) {
+            if (!bubbleOpen()) {
                 return;
             }
             const bubble = document.createElement("div");
             bubble.className = "bubble";
-            const size = 22 + Math.floor(Math.random() * 22);
+            const size = pickByLevel("bubble", [34, 24, 16, 12]) + Math.floor(Math.random() * pickByLevel("bubble", [16, 14, 10, 6]));
             const color = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
             bubble.style.width = size + "px";
             bubble.style.height = size + "px";
@@ -1714,9 +2834,9 @@
 
             let top = 88;
             const timer = setInterval(function () {
-                top = top - 0.6;
+                top = top - pickByLevel("bubble", [0.4, 0.6, 0.95, 1.35]);
                 bubble.style.top = top + "%";
-                if (top < -10 || !gamesOpen()) {
+                if (top < -10 || !bubbleOpen()) {
                     clearInterval(timer);
                     bubble.remove();
                 }
@@ -1725,18 +2845,66 @@
             bubble.onclick = function () {
                 clearInterval(timer);
                 bubble.remove();
-                bubbleScore = bubbleScore + 1;
-                bubbleScoreEl.textContent = bubbleScore + " 分";
+                addBubblePoint();
                 playBo();
             };
         }
 
-        setInterval(spawnBubble, 2000);
+        let lastBubbleAt = 0;
+        setInterval(function () {
+            const gap = pickByLevel("bubble", [2600, 2000, 1100, 650]);
+            if (Date.now() - lastBubbleAt >= gap) {
+                lastBubbleAt = Date.now();
+                spawnBubble();
+            }
+        }, 80);
 
         const starArena = document.getElementById("starArena");
         const paddle = document.getElementById("paddle");
         const starScoreEl = document.getElementById("starScore");
+        const starBestEl = document.getElementById("starBest");
         let starScore = 0;
+        let starBest = Number(localStorage.getItem("qs-home-star-best") || "0");
+
+        function paintStarScore(isNew) {
+            starScoreEl.textContent = "本局 " + starScore + " 分";
+            if (starBestEl) {
+                starBestEl.textContent = isNew ? "新纪录 " + starBest + "！" : "最高 " + starBest;
+            }
+        }
+        function startStar() {
+            starScore = 0;
+            const bits = starArena ? starArena.querySelectorAll(".star") : [];
+            for (let i = 0; i < bits.length; i++) {
+                bits[i].remove();
+            }
+            if (paddle) {
+                paddle.style.width = pickByLevel("star", [80, 56, 40, 28]) + "px";
+            }
+            paintStarScore(false);
+        }
+        window.startStar = startStar;
+        const starAgain = document.getElementById("starRestart");
+        if (starAgain) {
+            starAgain.onclick = startStar;
+        }
+        function addStarPoint() {
+            starScore = starScore + 1;
+            let isNew = false;
+            if (starScore > starBest) {
+                starBest = starScore;
+                localStorage.setItem("qs-home-star-best", String(starBest));
+                isNew = true;
+            }
+            paintStarScore(isNew);
+            if (typeof popNice === "function") {
+                popNice(isNew ? "新纪录！" : "接住！");
+            }
+            if (typeof noteStarCatch === "function") {
+                noteStarCatch();
+            }
+        }
+        paintStarScore(false);
         let paddleX = 70;
 
         function putPaddle() {
@@ -1744,20 +2912,29 @@
         }
         putPaddle();
 
-        starArena.onmousemove = function (event) {
+        function movePaddleTo(clientX) {
             const box = starArena.getBoundingClientRect();
-            paddleX = event.clientX - box.left - 28;
+            const padW = paddle.offsetWidth || 56;
+            paddleX = clientX - box.left - padW / 2;
             if (paddleX < 0) {
                 paddleX = 0;
             }
-            if (paddleX > box.width - 56) {
-                paddleX = box.width - 56;
+            if (paddleX > box.width - padW) {
+                paddleX = box.width - padW;
             }
             putPaddle();
+        }
+        starArena.onmousemove = function (event) {
+            movePaddleTo(event.clientX);
         };
+        document.addEventListener("qs-hand", function (event) {
+            if (starOpen()) {
+                movePaddleTo(event.detail.clientX);
+            }
+        });
 
         function spawnStar() {
-            if (!gamesOpen()) {
+            if (!starOpen()) {
                 return;
             }
             const star = document.createElement("div");
@@ -1768,7 +2945,7 @@
             starArena.appendChild(star);
 
             const timer = setInterval(function () {
-                y = y + 4;
+                y = y + pickByLevel("star", [3, 4, 6, 9]);
                 star.style.top = y + "px";
                 const starBox = star.getBoundingClientRect();
                 const padBox = paddle.getBoundingClientRect();
@@ -1778,24 +2955,42 @@
                 if (hit) {
                     clearInterval(timer);
                     star.remove();
-                    starScore = starScore + 1;
-                    starScoreEl.textContent = starScore + " 分";
+                    addStarPoint();
                     playDing();
-                } else if (y > starArena.clientHeight || !gamesOpen()) {
+                } else if (y > starArena.clientHeight || !starOpen()) {
                     clearInterval(timer);
                     star.remove();
                 }
             }, 30);
         }
 
-        setInterval(spawnStar, 900);
+        let lastStarAt = 0;
+        setInterval(function () {
+            const gap = pickByLevel("star", [1300, 900, 560, 360]);
+            if (Date.now() - lastStarAt >= gap) {
+                lastStarAt = Date.now();
+                spawnStar();
+            }
+        }, 80);
     </script>
     <script src="fit.js"></script>
     <script src="chess.js"></script>
     <script src="match3.js"></script>
+    <script src="game-dock.js"></script>
     <script src="extra-games.js"></script>
+    <script src="snake.js"></script>
+    <script src="mole.js"></script>
+    <script src="trust-game.js"></script>
     <script src="classroom.js"></script>
     <script src="classroom-extra.js"></script>
     <script src="fun.js"></script>
+    <script src="badges.js"></script>
+    <script src="flee.js"></script>
+    <script src="hand-play.js"></script>
+    <script src="new-games.js"></script>
+    <script src="multiply.js"></script>
+    <script src="quest.js"></script>
+    <script src="rooms-fun.js"></script>
+    <script src="page-extras.js"></script>
 </body>
 </html>

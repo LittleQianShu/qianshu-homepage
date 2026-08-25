@@ -203,6 +203,12 @@ function showMatchWin() {
     if (typeof playWinSound === "function") {
         playWinSound();
     }
+    if (typeof celebrateWin === "function") {
+        celebrateWin("胜利！");
+    }
+    if (typeof noteGameBest === "function") {
+        noteGameBest("match", matchScore);
+    }
 }
 
 function showMatchFail() {
@@ -480,6 +486,12 @@ function tryMatchSwap(from, to) {
             return;
         }
         cascadeMatch(0, function (total) {
+            if (total > 0 && typeof giveBadge === "function") {
+                giveBadge("match-first");
+                if (matchScore >= 200) {
+                    giveBadge("match-200");
+                }
+            }
             const tip = document.getElementById("matchTip");
             if (tip) {
                 tip.textContent = "消掉 " + total + " 个，上面滑下来了";
@@ -514,7 +526,7 @@ function cellAtPoint(x, y) {
 
 function showPlayGame(name) {
     hideMatchWin();
-    const games = ["chess", "match", "memory", "tap", "rps"];
+    const games = ["chess", "match", "memory", "tap", "rps", "trust", "bubble", "star", "snake", "mole"].concat(typeof NEW_PLAY_GAMES !== "undefined" ? NEW_PLAY_GAMES : []);
     for (let i = 0; i < games.length; i++) {
         document.body.classList.toggle("now-" + games[i], games[i] === name);
     }

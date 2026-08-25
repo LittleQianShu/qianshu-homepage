@@ -11,7 +11,7 @@
     let lastRoom = "home";
 
     function showScore() {
-        scoreEl.textContent = "积分 " + roomScore;
+        scoreEl.textContent = "⭐ 积分 " + roomScore;
     }
 
     function saveScore() {
@@ -100,7 +100,7 @@
     function applyTheme(isDay) {
         document.body.classList.toggle("theme-day", isDay);
         localStorage.setItem("qs-home-theme", isDay ? "day" : "night");
-        themeBtn.textContent = isDay ? "黑夜" : "白天";
+        themeBtn.textContent = isDay ? "🌙 黑夜" : "☀️ 白天";
     }
     applyTheme(localStorage.getItem("qs-home-theme") === "day");
     themeBtn.onclick = function () {
@@ -177,6 +177,9 @@
             guessTip.textContent = "对了！就是 " + secret + "，用了 " + guessTimes + " 次";
             roomScore += 3;
             saveScore();
+            if (typeof giveBadge === "function") {
+                giveBadge("guess-win");
+            }
         } else if (n > secret) {
             guessTip.textContent = n + " 大了（第 " + guessTimes + " 次）";
         } else {
@@ -184,6 +187,23 @@
         }
     };
     document.getElementById("guessNew").onclick = newGuess;
+    window.hintGuess = function () {
+        if (guessDone) {
+            guessTip.textContent = "已经对了，点再来一局";
+            return;
+        }
+        const mid = Math.ceil(guessMax / 2);
+        guessTip.textContent = secret <= mid
+            ? "提示：在 1～" + mid + " 里"
+            : "提示：在 " + (mid + 1) + "～" + guessMax + " 里";
+        if (typeof playTone === "function") {
+            playTone(640, 0.1);
+        }
+    };
+    window.startHomeTimer = startTimer;
+    window.applyGuessLevel = function () {
+        setGuessMax(pickByLevel("guess", [10, 20, 50, 100]));
+    };
     markMaxBtns();
 
     let left = 10;
@@ -213,8 +233,13 @@
             if (left <= 0) {
                 stopTimer();
                 timerTip.textContent = "时间到！";
-                if (typeof playDing === "function") {
+                if (typeof celebrateWin === "function") {
+                    celebrateWin("时间到！");
+                } else if (typeof playDing === "function") {
                     playDing();
+                }
+                if (typeof giveBadge === "function") {
+                    giveBadge("timer-done");
                 }
             }
         }, 1000);

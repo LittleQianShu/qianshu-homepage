@@ -362,11 +362,32 @@ function paint(board, current, over, resultText) {
 function fitChessBoard() {
     const room = document.querySelector(".chess-room");
     const boardEl = document.getElementById("chess-board");
+    const dock = document.getElementById("gameDock");
     if (!room || !boardEl) {
         return;
     }
-    const extra = 210;
-    const side = Math.max(280, Math.min(460, room.clientHeight - extra));
+    const dockH = dock && dock.offsetHeight ? dock.offsetHeight : 96;
+    room.style.paddingBottom = dockH + 14 + "px";
+    let chrome = 0;
+    const kids = room.children;
+    for (let i = 0; i < kids.length; i++) {
+        if (kids[i] === boardEl) {
+            continue;
+        }
+        const style = window.getComputedStyle(kids[i]);
+        if (style.display === "none") {
+            continue;
+        }
+        chrome += kids[i].offsetHeight;
+        chrome += parseFloat(style.marginTop) || 0;
+        chrome += parseFloat(style.marginBottom) || 0;
+    }
+    const box = window.getComputedStyle(room);
+    const padY = (parseFloat(box.paddingTop) || 0) + (parseFloat(box.paddingBottom) || 0);
+    const padX = (parseFloat(box.paddingLeft) || 0) + (parseFloat(box.paddingRight) || 0);
+    const availH = room.clientHeight - padY - chrome;
+    const availW = room.clientWidth - padX;
+    const side = Math.max(80, Math.min(460, availH, availW));
     boardEl.style.width = side + "px";
     boardEl.style.height = side + "px";
 }
@@ -410,6 +431,7 @@ function connectChess() {
             levelBtns[i].classList.toggle("on", levelBtns[i].getAttribute("data-level") === difficulty);
         }
         document.getElementById("chess-diff").hidden = playMode !== "computer";
+        fitChessBoard();
     }
 
     function markCurrentSize() {
@@ -441,6 +463,15 @@ function connectChess() {
                     ? "电脑赢了"
                     : sideName(won) + "赢了";
             playWinSound();
+            if (typeof celebrateWin === "function" && !(playMode === "computer" && won === COMPUTER)) {
+                celebrateWin(resultText);
+            }
+            if (playMode === "computer" && won === TREE && typeof giveBadge === "function") {
+                giveBadge("chess-first");
+                if (difficulty === "hard") {
+                    giveBadge("chess-hard");
+                }
+            }
         } else if (isDeadlock(board)) {
             over = true;
             resultText = "平局";
