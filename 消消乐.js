@@ -526,7 +526,7 @@ function cellAtPoint(x, y) {
 
 function showPlayGame(name) {
     hideMatchWin();
-    const games = ["chess", "match", "memory", "tap", "rps", "trust", "bubble", "star", "snake", "mole"].concat(typeof NEW_PLAY_GAMES !== "undefined" ? NEW_PLAY_GAMES : []);
+    const games = ["chess", "go", "match", "memory", "tap", "rps", "trust", "bubble", "star", "snake", "mole"].concat(typeof NEW_PLAY_GAMES !== "undefined" ? NEW_PLAY_GAMES : []);
     for (let i = 0; i < games.length; i++) {
         document.body.classList.toggle("now-" + games[i], games[i] === name);
     }

@@ -14,7 +14,7 @@
 
     const name = document.querySelector(".stage .name");
     const hi = document.querySelector(".stage .hi");
-    const hellos = ["你好主人", "千树在这儿！", "点我的名字会亮", "今天也要玩吗？", "森林报到！"];
+    const hellos = ["千树在这儿！", "点我的名字会亮", "今天也要玩吗？", "森林报到！"];
     if (name) {
         name.onclick = function () {
             if (hi) {

@@ -131,7 +131,6 @@ function connectPageExtras() {
         let albumTick = null;
         let albumI = 0;
         document.getElementById("albumPlay").onclick = function () {
-            const photos = album.querySelectorAll(".photo");
             if (albumTick) {
                 clearInterval(albumTick);
                 albumTick = null;
@@ -140,13 +139,19 @@ function connectPageExtras() {
             }
             this.textContent = "停一下";
             albumTick = setInterval(function () {
-                for (let i = 0; i < photos.length; i++) {
-                    photos[i].classList.toggle("album-on", i === albumI);
+                const now = album.querySelectorAll(".photo");
+                if (!now.length) {
+                    return;
                 }
-                if (photos[albumI] && typeof popNice === "function") {
-                    popNice(photos[albumI].textContent);
+                albumI = albumI % now.length;
+                for (let i = 0; i < now.length; i++) {
+                    now[i].classList.toggle("album-on", i === albumI);
                 }
-                albumI = (albumI + 1) % photos.length;
+                const label = now[albumI].querySelector(".photo-name");
+                if (typeof popNice === "function") {
+                    popNice(label ? label.textContent : now[albumI].textContent);
+                }
+                albumI = (albumI + 1) % now.length;
             }, 900);
         };
     }

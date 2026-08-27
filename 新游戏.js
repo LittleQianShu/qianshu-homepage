@@ -1,4 +1,4 @@
-const NEW_PLAY_GAMES = ["piano", "maze", "simon", "paint", "diff", "fruit", "calc", "order", "dress", "race", "stack", "count", "color", "jump", "gate", "quest"];
+const NEW_PLAY_GAMES = ["piano", "maze", "simon", "paint", "diff", "fruit", "calc", "order", "dress", "race", "stack", "count", "color", "jump", "gate", "duel", "quest"];
 
 function newGameOpen(name) {
     return document.body.classList.contains("play") &&
@@ -1115,8 +1115,8 @@ function paintJump() {
     }
     if (tip) {
         tip.textContent = jumpAlive
-            ? "点一下跳过石头 · 已跳过 " + jumpScore + " 块"
-            : "撞到了！再点一下重新跑";
+            ? "已跳过 " + jumpScore + " 块 · 最高 " + gameBest("jump") + " 块"
+            : "撞到了！本局 " + jumpScore + " 块 · 最高 " + gameBest("jump") + " 块。点跳或按空格再来";
     }
 }
 
@@ -1127,6 +1127,7 @@ function startJump() {
     rockX = 460;
     jumpScore = 0;
     jumpAlive = true;
+    paintGameBest("jump", false, " 块");
     paintJump();
     jumpTimer = setInterval(tickJump, 30);
 }
@@ -1196,6 +1197,9 @@ function startNewMiniGame(name) {
     if (name !== "gate" && typeof stopGate === "function") {
         stopGate();
     }
+    if (name !== "duel" && typeof stopDuel === "function") {
+        stopDuel();
+    }
     if (name !== "quest" && typeof stopQuestPlay === "function") {
         stopQuestPlay();
     }
@@ -1243,6 +1247,9 @@ function startNewMiniGame(name) {
     }
     if (name === "gate" && typeof startGate === "function") {
         startGate();
+    }
+    if (name === "duel" && typeof startDuel === "function") {
+        startDuel();
     }
     if (name === "quest" && typeof startQuest === "function") {
         startQuest();
@@ -1360,6 +1367,12 @@ function connectNewGames() {
     if (jumpBtn) {
         jumpBtn.onclick = doJump;
     }
+    document.addEventListener("keydown", function (event) {
+        if ((event.key === " " || event.key === "ArrowUp") && newGameOpen("jump")) {
+            event.preventDefault();
+            doJump();
+        }
+    });
     const againMap = [
         ["pianoRestart", startPiano],
         ["paintRestart", startPaint],
@@ -1399,6 +1412,7 @@ function connectNewGames() {
     ensureBestEl("color", "colorInfo", " 次");
     ensureBestEl("jump", "jumpInfo", " 块");
     ensureBestEl("gate", "gateInfo");
+    ensureBestEl("duel", "duelInfo");
     ensureBestEl("quest", "questInfo", " 关");
 }
 

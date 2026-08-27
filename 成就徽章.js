@@ -4,6 +4,7 @@ const BADGE_DEFS = [
     { id: "star-10", name: "初见流星", how: "接星星累计接到 10 个", mark: "✨", game: "star" },
     { id: "star-50", name: "星星捕手", how: "接星星累计接到 50 个", mark: "⭐", game: "star" },
     { id: "chess-first", name: "小树出征", how: "五子棋赢电脑一盘", mark: "🌱", game: "chess" },
+    { id: "go-first", name: "第一盘围棋", how: "下完一盘围棋", mark: "⚪", game: "go" },
     { id: "chess-hard", name: "棋艺大师", how: "五子棋困难模式赢电脑", mark: "🌲", game: "chess" },
     { id: "memory-first", name: "好记性", how: "记忆翻牌找出全部配对", mark: "🧠", game: "memory" },
     { id: "tap-20", name: "点点新手", how: "点点乐一局点到 20 次", mark: "👆", game: "tap" },
@@ -41,8 +42,9 @@ const BADGE_DEFS = [
     { id: "color-8", name: "色感开了", how: "找颜色对 8 次", mark: "🌈", game: "color" },
     { id: "jump-first", name: "第一跳", how: "小树跳跳过一块石头", mark: "🦘", game: "jump" },
     { id: "jump-5", name: "连跳五块", how: "小树跳一局跳过 5 块石头", mark: "🌲", game: "jump" },
-    { id: "gate-first", name: "第一道门", how: "倍数门里球第一次落到篮子", mark: "×", game: "gate" },
+    { id: "gate-first", name: "第一次弹跳", how: "倍数门里小球第一次碰到技能", mark: "×", game: "gate" },
     { id: "gate-1m", name: "百万收成", how: "倍数门一局收到 100 万", mark: "💥", game: "gate" },
+    { id: "duel-first", name: "对决赢了", how: "圆圈对决里让对方颜色消失", mark: "🟣", game: "duel" },
     { id: "quest-first", name: "踏上旅途", how: "小树大冒险过第一关", mark: "🗺️", game: "quest" },
     { id: "quest-end", name: "走到尽头", how: "小树大冒险打完第五关", mark: "👑", game: "quest" }
 ];

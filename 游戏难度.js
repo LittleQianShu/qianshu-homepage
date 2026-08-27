@@ -54,6 +54,7 @@ function restartByLevel(name) {
         color: window.startColor,
         jump: window.startJump,
         gate: window.startGate,
+        duel: window.startDuel,
         quest: window.startQuest,
         guess: window.applyGuessLevel
     }[name];
@@ -122,6 +123,7 @@ function bootGameLevels() {
         ["color-room", "color"],
         ["jump-room", "jump"],
         ["gate-room", "gate"],
+        ["duel-room", "duel"],
         ["quest-room", "quest"],
         ["guess-room", "guess"]
     ];

@@ -28,7 +28,17 @@ const classroom = {
                     ["4 + 9 = ?", "13"],
                     ["3 + 8 + 5 = ?", "16"],
                     ["9 + 4 + 6 = ?", "19"],
-                    ["6 + 7 + 5 = ?", "18"]
+                    ["6 + 7 + 5 = ?", "18"],
+                    ["2 + 9 = ?", "11"],
+                    ["10 + 8 = ?", "18"],
+                    ["7 + 7 = ?", "14"],
+                    ["6 + 9 = ?", "15"],
+                    ["4 + 8 = ?", "12"],
+                    ["1 + 19 = ?", "20"],
+                    ["11 + 6 = ?", "17"],
+                    ["13 + 5 = ?", "18"],
+                    ["8 + 3 + 4 = ?", "15"],
+                    ["9 + 2 + 8 = ?", "19"]
                 ],
                 "20以内减法": [
                     ["15 - 8 = ?", "7"],
@@ -40,7 +50,17 @@ const classroom = {
                     ["18 - 9 = ?", "9"],
                     ["11 - 4 = ?", "7"],
                     ["20 - 8 - 5 = ?", "7"],
-                    ["19 - 6 - 7 = ?", "6"]
+                    ["19 - 6 - 7 = ?", "6"],
+                    ["10 - 3 = ?", "7"],
+                    ["12 - 5 = ?", "7"],
+                    ["16 - 7 = ?", "9"],
+                    ["20 - 11 = ?", "9"],
+                    ["9 - 2 = ?", "7"],
+                    ["18 - 10 = ?", "8"],
+                    ["14 - 6 = ?", "8"],
+                    ["13 - 8 = ?", "5"],
+                    ["17 - 9 - 2 = ?", "6"],
+                    ["15 - 5 - 4 = ?", "6"]
                 ],
                 "认识图形": [
                     ["三角形有几条边？", "3 条"],
@@ -52,7 +72,17 @@ const classroom = {
                     ["长方体有几条棱？", "12 条"],
                     ["哪个图形可以滚动？圆还是三角形？", "圆"],
                     ["五角星通常有几个角？", "5 个"],
-                    ["圆柱上下两个面是什么形状？", "圆"]
+                    ["圆柱上下两个面是什么形状？", "圆"],
+                    ["长方形有几条边？", "4 条"],
+                    ["正方形四条边一样长吗？", "一样长"],
+                    ["三角形最少有几个角？", "3 个"],
+                    ["球有棱吗？", "没有"],
+                    ["五边形有几条边？", "5 条"],
+                    ["长方形的对边怎么样？", "相等"],
+                    ["正方体有几条棱？", "12 条"],
+                    ["圆能滚动吗？", "能"],
+                    ["梯形看起来有几条边？", "4 条"],
+                    ["六边形有几条边？", "6 条"]
                 ]
             }),
             "二年级": pack({
@@ -661,7 +691,17 @@ const specialLevelQuiz = {
             ["4 × 25 × 3 = ?", "300"],
             ["8 × 125 = ?", "1000"],
             ["20 × 5 = ?", "100"],
-            ["25 × 4 × 1 = ?", "100"]
+            ["25 × 4 × 1 = ?", "100"],
+            ["10 × 10 = ?", "100"],
+            ["5 × 20 = ?", "100"],
+            ["2 × 50 = ?", "100"],
+            ["4 × 25 = ?", "100"],
+            ["8 × 5 = ?", "40"],
+            ["125 × 4 = ?", "500"],
+            ["25 × 2 = ?", "50"],
+            ["20 × 4 = ?", "80"],
+            ["50 × 2 = ?", "100"],
+            ["8 × 25 = ?", "200"]
         ],
         "困难": [
             ["25 × 24 × 4 = ?", "2400"],
@@ -706,40 +746,157 @@ function wordCode(text) {
     return n;
 }
 
-function makeLevelQuiz(schoolKey, year, topic, level) {
-    const special = specialLevelQuiz[topic];
-    if (special && special[level]) {
-        return packRows(special[level]);
+const QUIZ_NEED = 20;
+
+function levelStep(level) {
+    if (level === "简单") {
+        return 0;
     }
-    const n = wordCode(schoolKey + year + topic + level);
+    if (level === "普通") {
+        return 1;
+    }
+    if (level === "困难") {
+        return 2;
+    }
+    return 3;
+}
+
+function makeTopicBits(topic, level, seed, need) {
     const rows = [];
-    for (let i = 0; i < 10; i++) {
-        const k = (n + i * 7) % 40;
-        if (level === "简单") {
-            const a = 2 + (k % 8);
-            const b = 2 + ((k + 3) % 8);
-            rows.push({ q: topic + "： " + a + " + " + b + " = ?", a: String(a + b) });
-        } else if (level === "困难") {
-            const a = 12 + (k % 20);
-            const b = 6 + (k % 9);
-            const c = 3 + (k % 5);
-            rows.push({ q: topic + "： " + a + " × " + b + " − " + c + " = ?", a: String(a * b - c) });
-        } else {
-            const a = 20 + (k % 30);
-            const b = 4 + (k % 8);
-            const c = 2 + (k % 6);
-            rows.push({ q: topic + "： (" + a + " + " + b + ") × " + c + " = ?", a: String((a + b) * c) });
+    const step = levelStep(level);
+    for (let i = 0; i < need + 12; i++) {
+        const k = (seed + i * 11) % 90;
+        let q = "";
+        let a = "";
+        if (/加法|凑十/.test(topic)) {
+            const max = [10, 16, 40, 80][step];
+            const x = 1 + (k % max);
+            const y = 1 + ((k + 3) % max);
+            if (step >= 2) {
+                const z = 1 + ((k + 7) % max);
+                q = x + " + " + y + " + " + z + " = ?";
+                a = String(x + y + z);
+            } else {
+                q = x + " + " + y + " = ?";
+                a = String(x + y);
+            }
+        } else if (/减法/.test(topic)) {
+            const max = [12, 20, 50, 90][step];
+            const x = 8 + (k % max);
+            const y = 1 + ((k + 2) % Math.min(x, [9, 12, 30, 50][step]));
+            if (step >= 2) {
+                const z = 1 + ((k + 5) % 9);
+                q = x + " − " + y + " − " + z + " = ?";
+                a = String(x - y - z);
+            } else {
+                q = x + " − " + y + " = ?";
+                a = String(x - y);
+            }
+        } else if (/除法/.test(topic)) {
+            const y = [2 + (k % 5), 2 + (k % 9), 3 + (k % 12), 4 + (k % 16)][step];
+            const times = [2 + ((k + 1) % 6), 2 + ((k + 1) % 9), 3 + ((k + 1) % 12), 4 + ((k + 1) % 15)][step];
+            const x = y * times;
+            q = x + " ÷ " + y + " = ?";
+            a = String(times);
+        } else if (/乘法|乘除|表内乘/.test(topic)) {
+            const x = [2 + (k % 5), 2 + (k % 9), 6 + (k % 12), 8 + (k % 20)][step];
+            const y = [2 + ((k + 2) % 5), 2 + ((k + 2) % 9), 6 + ((k + 2) % 12), 8 + ((k + 2) % 20)][step];
+            if (step >= 3) {
+                const z = 2 + ((k + 4) % 8);
+                q = x + " × " + y + " × " + z + " = ?";
+                a = String(x * y * z);
+            } else {
+                q = x + " × " + y + " = ?";
+                a = String(x * y);
+            }
+        } else if (/周长/.test(topic)) {
+            const s = [3 + (k % 8), 5 + (k % 12), 8 + (k % 16), 12 + (k % 20)][step];
+            q = "边长 " + s + " 厘米的正方形周长？";
+            a = String(s * 4) + " 厘米";
+        } else if (/比大小/.test(topic)) {
+            const span = [12, 20, 40, 80][step];
+            const x = 2 + (k % span);
+            const y = 2 + ((k + 5) % span);
+            q = x + " ○ " + y + "，中间填 >、< 还是 =？";
+            a = x > y ? ">" : (x < y ? "<" : "=");
+        } else if (/认识图形/.test(topic)) {
+            const bits = [
+                ["长方形有几条边？", "4 条"],
+                ["正方形的四条边一样长吗？", "一样长"],
+                ["圆能用几条边围起来？", "没有直边"],
+                ["三角形最少有几个角？", "3 个"],
+                ["正方体看起来有几个面？", "6 个"],
+                ["球有棱吗？", "没有"],
+                ["长方形的对边怎么样？", "相等"],
+                ["梯形至少有几组平行边？", "1 组"],
+                ["五边形有几条边？", "5 条"],
+                ["圆柱上下一样粗吗？", "一样粗"]
+            ];
+            const pick = bits[k % bits.length];
+            q = pick[0];
+            a = pick[1];
+        }
+        if (q) {
+            rows.push({ q: q, a: a });
         }
     }
     return rows;
 }
 
+function growTopicQuiz(base, topic, level, seed) {
+    const seen = {};
+    const out = [];
+    function add(row) {
+        if (!row || seen[row.q]) {
+            return;
+        }
+        seen[row.q] = true;
+        out.push(row);
+    }
+    const start = base || [];
+    for (let i = 0; i < start.length; i++) {
+        add(start[i]);
+    }
+    const extra = makeTopicBits(topic, level, seed, QUIZ_NEED);
+    for (let i = 0; i < extra.length && out.length < QUIZ_NEED; i++) {
+        add(extra[i]);
+    }
+    return out;
+}
+
+const LEVEL_TOPIC_EXTRA = {
+    "简单": ["口算热身", "基础小练"],
+    "普通": ["综合小练", "对比练习"],
+    "困难": ["多步应用", "巧算专练"],
+    "超难": ["压轴挑战", "竞赛思维"]
+};
+
+function yearTopicNames(schoolKey, year, level) {
+    const all = Object.keys((classroom[schoolKey].topics[year] || {}));
+    const extra = LEVEL_TOPIC_EXTRA[level] || [];
+    const names = all.slice();
+    for (let i = 0; i < extra.length; i++) {
+        if (names.indexOf(extra[i]) < 0) {
+            names.push(extra[i]);
+        }
+    }
+    return names;
+}
+
 function getTopicQuiz(schoolKey, year, topic, level) {
     const base = classroom[schoolKey].topics[year][topic];
-    if (level === "普通") {
-        return base;
+    if (base && base.length) {
+        return base.slice();
     }
-    return makeLevelQuiz(schoolKey, year, topic, level);
+    const names = Object.keys(classroom[schoolKey].topics[year] || {});
+    const rows = [];
+    for (let i = 0; i < names.length; i++) {
+        const list = classroom[schoolKey].topics[year][names[i]] || [];
+        for (let j = 0; j < list.length && rows.length < 20; j++) {
+            rows.push(list[j]);
+        }
+    }
+    return rows;
 }
 
 function countSchoolTopics(school) {
@@ -815,14 +972,14 @@ function connectClassroom() {
             btn.setAttribute("data-level", lessonLevels[i]);
             levelsBox.appendChild(btn);
         }
+        showTopics("简单");
     }
 
     function showTopics(level) {
         levelName = level;
         topicName = "";
-        const topics = classroom[schoolKey].topics[yearName];
-        const names = Object.keys(topics);
-        title.textContent = classroom[schoolKey].name + " · " + yearName + " · " + level + "　再选专题（" + names.length + " 个）";
+        const names = yearTopicNames(schoolKey, yearName, level);
+        title.textContent = level + "的全部专题（" + names.length + " 个）· " + classroom[schoolKey].name + " · " + yearName + "　先点专题，不要急着做题";
         topicsBox.innerHTML = "";
         quizBox.innerHTML = "";
         const levelBtns = levelsBox.querySelectorAll(".lesson-level");

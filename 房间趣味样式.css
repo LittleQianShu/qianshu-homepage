@@ -80,6 +80,9 @@ body.theme-day .nav button.on {
     gap: 8px;
     margin: 10px auto;
     max-width: 560px;
+    pointer-events: auto;
+    position: relative;
+    z-index: 4;
 }
 .page-extra .sound-btn,
 .mood-chip {
@@ -96,7 +99,7 @@ body.theme-day .nav button.on {
 }
 .spark-bit {
     position: absolute;
-    z-index: 6;
+    z-index: 2;
     pointer-events: none;
     font-size: 22px;
     animation: sparkFall 1.2s ease-out forwards;
