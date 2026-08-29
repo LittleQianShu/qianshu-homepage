@@ -3,7 +3,8 @@
     const themeBtn = document.getElementById("themeBtn");
     const guessBtn = document.getElementById("guessBtn");
     const timerBtn = document.getElementById("timerBtn");
-    if (!scoreEl || !themeBtn || !guessBtn || !timerBtn) {
+    const parkBtn = document.getElementById("parkBtn");
+    if (!scoreEl || !themeBtn || !guessBtn || !timerBtn || !parkBtn) {
         return;
     }
 
@@ -45,6 +46,7 @@
             rawClear();
             document.body.classList.remove("page-guess");
             document.body.classList.remove("page-timer");
+            document.body.classList.remove("page-park");
         };
     }
 
@@ -84,6 +86,16 @@
         }
     }
 
+    function openPark() {
+        addRoomPoint("park");
+        clearRooms();
+        document.body.classList.add("page-park");
+        lightNav(parkBtn);
+        if (typeof startPark === "function") {
+            startPark();
+        }
+    }
+
     homeBtn.onclick = openHome;
     aboutBtn.onclick = openAbout;
     worksBtn.onclick = openWorks;
@@ -96,6 +108,8 @@
     gameBtn.onclick = openGames;
     guessBtn.onclick = openGuess;
     timerBtn.onclick = openTimer;
+    parkBtn.onclick = openPark;
+    window.openPark = openPark;
 
     function applyTheme(isDay) {
         document.body.classList.toggle("theme-day", isDay);

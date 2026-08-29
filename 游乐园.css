@@ -1,0 +1,530 @@
+body.page-park #pageFit .park-room,
+body.page-park #pageFit .park-room h2,
+body.page-park #pageFit .park-room h3,
+body.page-park #pageFit .park-room p,
+body.page-park #pageFit .park-room span,
+body.page-park #pageFit .park-room strong,
+body.page-park #pageFit .park-room button,
+body.page-park #pageFit .park-room .park-name,
+body.page-park #pageFit .park-room .park-tip,
+body.page-park #pageFit .park-room .park-tickets,
+body.page-park #pageFit .park-room .park-help,
+body.page-park #pageFit .park-room .park-dock,
+body.page-park #pageFit .park-room .park-iso-name {
+    color: #000 !important;
+    text-shadow: none;
+}
+
+.park-room {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    color: #000;
+    background: linear-gradient(#8ec8ff 0%, #c4e4ff 38%, #ffe7c2 72%, #ffb7c5 100%);
+}
+body.page-park .park-room { display: block; }
+body.page-park .stage { display: none; }
+
+.park-view {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 70px;
+    bottom: 78px;
+    overflow: hidden;
+}
+
+.park-world {
+    position: absolute;
+    inset: 6px;
+}
+
+.park-ground {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 22% 28%, #ffd1e0 0 18px, transparent 19px),
+        radial-gradient(circle at 70% 22%, #ffd1e0 0 14px, transparent 15px),
+        radial-gradient(circle at 40% 80%, #ffd1e0 0 16px, transparent 17px),
+        radial-gradient(ellipse at 50% 50%, #ffe7a8 0 90px, transparent 140px),
+        linear-gradient(#f6d48a, #f6d48a) 50% 50% / 5% 100% no-repeat,
+        linear-gradient(#f6d48a, #f6d48a) 50% 50% / 100% 6% no-repeat,
+        linear-gradient(#62d4ee, #3bb8d6) 78% 40% / 22% 26% no-repeat,
+        repeating-linear-gradient(90deg, #7fe07a 0 40px, #6fd06a 40px 80px);
+    border: 6px solid #4aaa55;
+}
+
+.park-iso {
+    position: absolute;
+    width: 86px;
+    height: 108px;
+    margin-left: -43px;
+    margin-top: -92px;
+    cursor: pointer;
+    filter: drop-shadow(3px 4px 0 rgba(42, 26, 18, 0.16));
+}
+.park-iso.is-deco { pointer-events: none; width: 48px; height: 62px; margin-left: -24px; margin-top: -58px; }
+.park-iso-art {
+    position: relative;
+    width: 72px;
+    height: 78px;
+    margin: 0 auto;
+}
+.park-iso-name {
+    display: block;
+    margin-top: 4px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: #000;
+    background: #fff;
+    border: 2px solid #000;
+    line-height: 1.3;
+}
+
+.park-iso[data-kind="wheel"] .park-iso-art {
+    width: 74px;
+    height: 74px;
+    border: 4px solid #2a1a12;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle, #fff 7px, transparent 8px),
+        repeating-conic-gradient(#ff6b9d 0 18deg, #ffe566 18deg 36deg);
+    box-shadow: 0 10px 0 #2a1a12;
+}
+.park-iso[data-kind="drop"] .park-iso-art {
+    width: 22px;
+    height: 86px;
+    background: linear-gradient(#ff5a7a, #c81e44);
+    border: 3px solid #2a1a12;
+    border-radius: 8px 8px 2px 2px;
+}
+.park-iso[data-kind="hammer"] .park-iso-art {
+    width: 70px;
+    height: 70px;
+    background: #5b4dff;
+    border: 3px solid #2a1a12;
+    border-radius: 50% 50% 12px 12px;
+}
+.park-iso[data-kind="pirate"] .park-iso-art {
+    width: 84px;
+    height: 40px;
+    margin-top: 28px;
+    background: #c47a3a;
+    border: 3px solid #2a1a12;
+    border-radius: 40% 40% 8px 8px;
+}
+.park-iso[data-kind="dragon"] .park-iso-art {
+    width: 88px;
+    height: 28px;
+    margin-top: 36px;
+    background: #7a8cff;
+    border: 3px solid #2a1a12;
+    border-radius: 20px;
+    transform: rotate(-18deg);
+}
+.park-iso[data-kind="flume"] .park-iso-art,
+.park-iso[data-kind="raft"] .park-iso-art {
+    width: 70px;
+    height: 36px;
+    margin-top: 30px;
+    background: #3ec7e8;
+    border: 3px solid #2a1a12;
+    border-radius: 18px;
+}
+.park-iso[data-kind="fly"] .park-iso-art {
+    width: 80px;
+    height: 52px;
+    margin-top: 16px;
+    background: #fff3c4;
+    border: 3px solid #2a1a12;
+    border-radius: 10px 10px 4px 4px;
+}
+.park-iso[data-kind="dino"] .park-iso-art {
+    width: 76px;
+    height: 54px;
+    margin-top: 16px;
+    background: #8fbf5a;
+    border: 3px solid #2a1a12;
+    border-radius: 16px 16px 6px 6px;
+}
+.park-iso[data-kind="space"] .park-iso-art {
+    width: 24px;
+    height: 82px;
+    background: linear-gradient(#fff, #b9c8ff);
+    border: 3px solid #2a1a12;
+    border-radius: 12px 12px 2px 2px;
+}
+.park-iso[data-kind="horse"] .park-iso-art {
+    width: 64px;
+    height: 64px;
+    border: 3px solid #2a1a12;
+    border-radius: 50%;
+    background: repeating-conic-gradient(#ff8cc8 0 20deg, #ffe566 20deg 40deg);
+}
+.park-iso[data-kind="bumper"] .park-iso-art {
+    width: 70px;
+    height: 36px;
+    margin-top: 30px;
+    background: #ff9f43;
+    border: 3px solid #2a1a12;
+    border-radius: 18px;
+}
+.park-iso[data-kind="shoot"] .park-iso-art {
+    width: 64px;
+    height: 48px;
+    margin-top: 20px;
+    background: #ff6b6b;
+    border: 3px solid #2a1a12;
+    border-radius: 8px;
+}
+.park-iso[data-kind="gate"] .park-iso-art {
+    width: 90px;
+    height: 54px;
+    margin-top: 10px;
+    background: #ff4d6d;
+    border: 4px solid #2a1a12;
+    border-radius: 6px 6px 0 0;
+}
+.park-iso[data-kind="tree"] .park-iso-art {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #ff9ec8;
+    border: 3px solid #2a1a12;
+    box-shadow: 0 18px 0 -14px #8b4a2b;
+}
+
+.park-dock {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    height: 92px;
+    box-sizing: border-box;
+    padding: 10px 16px 12px;
+    background: #fff6e8;
+    border-top: 3px solid #000;
+    text-align: left;
+}
+.park-name {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+.park-tip,
+.park-tickets,
+.park-help {
+    margin: 2px 0 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: #000;
+}
+
+.park-stage {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    z-index: 6;
+    width: 520px;
+    max-width: 86%;
+    transform: translate(-50%, -50%);
+    padding: 16px 12px 18px;
+    border: 2px solid #000;
+    background: #fff;
+    color: #000;
+    text-align: center;
+}
+.park-stage.is-open { display: block; }
+.park-stage-close {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    border: 2px solid #000;
+    background: #eee;
+    color: #000;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.park-fx {
+    position: relative;
+    height: 220px;
+    margin: 28px auto 10px;
+    overflow: hidden;
+    border: 2px solid #000;
+    background: #d0d5d8;
+}
+
+.park-wheel-wrap {
+    width: 180px;
+    height: 180px;
+    margin: 16px auto 0;
+    position: relative;
+}
+.park-wheel {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 6px solid #000;
+    background:
+        radial-gradient(circle at center, #000 0 8px, transparent 9px),
+        repeating-conic-gradient(#c8c8c8 0 20deg, #8a8a8a 20deg 40deg);
+}
+.park-wheel.spin { animation: park-spin 5s linear infinite; }
+.park-cab {
+    position: absolute;
+    left: 50%;
+    top: 8px;
+    width: 28px;
+    height: 28px;
+    margin-left: -14px;
+    border: 2px solid #000;
+    background: #fff;
+    font-size: 16px;
+    line-height: 24px;
+}
+.park-pole {
+    width: 8px;
+    height: 48px;
+    margin: 0 auto;
+    background: #000;
+}
+
+.park-horse {
+    font-size: 72px;
+    margin: 36px 0 0;
+}
+.park-horse.bounce { animation: park-bounce 0.85s ease-in-out infinite; }
+
+.park-track {
+    position: relative;
+    height: 200px;
+    background: linear-gradient(#9aa3aa 0 70%, #5a5a5a 70%);
+}
+.park-rail {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40%;
+    height: 6px;
+    background: #000;
+    transform: rotate(-12deg);
+}
+.park-cart {
+    position: absolute;
+    left: -70px;
+    top: 38%;
+    font-size: 36px;
+}
+.park-cart.run { animation: park-coaster 2.1s ease-in 1; }
+
+.park-tower {
+    width: 46px;
+    height: 190px;
+    margin: 12px auto 0;
+    background: repeating-linear-gradient(#2b2b2b 0 10px, #111 10px 14px);
+    border: 2px solid #000;
+    position: relative;
+}
+.park-drop {
+    position: absolute;
+    left: 4px;
+    right: 4px;
+    top: 8px;
+    height: 28px;
+    background: #c00;
+    border: 2px solid #000;
+    color: #000;
+    font-size: 12px;
+    font-weight: 700;
+}
+.park-drop.fall { animation: park-drop 1.3s ease-in 1; }
+
+.park-hammer {
+    width: 16px;
+    height: 150px;
+    margin: 40px auto 0;
+    background: #222;
+    transform-origin: top center;
+}
+.park-hammer.swing { animation: park-swing 1.6s ease-in-out infinite; }
+.park-hammer::after {
+    content: "";
+    display: block;
+    width: 70px;
+    height: 28px;
+    margin: 122px -27px 0;
+    background: #111;
+    border: 2px solid #000;
+}
+
+.park-ship {
+    font-size: 80px;
+    margin-top: 50px;
+    display: inline-block;
+    transform-origin: 50% 90%;
+}
+.park-ship.rock { animation: park-rock 1.4s ease-in-out infinite; }
+
+.park-water {
+    height: 200px;
+    background: linear-gradient(#8aa3b0, #3d5a66);
+    position: relative;
+}
+.park-water::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40%;
+    background: #2a4450;
+}
+.park-boat {
+    position: absolute;
+    left: -40px;
+    top: 30%;
+    font-size: 40px;
+}
+.park-boat.flume { animation: park-flume 2.4s ease-in 1; }
+.park-boat.raft { animation: park-raft 2.8s linear infinite; }
+
+.park-sky {
+    height: 200px;
+    background: linear-gradient(#7d93a6, #c5cdd3);
+    position: relative;
+    overflow: hidden;
+}
+.park-plane {
+    position: absolute;
+    left: 8%;
+    top: 38%;
+    font-size: 42px;
+}
+.park-plane.fly { animation: park-fly 2.2s ease-out 1; }
+
+.park-dark {
+    height: 200px;
+    background: #111;
+    position: relative;
+}
+.park-dino {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%) scale(0.4);
+    font-size: 90px;
+    opacity: 0;
+}
+.park-dino.roar { animation: park-roar 1.8s ease 1; }
+
+.park-pad {
+    height: 200px;
+    background: #1a1a1a;
+    position: relative;
+}
+.park-rocket {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    margin-left: -24px;
+    font-size: 48px;
+}
+.park-rocket.launch { animation: park-launch 1.8s ease-in 1; }
+
+.park-arena {
+    height: 200px;
+    background: #cfcfcf;
+    position: relative;
+}
+.park-car {
+    position: absolute;
+    top: 70px;
+    font-size: 40px;
+}
+.park-car.a { left: 12%; }
+.park-car.b { right: 12%; }
+.park-car.a.hit { animation: park-hit-l 1s ease-in 1; }
+.park-car.b.hit { animation: park-hit-r 1s ease-in 1; }
+
+.park-targets {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 28px 8px;
+}
+.park-target {
+    width: 64px;
+    height: 64px;
+    border: 3px solid #000;
+    border-radius: 50%;
+    background: repeating-radial-gradient(circle, #fff 0 8px, #c00 8px 16px);
+    color: #000;
+    font-weight: 700;
+    cursor: pointer;
+}
+.park-target.down { visibility: hidden; }
+
+@keyframes park-spin { to { transform: rotate(360deg); } }
+@keyframes park-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-22px); }
+}
+@keyframes park-coaster {
+    0% { left: -70px; top: 18%; }
+    40% { left: 40%; top: 8%; }
+    70% { left: 68%; top: 48%; }
+    100% { left: 110%; top: 28%; }
+}
+@keyframes park-drop {
+    0% { top: 8px; }
+    70% { top: 150px; }
+    85% { top: 138px; }
+    100% { top: 150px; }
+}
+@keyframes park-swing {
+    0%, 100% { transform: rotate(-55deg); }
+    50% { transform: rotate(55deg); }
+}
+@keyframes park-rock {
+    0%, 100% { transform: rotate(-18deg); }
+    50% { transform: rotate(18deg); }
+}
+@keyframes park-flume {
+    0% { left: -40px; top: 18%; }
+    45% { left: 42%; top: 12%; }
+    70% { left: 58%; top: 62%; }
+    100% { left: 110%; top: 58%; }
+}
+@keyframes park-raft {
+    0% { left: -30px; top: 48%; }
+    50% { left: 45%; top: 40%; }
+    100% { left: 110%; top: 52%; }
+}
+@keyframes park-fly {
+    0% { transform: scale(0.4) translateY(20px); opacity: 0.4; }
+    100% { transform: scale(1.4) translate(40px, -30px); opacity: 1; }
+}
+@keyframes park-roar {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+    40% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0.2; transform: translate(-50%, -40%) scale(1.1); }
+}
+@keyframes park-launch {
+    0% { bottom: 12px; }
+    100% { bottom: 220px; }
+}
+@keyframes park-hit-l {
+    0% { left: 12%; }
+    100% { left: 38%; }
+}
+@keyframes park-hit-r {
+    0% { right: 12%; }
+    100% { right: 38%; }
+}

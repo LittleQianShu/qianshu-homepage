@@ -1,4 +1,4 @@
-const NEW_PLAY_GAMES = ["piano", "maze", "simon", "paint", "diff", "fruit", "calc", "order", "dress", "race", "stack", "count", "color", "jump", "gate", "duel", "quest"];
+const NEW_PLAY_GAMES = ["piano", "maze", "simon", "paint", "diff", "fruit", "calc", "order", "dress", "race", "stack", "count", "color", "jump", "gate", "quest"];
 
 function newGameOpen(name) {
     return document.body.classList.contains("play") &&
@@ -1197,9 +1197,6 @@ function startNewMiniGame(name) {
     if (name !== "gate" && typeof stopGate === "function") {
         stopGate();
     }
-    if (name !== "duel" && typeof stopDuel === "function") {
-        stopDuel();
-    }
     if (name !== "quest" && typeof stopQuestPlay === "function") {
         stopQuestPlay();
     }
@@ -1247,9 +1244,6 @@ function startNewMiniGame(name) {
     }
     if (name === "gate" && typeof startGate === "function") {
         startGate();
-    }
-    if (name === "duel" && typeof startDuel === "function") {
-        startDuel();
     }
     if (name === "quest" && typeof startQuest === "function") {
         startQuest();
@@ -1412,7 +1406,6 @@ function connectNewGames() {
     ensureBestEl("color", "colorInfo", " 次");
     ensureBestEl("jump", "jumpInfo", " 块");
     ensureBestEl("gate", "gateInfo");
-    ensureBestEl("duel", "duelInfo");
     ensureBestEl("quest", "questInfo", " 关");
 }
 

@@ -6,6 +6,7 @@
     <title>千树</title>
     <link rel="stylesheet" href="新游戏样式.css">
     <link rel="stylesheet" href="房间趣味样式.css">
+    <link rel="stylesheet" href="游乐园.css">
     <style>
         html, body {
             height: 100%;
@@ -1764,6 +1765,7 @@
         <button type="button" id="lessonBtn">📚 小课堂</button>
         <button type="button" id="guessBtn">🔢 猜数字</button>
         <button type="button" id="timerBtn">⏰ 倒计时</button>
+        <button type="button" id="parkBtn">🎡 游乐园</button>
         <button type="button" id="themeBtn">☀️ 白天</button>
         <span id="navScore">⭐ 积分 0</span>
     </div>
@@ -1845,6 +1847,18 @@
             <button type="button" class="sound-btn" id="timer30">30 秒</button>
             <button type="button" class="sound-btn" id="timer60">60 秒</button>
             <button type="button" class="sound-btn" id="timerStop">停</button>
+        </div>
+    </div>
+    <div class="park-room">
+        <div class="park-view" id="parkView">
+            <div class="park-world" id="parkWorld"></div>
+        </div>
+        <div class="park-stage" id="parkStage"></div>
+        <div class="park-dock">
+            <h2 class="park-name">千树欢乐谷</h2>
+            <p class="park-tip" id="parkTip">全园都在这一屏。点一个项目进去玩。</p>
+            <p class="park-tickets">通关章 <span id="parkTickets">0</span></p>
+            <p class="park-help">点地图上的项目就能玩</p>
         </div>
     </div>
     <div class="sound-room">
@@ -2195,18 +2209,6 @@
         <button type="button" class="sound-btn" id="gateDrop">再丢一颗</button>
         <button type="button" id="gateRestart" class="sound-btn">再来一局</button>
     </div>
-    <div class="duel-room">
-        <h2>对决</h2>
-        <p id="duelInfo">圆圈有喷头。点点打中，防御减 1。防御是 0 再被碰到，颜色就消失。</p>
-        <div class="duel-hud">
-            <div class="duel-hud-card" id="duelMeHud">我　攻击 --　血量 1000　盾 --</div>
-            <div class="duel-hud-card foe" id="duelFoeHud">它　攻击 --　血量 1500　盾 --</div>
-        </div>
-        <div id="duelArena"></div>
-        <div class="duel-skills" id="duelSkills"></div>
-        <div class="duel-ults" id="duelUlts"></div>
-        <button type="button" id="duelRestart" class="sound-btn">再来一局</button>
-    </div>
     <div class="quest-room">
         <h2>小树大冒险</h2>
         <p id="questInfo">点一座开着的岛出发。过一关，下一座才会亮</p>
@@ -2229,17 +2231,17 @@
             <button type="button" class="dock-pack-btn" data-dock-pack="big">大冒险</button>
         </div>
         <div class="dock-games" id="dockGames">
-            <button type="button" class="dock-btn" data-play="bubble" id="dockBubble">戳泡泡</button>
-            <button type="button" class="dock-btn" data-play="star" id="dockStar">接星星</button>
-            <button type="button" class="dock-btn on" data-play="chess" id="dockChess">小树与小花</button>
+        <button type="button" class="dock-btn" data-play="bubble" id="dockBubble">戳泡泡</button>
+        <button type="button" class="dock-btn" data-play="star" id="dockStar">接星星</button>
+        <button type="button" class="dock-btn on" data-play="chess" id="dockChess">小树与小花</button>
             <button type="button" class="dock-btn" data-play="go" id="dockGo">围棋</button>
-            <button type="button" class="dock-btn" data-play="match" id="dockMatch">开心消消乐</button>
-            <button type="button" class="dock-btn" data-play="memory" id="dockMemory">记忆翻牌</button>
-            <button type="button" class="dock-btn" data-play="tap" id="dockTap">点点乐</button>
+        <button type="button" class="dock-btn" data-play="match" id="dockMatch">开心消消乐</button>
+        <button type="button" class="dock-btn" data-play="memory" id="dockMemory">记忆翻牌</button>
+        <button type="button" class="dock-btn" data-play="tap" id="dockTap">点点乐</button>
             <button type="button" class="dock-btn" data-play="snake" id="dockSnake">小树吃星星</button>
             <button type="button" class="dock-btn" data-play="mole" id="dockMole">敲树洞</button>
-            <button type="button" class="dock-btn" data-play="rps" id="dockRps">对决</button>
-            <button type="button" class="dock-btn" data-play="trust" id="dockTrust">信任小游戏</button>
+        <button type="button" class="dock-btn" data-play="rps" id="dockRps">对决</button>
+        <button type="button" class="dock-btn" data-play="trust" id="dockTrust">信任小游戏</button>
             <button type="button" class="dock-btn" data-play="piano" id="dockPiano">小树钢琴</button>
             <button type="button" class="dock-btn" data-play="maze" id="dockMaze">走迷宫</button>
             <button type="button" class="dock-btn" data-play="simon" id="dockSimon">跟灯走</button>
@@ -2255,7 +2257,6 @@
             <button type="button" class="dock-btn" data-play="color" id="dockColor">找颜色</button>
             <button type="button" class="dock-btn" data-play="jump" id="dockJump">小树跳</button>
             <button type="button" class="dock-btn" data-play="gate" id="dockGate">倍数门</button>
-            <button type="button" class="dock-btn" data-play="duel" id="dockDuel">圆圈对决</button>
             <button type="button" class="dock-btn" data-play="quest" id="dockQuest">小树大冒险</button>
         </div>
     </div>
@@ -2358,6 +2359,7 @@
         const lessonBtn = document.getElementById("lessonBtn");
         const guessBtn = document.getElementById("guessBtn");
         const timerBtn = document.getElementById("timerBtn");
+        const parkBtn = document.getElementById("parkBtn");
 
         function lightNav(btn) {
             homeBtn.classList.remove("on");
@@ -2372,6 +2374,7 @@
             lessonBtn.classList.remove("on");
             guessBtn.classList.remove("on");
             timerBtn.classList.remove("on");
+            parkBtn.classList.remove("on");
             btn.classList.add("on");
         }
         function clearRooms() {
@@ -2417,7 +2420,6 @@
             document.body.classList.remove("now-color");
             document.body.classList.remove("now-jump");
             document.body.classList.remove("now-gate");
-            document.body.classList.remove("now-duel");
             document.body.classList.remove("now-quest");
             const chessOverlay = document.getElementById("chess-overlay");
             if (chessOverlay) {
@@ -3005,13 +3007,13 @@
     <script src="信任对战.js"></script>
     <script src="小课堂.js"></script>
     <script src="小课堂更多专题.js"></script>
+    <script src="游乐园.js"></script>
     <script src="积分和换房间.js"></script>
     <script src="成就徽章.js"></script>
     <script src="圆点和钥匙.js"></script>
     <script src="举手当鼠标.js"></script>
     <script src="新游戏.js"></script>
     <script src="弹跳倍数.js"></script>
-    <script src="圆圈对决.js"></script>
     <script src="接星星冒险.js"></script>
     <script src="房间趣味.js"></script>
     <script src="页面小功能.js"></script>

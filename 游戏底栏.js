@@ -1,7 +1,7 @@
 const DOCK_PACKS = {
     hands: ["bubble", "star", "tap", "snake", "mole", "fruit", "race", "jump", "stack"],
     brain: ["match", "memory", "maze", "simon", "diff", "calc", "order", "count", "color", "gate"],
-    vs: ["chess", "go", "rps", "trust", "duel"],
+    vs: ["chess", "go", "rps", "trust"],
     make: ["piano", "paint", "dress"],
     big: ["quest"]
 };

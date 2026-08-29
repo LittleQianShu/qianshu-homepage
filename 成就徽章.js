@@ -20,6 +20,8 @@ const BADGE_DEFS = [
     { id: "trust-done", name: "五位对手", how: "信任小游戏打完一组对手", mark: "🤝", game: "trust" },
     { id: "guess-win", name: "数字神探", how: "猜数字猜中一次", mark: "🔢", game: "guess" },
     { id: "timer-done", name: "时间到啦", how: "倒计时完整走到 0", mark: "⏰", game: "timer" },
+    { id: "park-first", name: "游乐园开门", how: "在游乐园里玩一次项目", mark: "🎡", game: "park" },
+    { id: "park-10", name: "通关章攒满", how: "欢乐谷盖到 10 枚通关章", mark: "🎫", game: "park" },
     { id: "lesson-first", name: "走进课堂", how: "小课堂里点一次学段", mark: "📚", game: "lesson" },
     { id: "about-look", name: "认识自己", how: "关于我里点开一张卡片", mark: "🦀", game: "about" },
     { id: "piano-first", name: "第一颗音", how: "小树钢琴弹一个键", mark: "🎹", game: "piano" },
@@ -44,7 +46,6 @@ const BADGE_DEFS = [
     { id: "jump-5", name: "连跳五块", how: "小树跳一局跳过 5 块石头", mark: "🌲", game: "jump" },
     { id: "gate-first", name: "第一次弹跳", how: "倍数门里小球第一次碰到技能", mark: "×", game: "gate" },
     { id: "gate-1m", name: "百万收成", how: "倍数门一局收到 100 万", mark: "💥", game: "gate" },
-    { id: "duel-first", name: "对决赢了", how: "圆圈对决里让对方颜色消失", mark: "🟣", game: "duel" },
     { id: "quest-first", name: "踏上旅途", how: "小树大冒险过第一关", mark: "🗺️", game: "quest" },
     { id: "quest-end", name: "走到尽头", how: "小树大冒险打完第五关", mark: "👑", game: "quest" }
 ];
@@ -97,6 +98,10 @@ function paintBadges() {
             }
             if (def.game === "timer" && typeof openTimer === "function") {
                 openTimer();
+                return;
+            }
+            if (def.game === "park" && typeof openPark === "function") {
+                openPark();
                 return;
             }
             if (def.game === "lesson" && typeof openLesson === "function") {
